@@ -1,0 +1,69 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using quan_li_app.Helpers;
+using quan_li_app.Helpers.Dictionary;
+using quan_li_app.Models;
+using quan_li_app.Models.Common;
+using quan_li_app.Models.DataDB;
+
+namespace quan_li_app.Controllers.Common
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CommonContronller : ControllerBase
+    {
+        private DataContext _contextData;
+        private SystemContext _contextSystem;
+        private readonly TokenHelper _tokenHelper;
+        private readonly BaseMapper baseMapper;
+
+        public CommonContronller(DataContext contextData, SystemContext contextSystem)
+        {
+            _contextData = contextData;
+            _contextSystem = contextSystem;
+            _tokenHelper = new TokenHelper(_contextData);
+            baseMapper = new BaseMapper();
+        }
+
+        [HttpGet, ActionName("ListCompany")]
+        public async Task<ActionResult<List<Company>>> ListCompany()
+        {
+            List<Company> lst = await _contextData.Companies.ToListAsync();
+            return lst;
+        }
+
+        [HttpPost, Route("ListStatusByModule")]
+        public async Task<ActionResult<List<SysStatus>>> GetStatusByModule(SysStatus pSysStatus)
+        {
+            List<SysStatus> res = await _contextData.SysStatus
+                .Where(x => x.module.Equals(pSysStatus.module) && x.enable == true)
+                .OrderBy(x => x.order_numer)
+                .ToListAsync();
+            return res;
+        }
+
+
+        [HttpPost, Route("ListPermission")]
+        public async Task<ActionResult<List<SysPermission>>> GetPermissionByCompany()
+        {
+            if (_tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                string UsernameCredential = _tokenHelper.GetUsername(HttpContext.Request);
+                Account account = await _contextData.Accounts.Where(x => x.account.Equals(UsernameCredential)).FirstOrDefaultAsync();
+                if (account != null)
+                {
+                    List<SysPermission> res = await _contextData.SysPermissions
+                                                .Where(x => x.codeCompany.Equals(account.companyCode) || account.companyCode.Equals(baseMapper.GetSysCompany()))
+                                                .OrderBy(x => x.level)
+                                                .ThenBy(x => x.order_number)
+                                                .ToListAsync();
+                    return res;
+                }
+
+                return NoContent();
+            }
+            return null;
+        }
+
+    }
+}
