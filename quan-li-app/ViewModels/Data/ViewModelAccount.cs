@@ -99,5 +99,9 @@ namespace quan_li_app.ViewModels.Data
             }
         }
 
+        public async Task<bool> AccountExists(string id)
+        {
+            return _dbContext.Accounts.Any(e => e.account == id);
+        }
     }
 }

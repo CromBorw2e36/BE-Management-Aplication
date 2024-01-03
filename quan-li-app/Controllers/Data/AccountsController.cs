@@ -16,7 +16,6 @@ namespace quan_li_app.Controllers.Data
     {
         private readonly DataContext _context;
         private readonly TokenHelper tokenHelper;
-        private readonly AccountService accountService;
         private readonly ViewModelAccount _viewModelAccount;
         private readonly StatusMessageMapper statusMessageMapper;
         private readonly ViewModeUserInfo viewModeUserInfo;
@@ -27,7 +26,6 @@ namespace quan_li_app.Controllers.Data
             _context = context;
             this._viewModelAccount = new ViewModelAccount(context);
             this.tokenHelper = new TokenHelper(context);
-            this.accountService = new AccountService(context);
             this.statusMessageMapper = new StatusMessageMapper();
             this.viewModeUserInfo = new ViewModeUserInfo(context, systemContext);
         }
@@ -197,7 +195,7 @@ namespace quan_li_app.Controllers.Data
                 string UsernameCredential = tokenHelper.GetUsername(HttpContext.Request);
                 if (UsernameCredential.Equals(account.account)) //  Tự cập nhật thông tin các nhân
                 {
-                    bool resUpdate = await accountService.UpdateAccountAsync(account);
+                    bool resUpdate = await _viewModelAccount.UpdateAccountAsync(account);
                     string mess = statusMessageMapper.GetMessageDescription(EnumQuanLi.UpdateError);
 
                     if (resUpdate)
