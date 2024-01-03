@@ -16,6 +16,5 @@
         public string? BHXH { get; set; } // sở thích
         public string? CCCD { get; set; } // sở thích
         public string? codeCompany { get; set; } // công ty 
-
     }
 }

@@ -19,15 +19,17 @@ namespace quan_li_app.Controllers.Data
         private readonly AccountService accountService;
         private readonly ViewModelAccount _viewModelAccount;
         private readonly StatusMessageMapper statusMessageMapper;
+        private readonly ViewModeUserInfo viewModeUserInfo;
 
 
-        public AccountsController(DataContext context)
+        public AccountsController(DataContext context, SystemContext systemContext)
         {
             _context = context;
             this._viewModelAccount = new ViewModelAccount(context);
             this.tokenHelper = new TokenHelper(context);
             this.accountService = new AccountService(context);
             this.statusMessageMapper = new StatusMessageMapper();
+            this.viewModeUserInfo = new ViewModeUserInfo(context, systemContext);
         }
 
         [HttpPost, Route("CheckTheExpirationDateOfToken")]
@@ -148,9 +150,22 @@ namespace quan_li_app.Controllers.Data
                 _context.Accounts.Add(newAccount);
                 try
                 {
-                    await _context.SaveChangesAsync();
-                    StatusMessage message = new StatusMessage(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterSuccess));
-                    return message;
+
+
+                    // khởi tạo thông tin của người dung
+                    bool result = await this.viewModeUserInfo.NewUserInfo(newAccount);
+                    if (result)
+                    {
+                        // Khởi tạo thông tinc cửa người dùng thành công
+                        await _context.SaveChangesAsync();
+                        StatusMessage message = new StatusMessage(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterSuccess));
+                        return message;
+                    }
+                    else
+                    {
+                        StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterFail));
+                        return message;
+                    }
                 }
                 catch (DbUpdateException)
                 {

@@ -10,7 +10,9 @@ namespace quan_li_app.Helpers.Dictionary
         {
             baseMapper = new Dictionary<EnumQuanLi, string>
             {
-                 {EnumQuanLi.ADMIN, "ADMIN" }
+                 {EnumQuanLi.ADMIN, "ADMIN" },
+                 {EnumQuanLi.NEWUSER, "Người dùng mới" },
+                 {EnumQuanLi.NotFoundDictionary, "Không tìm thấy" },
             };
         }
 

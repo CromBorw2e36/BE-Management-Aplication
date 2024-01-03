@@ -40,5 +40,6 @@
         /// </summary>
 
         ADMIN,
+        NEWUSER,
     }
 }
