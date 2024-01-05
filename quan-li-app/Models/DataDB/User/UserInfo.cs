@@ -16,5 +16,9 @@
         public string? BHXH { get; set; } // sở thích
         public string? CCCD { get; set; } // sở thích
         public string? codeCompany { get; set; } // công ty 
+        public string? avatar { get; set; } // ảnh đại diện
+        public string? avatar16 { get; set; }  // ảnh đại diện 16x16
+        public string? avatar32 { get; set; }  // ảnh đại diện 32 x 32
+        public string? avatar64 { get; set; } // ảnh đại diện 64 x64
     }
 }

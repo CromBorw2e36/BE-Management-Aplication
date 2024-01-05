@@ -27,6 +27,7 @@
         AccountDoesNotExist,
         AccountExist,
         InvalidPassword,
+        AccountIsBlocked,
         NotFoundDictionary,
         ContactInformationRequired,
         RegisterSuccess,

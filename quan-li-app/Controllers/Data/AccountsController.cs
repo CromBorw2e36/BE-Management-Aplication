@@ -5,6 +5,7 @@ using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
+using quan_li_app.Models.DataDB.UserData;
 using quan_li_app.Services;
 using quan_li_app.ViewModels.Data;
 
@@ -19,7 +20,7 @@ namespace quan_li_app.Controllers.Data
         private readonly ViewModelAccount _viewModelAccount;
         private readonly StatusMessageMapper statusMessageMapper;
         private readonly ViewModeUserInfo viewModeUserInfo;
-
+        private readonly CommonHelpers commonHelpers;
 
         public AccountsController(DataContext context, SystemContext systemContext)
         {
@@ -28,6 +29,7 @@ namespace quan_li_app.Controllers.Data
             this.tokenHelper = new TokenHelper(context);
             this.statusMessageMapper = new StatusMessageMapper();
             this.viewModeUserInfo = new ViewModeUserInfo(context, systemContext);
+            this.commonHelpers = new CommonHelpers();
         }
 
         [HttpPost, Route("CheckTheExpirationDateOfToken")]
@@ -35,7 +37,11 @@ namespace quan_li_app.Controllers.Data
         {
             try
             {
-                return this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request);
+                if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+                {
+                    return true;
+                }
+                return Unauthorized();
             }
             catch (Exception ex)
             {
@@ -72,12 +78,17 @@ namespace quan_li_app.Controllers.Data
                 }
                 else
                 {
-                    // Sau này kiểm tra trạng thái của tài khoản có được login hay không là ở đây
-                    // Nếu trả về data thì cho phép login
-                    if (acc.password == EndcodePass)
+                    DateTime dateTimeNow = DateTime.Now;
+                    DateTime lockDate = acc.lock_date ?? dateTimeNow;
+                    if (acc.password == EndcodePass && lockDate <= dateTimeNow)
                     {
-                        //List<MenuPermissions> menuPermissions = await _context.MenuPermissions.Where(x => x.account == account.account).ToListAsync();
                         string newToken = await new TokenHelper(_context).GenToken(acc.account); // token
+                        UserInfo user = _context.UserInfomation.FirstOrDefault(x => x.id == acc.account);
+
+                        acc.last_enter = DateTime.Now;
+                        acc.token = newToken;
+                        _context.Accounts.Update(acc);
+                        _context.SaveChanges();
 
                         StatusMessage message = new StatusMessage(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.LoginSuccess), new
                         {
@@ -92,8 +103,15 @@ namespace quan_li_app.Controllers.Data
                                 email = acc.email,
                                 token = newToken
                             },
+                            user = user,
                             //menuPermissions
                         });
+                        return message;
+                    }
+                    else if (lockDate > dateTimeNow)
+                    {
+                        string additionalMsg = this.commonHelpers.DateCalculatingYearMonthDate(lockDate, dateTimeNow);
+                        StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.AccountIsBlocked) + " " + additionalMsg);
                         return message;
                     }
                     else

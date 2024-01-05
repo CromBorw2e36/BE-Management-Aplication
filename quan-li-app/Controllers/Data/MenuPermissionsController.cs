@@ -51,7 +51,7 @@ namespace quan_li_app.Controllers.Data
 
                 return sysMenus;
             }
-            return BadRequest();
+            return Unauthorized();
         }
 
         [HttpGet, ActionName("GetAllListMenus")]
