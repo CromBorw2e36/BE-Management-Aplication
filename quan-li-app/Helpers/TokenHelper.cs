@@ -23,7 +23,7 @@ namespace quan_li_app.Helpers
             obj.Token = token;
             obj.username = username;
             obj.date = DateTime.Now;
-            obj.endDate = DateTime.Now.AddDays(1);
+            obj.endDate = DateTime.Now.AddHours(4);
 
             if (_contextData.Tokens.Any(e => e.username == username))
             {
