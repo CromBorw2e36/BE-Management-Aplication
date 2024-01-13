@@ -25,11 +25,15 @@ namespace quan_li_app.Helpers
             obj.date = DateTime.Now;
             obj.endDate = DateTime.Now.AddHours(4);
 
-            if (_contextData.Tokens.Any(e => e.username == username))
-            {
-                var getItem = _contextData.Tokens.FirstOrDefault(e => e.username == username);
-                if (getItem != null) _contextData.Tokens.Remove(getItem); // xóa token cũ
-            }
+            //if (_contextData.Tokens.Any(e => e.username == username))
+            //{
+                //List<TOKEN> getItem = _contextData.Tokens.Where(e => e.username == username && e.endDate < DateTime.Now).ToList();
+                //if(getItem.Count > 0) _contextData.Tokens.RemoveRange(getItem); // xóa token het han
+                /*
+                 * Sau  này kiểm tra TOKEN nào hết hạn thì xóa, vì người dùng có thể đăng nhập từ nhiều thiết bị nên 
+                 * sẽ lấy vị trí, thiết bị sử dụng, địa chỉ IP của người dùng để lưu
+                 */
+            //}
 
 
 
