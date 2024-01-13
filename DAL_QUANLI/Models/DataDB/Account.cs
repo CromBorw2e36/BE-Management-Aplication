@@ -25,5 +25,35 @@ namespace quan_li_app.Models.DataDB
         public int? levelPermision { get; set; }
         [NotMapped]
         public string? namePermision { get; set; }
+        [NotMapped]
+        public string? type_device { get; set; }
+        [NotMapped]
+        public string? os { get; set; }
+        [NotMapped]
+        public string? browser { get; set; }
+        [NotMapped]
+        public string? device { get; set; }
+        [NotMapped]
+        public string? os_version { get; set; }
+        [NotMapped]
+        public string? browser_version { get; set; }
+        [NotMapped]
+        public bool? is_mobile { get; set; }
+        [NotMapped]
+        public bool? is_tablet { get; set; }
+        [NotMapped]
+        public bool? is_desktop { get; set; }
+        [NotMapped]
+        public bool? is_ios { get; set; }
+        [NotMapped]
+        public bool? is_android { get; set; }
+        [NotMapped]
+        public string? orientation { get; set; }  // Xác định hướng của thiết bị(ví dụ: portrait, landscape).
+        [NotMapped]
+        public decimal? latitude { get; set; }  // Vĩ độ
+        [NotMapped]
+        public decimal? longitude { get; set; }  // Kinh độ
+        [NotMapped]
+        public string? connectionSignalID { get; set; }
     }
 }

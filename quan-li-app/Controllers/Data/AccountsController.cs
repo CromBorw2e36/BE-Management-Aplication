@@ -82,7 +82,7 @@ namespace quan_li_app.Controllers.Data
                     DateTime lockDate = acc.lock_date ?? dateTimeNow;
                     if (acc.password == EndcodePass && lockDate <= dateTimeNow)
                     {
-                        string newToken = await new TokenHelper(_context).GenToken(acc.account); // token
+                        string newToken = await new TokenHelper(_context).GenToken(account); // token
                         UserInfo user = _context.UserInfomation.FirstOrDefault(x => x.id == acc.account);
 
                         acc.last_enter = DateTime.Now;
@@ -106,7 +106,7 @@ namespace quan_li_app.Controllers.Data
                             user = user,
                             //menuPermissions
                         });
- 
+
                         return message;
                     }
                     else if (lockDate > dateTimeNow)

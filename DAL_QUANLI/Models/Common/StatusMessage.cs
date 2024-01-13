@@ -3,27 +3,37 @@
     public class StatusMessage
     {
         public int? status { get; set; }
-        public string? message { get; set; }
+        public string? msg { get; set; }
         public dynamic? data { get; set; }
+
+        public string? currentID { get; set; }
 
         public StatusMessage()
         {
             this.status = 0; // Không thành công
-            this.message = "";
+            this.msg = "";
             this.data = null;
         }
 
-        public StatusMessage(int status, string message)
+        public StatusMessage(int status, string msg)
         {
             this.status = status;
-            this.message = message;
+            this.msg = msg;
             this.data = null;
         }
-        public StatusMessage(int status, string message, dynamic data)
+        public StatusMessage(int status, string msg, dynamic data)
         {
             this.status = status;
-            this.message = message;
+            this.msg = msg;
             this.data = data;
+        }
+
+        public StatusMessage(int status, string msg, dynamic data, string currentID)
+        {
+            this.status = status;
+            this.msg = msg;
+            this.data = data;
+            this.currentID = currentID;
         }
     }
 }

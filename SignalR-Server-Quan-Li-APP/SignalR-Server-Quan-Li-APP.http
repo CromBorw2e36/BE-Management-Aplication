@@ -1,6 +1,6 @@
 @SignalR_Server_Quan_Li_APP_HostAddress = http://localhost:5178
 
-GET {{SignalR_Server_Quan_Li_APP_HostAddress}}/weatherforecast/
+GET {{SignalR_Server_Quan_Li_APP_HostAddress}}/NotificationSubscribe/
 Accept: application/json
 
 ###

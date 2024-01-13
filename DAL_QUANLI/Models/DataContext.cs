@@ -110,7 +110,6 @@ namespace quan_li_app.Models
 
             modelBuilder.Entity<Account>(e =>
             {
-
                 e.ToTable("Account");
                 e.HasKey(e => e.account);
                 e.Property(e => e.account)

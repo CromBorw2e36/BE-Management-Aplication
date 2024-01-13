@@ -14,17 +14,34 @@ namespace quan_li_app.Helpers
             _contextData = dataContext;
         }
 
-        public async Task<string> GenToken(string username)
+        public async Task<string> GenToken(Account acc)
         {
             TokenService tokenService = new TokenService();
-            string token = tokenService.GenerateToken(username);
-            TOKEN obj = new TOKEN();
+            string token = tokenService.GenerateToken(acc.account);
+            TOKEN obj = new TOKEN
+            {
+                id = Guid.NewGuid().ToString(),
+                Token = token,
+                username = acc.account ?? null,
+                date = DateTime.Now,
+                endDate = DateTime.Now.AddHours(4),
+                ip_address = null,// IP address
+                type_device = acc.type_device,
+                os = acc.os,
+                browser = acc.browser,
+                device = acc.device,
+                os_version = acc.os_version,
+                browser_version = acc.browser_version,
+                is_mobile = acc.is_mobile,
+                is_tablet = acc.is_tablet,
+                is_desktop = acc.is_desktop,
+                is_ios = acc.is_ios,
+                is_android = acc.is_android,
+                orientation = acc.orientation,
+                latitude = acc.latitude,
+                longitude = acc.longitude
+            };
 
-            obj.id = Guid.NewGuid().ToString();
-            obj.Token = token;
-            obj.username = username;
-            obj.date = DateTime.Now;
-            obj.endDate = DateTime.Now.AddHours(4);
 
             //if (_contextData.Tokens.Any(e => e.username == username))
             //{
@@ -36,9 +53,8 @@ namespace quan_li_app.Helpers
              */
             //}
 
-
-
             _contextData.Tokens.Add(obj);
+
             await _contextData.SaveChangesAsync();
 
             return token;
@@ -60,7 +76,7 @@ namespace quan_li_app.Helpers
             string username = GetUsername(request);
             if (username is not null)
             {
-                TOKEN obj = _contextData.Tokens.FirstOrDefault(x => x.Token == token && x.username == username);
+                TOKEN obj = _contextData.Tokens.Where(x => x.Token == token && x.username == username).FirstOrDefault();
                 if (obj != null)
                 {
                     TokenService tokenService = new TokenService();

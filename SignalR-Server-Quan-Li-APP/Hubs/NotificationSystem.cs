@@ -2,7 +2,6 @@
 using quan_li_app.Helpers;
 using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
-using quan_li_app.Models.DataDB.UserData;
 
 namespace SignalR_Server_Quan_Li_APP.Hubs
 {
@@ -33,9 +32,13 @@ namespace SignalR_Server_Quan_Li_APP.Hubs
             await base.OnConnectedAsync();
         }
 
-        public async Task NotifycationSubscribe(UserInfo user, string msg)
+        public async Task NotificationSubscribe(string username, string msg)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, "Thông báo");
+            List<TOKEN> listConnectID = _dataContext.Tokens.Where(x => x.username == username).ToList();
+            listConnectID.ForEach(x =>
+            {
+                Clients.Client(x.connectionSignalID).SendAsync("NotificationSubscribe", msg);
+            });
         }
     }
 }
