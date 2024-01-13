@@ -42,7 +42,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://localhost:4200", "https://localhost:7777", "https://www.system-srouce.infinityfreeapp.com/").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+                          policy.WithOrigins("https://localhost:4200", "https://localhost:7777", "https://system-srouce.infinityfreeapp.com", "https://www.system-srouce.infinityfreeapp.com").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
                       });
 });
 
