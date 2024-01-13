@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "quan-li-app", "quan-li-app\quan-li-app.csproj", "{B2C2270F-F02B-4400-BA81-BD5CA80D03C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "quan-li-app", "quan-li-app\quan-li-app.csproj", "{B2C2270F-F02B-4400-BA81-BD5CA80D03C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR-Server-Quan-Li-APP", "SignalR-Server-Quan-Li-APP\SignalR-Server-Quan-Li-APP.csproj", "{88B1D03C-32C1-46D2-AF27-8875AD2A2FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL_QUANLI", "DAL_QUANLI\DAL_QUANLI.csproj", "{AA5372C3-F6DF-41C6-A605-B27DB53B9E0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BUS_QUANLI", "BUS_QUANLI\BUS_QUANLI.csproj", "{D420268F-323C-4125-902C-955D58EDCCEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{B2C2270F-F02B-4400-BA81-BD5CA80D03C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C2270F-F02B-4400-BA81-BD5CA80D03C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2C2270F-F02B-4400-BA81-BD5CA80D03C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88B1D03C-32C1-46D2-AF27-8875AD2A2FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B1D03C-32C1-46D2-AF27-8875AD2A2FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88B1D03C-32C1-46D2-AF27-8875AD2A2FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88B1D03C-32C1-46D2-AF27-8875AD2A2FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA5372C3-F6DF-41C6-A605-B27DB53B9E0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA5372C3-F6DF-41C6-A605-B27DB53B9E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA5372C3-F6DF-41C6-A605-B27DB53B9E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5372C3-F6DF-41C6-A605-B27DB53B9E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D420268F-323C-4125-902C-955D58EDCCEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D420268F-323C-4125-902C-955D58EDCCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D420268F-323C-4125-902C-955D58EDCCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D420268F-323C-4125-902C-955D58EDCCEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
