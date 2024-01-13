@@ -106,6 +106,7 @@ namespace quan_li_app.Controllers.Data
                             user = user,
                             //menuPermissions
                         });
+ 
                         return message;
                     }
                     else if (lockDate > dateTimeNow)

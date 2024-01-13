@@ -1,4 +1,5 @@
-﻿using quan_li_app.Models;
+﻿using Microsoft.AspNetCore.Http;
+using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Services;
 using System.Security.Claims;
@@ -27,12 +28,12 @@ namespace quan_li_app.Helpers
 
             //if (_contextData.Tokens.Any(e => e.username == username))
             //{
-                //List<TOKEN> getItem = _contextData.Tokens.Where(e => e.username == username && e.endDate < DateTime.Now).ToList();
-                //if(getItem.Count > 0) _contextData.Tokens.RemoveRange(getItem); // xóa token het han
-                /*
-                 * Sau  này kiểm tra TOKEN nào hết hạn thì xóa, vì người dùng có thể đăng nhập từ nhiều thiết bị nên 
-                 * sẽ lấy vị trí, thiết bị sử dụng, địa chỉ IP của người dùng để lưu
-                 */
+            //List<TOKEN> getItem = _contextData.Tokens.Where(e => e.username == username && e.endDate < DateTime.Now).ToList();
+            //if(getItem.Count > 0) _contextData.Tokens.RemoveRange(getItem); // xóa token het han
+            /*
+             * Sau  này kiểm tra TOKEN nào hết hạn thì xóa, vì người dùng có thể đăng nhập từ nhiều thiết bị nên 
+             * sẽ lấy vị trí, thiết bị sử dụng, địa chỉ IP của người dùng để lưu
+             */
             //}
 
 
