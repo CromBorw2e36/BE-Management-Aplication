@@ -28,8 +28,12 @@
 
   <ItemGroup>
     <Folder Include="Controllers\System\" />
-    <Folder Include="ViewModels\QuanLiNhanSu\" />
-    <Folder Include="ViewModels\SysData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BUS_QUANLI\BUS_QUANLI.csproj" />
+    <ProjectReference Include="..\DAL_QUANLI\DAL_QUANLI.csproj" />
+    <ProjectReference Include="..\SignalR-Server-Quan-Li-APP\SignalR-Server-Quan-Li-APP.csproj" />
   </ItemGroup>
 
 </Project>
