@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DAL_QUANLI.Models.CustomModel;
+using Microsoft.AspNetCore.Http;
 using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Services;
@@ -14,7 +15,57 @@ namespace quan_li_app.Helpers
             _contextData = dataContext;
         }
 
-        public async Task<string> GenToken(Account acc)
+        public async Task<string> GenTokenLogin(TOKEN acc, string username)
+        {
+            if (acc == null)
+            {
+                acc = new TOKEN();
+            }
+            TokenService tokenService = new TokenService();
+            string token = tokenService.GenerateToken(username);
+            TOKEN obj = new TOKEN
+            {
+                id = Guid.NewGuid().ToString(),
+                Token = token,
+                username = username ?? null,
+                date = DateTime.Now,
+                endDate = DateTime.Now.AddHours(4),
+                ip_address = null,// IP address
+                type_device = acc.type_device,
+                os = acc.os,
+                browser = acc.browser,
+                device = acc.device,
+                os_version = acc.os_version,
+                browser_version = acc.browser_version,
+                is_mobile = acc.is_mobile,
+                is_tablet = acc.is_tablet,
+                is_desktop = acc.is_desktop,
+                is_ios = acc.is_ios,
+                is_android = acc.is_android,
+                orientation = acc.orientation,
+                latitude = acc.latitude,
+                longitude = acc.longitude
+            };
+
+
+            //if (_contextData.Tokens.Any(e => e.username == username))
+            //{
+            //List<TOKEN> getItem = _contextData.Tokens.Where(e => e.username == username && e.endDate < DateTime.Now).ToList();
+            //if(getItem.Count > 0) _contextData.Tokens.RemoveRange(getItem); // xóa token het han
+            /*
+             * Sau  này kiểm tra TOKEN nào hết hạn thì xóa, vì người dùng có thể đăng nhập từ nhiều thiết bị nên 
+             * sẽ lấy vị trí, thiết bị sử dụng, địa chỉ IP của người dùng để lưu
+             */
+            //}
+
+            _contextData.Tokens.Add(obj);
+
+            await _contextData.SaveChangesAsync();
+
+            return token;
+        }
+
+        public async Task<string> GenTokenLogin(AccountClientLoginParamsModel acc)
         {
             TokenService tokenService = new TokenService();
             string token = tokenService.GenerateToken(acc.account);

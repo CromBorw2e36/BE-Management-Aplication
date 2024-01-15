@@ -103,5 +103,20 @@ namespace quan_li_app.ViewModels.Data
         {
             return _dbContext.Accounts.Any(e => e.account == id);
         }
+
+        public async Task<bool> AccountIns(Account acc)
+        {
+            try
+            {
+                _dbContext.Accounts.Add(acc);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

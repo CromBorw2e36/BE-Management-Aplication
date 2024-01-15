@@ -28,7 +28,9 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.RegisterSuccess, "Đăng kí thành công" },
                 {EnumQuanLi.AccountNotSameCompany, "Không cùng công ty (Lỗi kết xuất dữ liệu)" },
                 {EnumQuanLi.NotEnoughPermissions, "Vượt quá quyền thao tác" },
-                {EnumQuanLi.AccountIsBlocked, "Tài khoản đã bị khóa trong khoảng " }
+                {EnumQuanLi.AccountIsBlocked, "Tài khoản đã bị khóa trong khoảng " },
+                {EnumQuanLi.NoneData, "Không có dữ liệu" },
+                {EnumQuanLi.AccountTypeUnknown, "Không xác định được loại người dùng" },
             };
 
             statusMessageMapperOther = new Dictionary<EnumQuanLi, string>
@@ -51,7 +53,10 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.RegisterSuccess, "Registration successful" },
                 {EnumQuanLi.AccountNotSameCompany, "Not from the same company (Data export error)" },
                 {EnumQuanLi.NotEnoughPermissions, "Exceeded operational permissions" },
-                {EnumQuanLi.AccountIsBlocked, "The account has been locked for a period of " }
+                {EnumQuanLi.AccountIsBlocked, "The account has been locked for a period of " },
+                {EnumQuanLi.NoneData, "None data" },
+                {EnumQuanLi.AccountTypeUnknown, "The account type is unknown" },
+
             };
         }
 

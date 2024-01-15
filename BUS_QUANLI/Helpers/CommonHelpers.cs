@@ -41,5 +41,17 @@ namespace quan_li_app.Helpers
             return ipAddress.ToString();
         }
 
+        public bool CheckInValidVariableTypeString(string data, bool checkEsle = false)
+        {
+            if (!checkEsle)
+            {
+                return data is null || data.Length == 0;
+            }
+            else
+            {
+                return data is not null || data.Length >= 0;
+            }
+        }
+
     }
 }

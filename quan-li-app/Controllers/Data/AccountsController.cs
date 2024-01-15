@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using BUS_QUANLI.Services;
+using DAL_QUANLI.Models.CustomModel;
+using Microsoft.AspNetCore.Mvc;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
@@ -21,6 +22,7 @@ namespace quan_li_app.Controllers.Data
         private readonly StatusMessageMapper statusMessageMapper;
         private readonly ViewModeUserInfo viewModeUserInfo;
         private readonly CommonHelpers commonHelpers;
+        private readonly AccountClient _accoutnClient;
 
         public AccountsController(DataContext context, SystemContext systemContext)
         {
@@ -30,6 +32,7 @@ namespace quan_li_app.Controllers.Data
             this.statusMessageMapper = new StatusMessageMapper();
             this.viewModeUserInfo = new ViewModeUserInfo(context, systemContext);
             this.commonHelpers = new CommonHelpers();
+            this._accoutnClient = new AccountClient(context);
         }
 
         [HttpPost, Route("CheckTheExpirationDateOfToken")]
@@ -53,7 +56,7 @@ namespace quan_li_app.Controllers.Data
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult<StatusMessage>> Login(Account account)
+        public async Task<ActionResult<StatusMessage>> Login(AccountClientLoginParamsModel account)
         {
 
             if (account.account == null)
@@ -82,7 +85,7 @@ namespace quan_li_app.Controllers.Data
                     DateTime lockDate = acc.lock_date ?? dateTimeNow;
                     if (acc.password == EndcodePass && lockDate <= dateTimeNow)
                     {
-                        string newToken = await new TokenHelper(_context).GenToken(account); // token
+                        string newToken = await new TokenHelper(_context).GenTokenLogin(account); // token
                         UserInfo user = _context.UserInfomation.FirstOrDefault(x => x.id == acc.account);
 
                         acc.last_enter = DateTime.Now;
@@ -128,76 +131,12 @@ namespace quan_li_app.Controllers.Data
 
         // POST: api/Accounts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("AddAccount")]
-        public async Task<ActionResult<StatusMessage>> PostAccount(Account account)
+        [HttpPost("AccountIns")]
+        public async Task<ActionResult<StatusMessage>> AccountIns(AccountClientProfileModel profile)
         {
-            if (account.account == null)
-            {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotHaveUserName));
-                return message;
-            }
-            else if (account.password == null)
-            {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotHavePassword));
-                return message;
-            }
-            else if (account.phone == null || account.email == null)
-            {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.ContactInformationRequired));
-                return message;
-            }
-            else
-            {
-                string EndCodePassword = new PasswordEndCodeDecodeMD5().EndCodeMd5(account.password);
-
-                Account newAccount = new Account
-                {
-                    account = account.account,
-                    password = EndCodePassword,
-                    phone = account.phone,
-                    status = null,
-                    type_account = account.type_account,
-                    email = account.email,
-                    create_date = DateTime.Now,
-                    last_enter = null,
-                    lock_date = null,
-                    companyCode = account.companyCode
-                };
-
-                _context.Accounts.Add(newAccount);
-                try
-                {
-
-
-                    // khởi tạo thông tin của người dung
-                    bool result = await this.viewModeUserInfo.NewUserInfo(newAccount);
-                    if (result)
-                    {
-                        // Khởi tạo thông tinc cửa người dùng thành công
-                        await _context.SaveChangesAsync();
-                        StatusMessage message = new StatusMessage(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterSuccess));
-                        return message;
-                    }
-                    else
-                    {
-                        StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterFail));
-                        return message;
-                    }
-                }
-                catch (DbUpdateException)
-                {
-                    if (AccountExists(account.account))
-                    {
-                        StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.AccountExist));
-                        return message;
-                    }
-                    else
-                    {
-                        StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterError));
-                        return message;
-                    }
-                }
-            }
+            StatusMessage msg = new StatusMessage();
+            msg = await _accoutnClient.AccountClientIns(profile);
+            return msg;
         }
 
         [HttpPost("UpdateAccount")]

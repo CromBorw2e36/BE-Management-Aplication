@@ -19,8 +19,8 @@ namespace quan_li_app.Controllers.Data
             _context = context;
         }
 
-        [HttpPost, ActionName("AddUser")]
-        public async Task<ActionResult<StatusMessage>> PostUser(UserInfo userInfo)
+        [HttpPost, ActionName("UserIns")]
+        public async Task<ActionResult<StatusMessage>> UserIns(UserInfo userInfo)
         {
             if (userInfo is not null)
             {

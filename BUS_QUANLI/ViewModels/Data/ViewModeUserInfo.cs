@@ -44,7 +44,7 @@ namespace quan_li_app.ViewModels.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex.ToString());
                 return false;
             }
 

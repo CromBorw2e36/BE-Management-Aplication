@@ -35,7 +35,8 @@
         RegisterError,
         AccountNotSameCompany,
         NotEnoughPermissions,
-
+        NoneData,
+        AccountTypeUnknown,
         /// <summary>
         /// Base
         /// </summary>
