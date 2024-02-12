@@ -71,7 +71,7 @@ namespace quan_li_app.ViewModels.Data
 
                     return true;
                 }
-                catch (Exception ex)
+                catch
                 {
                     return false;
                 }

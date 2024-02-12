@@ -23,6 +23,5 @@
         public decimal? latitude { get; set; }  // Vĩ độ
         public decimal? longitude { get; set; }  // Kinh độ
         public string? connectionSignalID { get; set; }
-
     }
 }

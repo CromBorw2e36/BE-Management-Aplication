@@ -42,7 +42,7 @@ namespace quan_li_app.ViewModels.Data
                 await _contextData.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 //Console.WriteLine(ex.ToString());
                 return false;
