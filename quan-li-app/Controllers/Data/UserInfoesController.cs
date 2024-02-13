@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BUS_QUANLI.Services;
+using DAL_QUANLI.Models.CustomModel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Helpers;
 using quan_li_app.Models;
@@ -148,6 +150,30 @@ namespace quan_li_app.Controllers.Data
             {
                 return new List<UserInfo>();
             }
+        }
+
+        [HttpPost, Route("GetUserInformation")]
+        public async Task<UserInformationClientGetUser> GetUserInformation(string? username)
+        {
+            //TokenHelper tokenHelper = new TokenHelper(_context);
+            //string userId = tokenHelper.GetUsername(HttpContext.Request);
+            string userId = "admin";
+            if (username != null) userId = username;
+            if (userId != null)
+            {
+                UserInformationClient userInformationClient = new UserInformationClient(_context);
+                try
+                {
+                    UserInformationClientGetUser obj = await userInformationClient.getUserInformation(userId);
+                    return obj;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return null;
+                }
+            }
+            return null;
         }
 
         // DELETE: api/UserInfoes/5

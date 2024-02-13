@@ -15,5 +15,7 @@ namespace quan_li_app.Models.Common
         public int? order_numer { get; set; }
         [JsonIgnore]
         public bool? enable { get; set; }
+
+        public bool? accept_login { get; set; }
     }
 }
