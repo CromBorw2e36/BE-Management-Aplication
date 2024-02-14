@@ -85,6 +85,7 @@ namespace quan_li_app.Controllers.Data
                     DateTime lockDate = acc.lock_date ?? dateTimeNow;
                     if (acc.password == EndcodePass && lockDate <= dateTimeNow)
                     {
+                        account.ip_address = HttpContext.Connection.RemoteIpAddress.ToString(); ;
                         string newToken = await new TokenHelper(_context).GenTokenLogin(account); // token
                         UserInfo user = _context.UserInfomation.FirstOrDefault(x => x.id == acc.account);
 

@@ -153,27 +153,33 @@ namespace quan_li_app.Controllers.Data
         }
 
         [HttpPost, Route("GetUserInformation")]
-        public async Task<UserInformationClientGetUser> GetUserInformation(string? username)
+        public async Task<ActionResult<UserInformationClientGetUser>> GetUserInformation(string? username)
         {
-            //TokenHelper tokenHelper = new TokenHelper(_context);
-            //string userId = tokenHelper.GetUsername(HttpContext.Request);
-            string userId = "admin";
-            if (username != null) userId = username;
-            if (userId != null)
+            TokenHelper tokenHelper = new TokenHelper(_context);
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                UserInformationClient userInformationClient = new UserInformationClient(_context);
-                try
+                string userId = tokenHelper.GetUsername(HttpContext.Request);
+                if (username != null) userId = username;
+                if (userId != null)
                 {
-                    UserInformationClientGetUser obj = await userInformationClient.getUserInformation(userId);
-                    return obj;
+                    UserInformationClient userInformationClient = new UserInformationClient(_context);
+                    try
+                    {
+                        UserInformationClientGetUser obj = await userInformationClient.getUserInformation(userId);
+                        return obj;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return null;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return null;
-                }
+                return null;
             }
-            return null;
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         // DELETE: api/UserInfoes/5

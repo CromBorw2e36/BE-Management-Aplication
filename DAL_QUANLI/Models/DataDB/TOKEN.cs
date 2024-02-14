@@ -6,6 +6,8 @@
         public string? Token { get; set; }
         public string? username { get; set; }
         public DateTime? date { get; set; }
+        public DateTime? last_date_connect { get; set; }
+        public bool? is_connecting { get; set; }
         public DateTime? endDate { get; set; }
         public string? ip_address { get; set; } // IP address
         public string? type_device { get; set; }

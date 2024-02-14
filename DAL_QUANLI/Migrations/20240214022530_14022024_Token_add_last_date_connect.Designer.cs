@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quanliapp.Migrations.Data
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240214022530_14022024_Token_add_last_date_connect")]
+    partial class _14022024_Token_add_last_date_connect
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,9 +401,6 @@ namespace quanliapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("is_android")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("is_connecting")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("is_desktop")

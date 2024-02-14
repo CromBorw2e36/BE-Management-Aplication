@@ -44,7 +44,9 @@ namespace quan_li_app.Helpers
                 is_android = acc.is_android,
                 orientation = acc.orientation,
                 latitude = acc.latitude,
-                longitude = acc.longitude
+                longitude = acc.longitude,
+                last_date_connect = null,
+                is_connecting = false
             };
 
 
@@ -76,7 +78,7 @@ namespace quan_li_app.Helpers
                 username = acc.account ?? null,
                 date = DateTime.Now,
                 endDate = DateTime.Now.AddHours(4),
-                ip_address = null,// IP address
+                ip_address = acc.ip_address,// IP address
                 type_device = acc.type_device,
                 os = acc.os,
                 browser = acc.browser,
@@ -90,7 +92,9 @@ namespace quan_li_app.Helpers
                 is_android = acc.is_android,
                 orientation = acc.orientation,
                 latitude = acc.latitude,
-                longitude = acc.longitude
+                longitude = acc.longitude,
+                last_date_connect = DateTime.Now,
+                is_connecting = true
             };
 
 
@@ -130,10 +134,21 @@ namespace quan_li_app.Helpers
                 TOKEN obj = _contextData.Tokens.Where(x => x.Token == token && x.username == username).FirstOrDefault();
                 if (obj != null)
                 {
+
                     TokenService tokenService = new TokenService();
 
                     if (tokenService.IsTokenExpired(token))
                     {
+                        try
+                        {
+                            obj.last_date_connect = DateTime.Now;
+                            obj.is_connecting = true;
+                            _contextData.SaveChangesAsync().Wait();
+                        }
+                        catch (Exception ex)
+                        {
+                            return true;
+                        }
                         return true;
                     }
                     else
