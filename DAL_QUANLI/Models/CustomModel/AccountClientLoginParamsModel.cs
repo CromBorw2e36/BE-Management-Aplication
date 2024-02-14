@@ -17,6 +17,7 @@ namespace DAL_QUANLI.Models.CustomModel
         public string? device { get; set; }
         public string? os_version { get; set; }
         public string? browser_version { get; set; }
+        public string? ip_address { get; set; }
         public bool? is_mobile { get; set; }
         public bool? is_tablet { get; set; }
         public bool? is_desktop { get; set; }
