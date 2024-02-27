@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL_QUANLI.Models.SystemDB.SysAction;
+using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.SystemDB;
 
 namespace quan_li_app.Models
@@ -25,6 +26,11 @@ namespace quan_li_app.Models
         }
         public virtual DbSet<SysMenu> SysMenus { get; set; }
         public virtual DbSet<AppModule> AppModules { get; set; }
+
+        public virtual DbSet<SysAction> SysActions { get; set; }
+        public virtual DbSet<SysGroupAction> SysGroupAction { get; set; }
+        public virtual DbSet<SysDropDownAction> SysDropDownActions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -55,6 +61,37 @@ namespace quan_li_app.Models
                 .HasColumnType("nvarchar")
                 .HasColumnName("menuIDParent")
                 .HasMaxLength(250);
+
+                e.Property(e => e.active).HasDefaultValue(true);
+            });
+
+            modelBuilder.Entity<SysAction>(e =>
+            {
+                e.ToTable("SysAction");
+                e.HasKey(e => e.code);
+                e.Property(e => e.isDisable).HasDefaultValue(false);
+
+            });
+
+            modelBuilder.Entity<SysGroupAction>().HasNoKey();
+            modelBuilder.Entity<SysGroupAction>(e =>
+            {
+                e.ToTable("SysGroupAction");
+                e.Property(item => item.code).IsRequired();
+                e.Property(item => item.codeAction).IsRequired();
+                e.Property(item => item.orderNo).IsRequired();
+                e.Property(item => item.isClocked).IsRequired()
+                 .HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<SysDropDownAction>().HasNoKey();
+            modelBuilder.Entity<SysDropDownAction>(e =>
+            {
+                e.ToTable("SysDropDownAction");
+                e.Property(item => item.code).IsRequired();
+                e.Property(item => item.codeAction).IsRequired();
+                e.Property(item => item.orderNo).IsRequired();
+                e.Property(item => item.isClocked).HasDefaultValue(false);
             });
 
             base.OnModelCreating(modelBuilder);

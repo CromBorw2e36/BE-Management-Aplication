@@ -11,6 +11,14 @@
         public bool? defaultActive { get; set; }
         public string? moduleApp { get; set; }
         // Thuộc dự án: Quản lí nhân sự, quản lí công việc, quản lí bán hàng
+        public string? action1 { get; set; }
+        public string? action2 { get; set; }
+        public string? action3 { get; set; }
+        public string? action4 { get; set; }
+        public string? action5 { get; set; }
+        public string? action6 { get; set; }
+        public string? action7 { get; set; }
+
 
         SysMenu()
         {

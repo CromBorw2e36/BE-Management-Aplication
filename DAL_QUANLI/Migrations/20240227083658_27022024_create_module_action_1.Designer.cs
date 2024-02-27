@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quan_li_app.Migrations.System
 {
     [DbContext(typeof(SystemContext))]
-    partial class SystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240227083658_27022024_create_module_action_1")]
+    partial class _27022024_create_module_action_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +27,7 @@ namespace quanliapp.Migrations
 
             modelBuilder.Entity("DAL_QUANLI.Models.SystemDB.SysAction.SysAction", b =>
                 {
-                    b.Property<string>("code")
+                    b.Property<string>("actionCode")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("backgroundColor")
@@ -62,7 +65,7 @@ namespace quanliapp.Migrations
                     b.Property<string>("url_4")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("code");
+                    b.HasKey("actionCode");
 
                     b.ToTable("SysAction", (string)null);
                 });

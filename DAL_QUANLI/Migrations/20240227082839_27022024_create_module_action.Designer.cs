@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quan_li_app.Migrations.System
 {
     [DbContext(typeof(SystemContext))]
-    partial class SystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240227082839_27022024_create_module_action")]
+    partial class _27022024_create_module_action
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +27,11 @@ namespace quanliapp.Migrations
 
             modelBuilder.Entity("DAL_QUANLI.Models.SystemDB.SysAction.SysAction", b =>
                 {
-                    b.Property<string>("code")
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("actionCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("backgroundColor")
                         .HasColumnType("nvarchar(max)");
@@ -39,10 +45,11 @@ namespace quanliapp.Migrations
                     b.Property<string>("icon")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("isClocked")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("isDisable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<string>("nameOther")
                         .HasColumnType("nvarchar(max)");
@@ -62,7 +69,7 @@ namespace quanliapp.Migrations
                     b.Property<string>("url_4")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("code");
+                    b.HasKey("id");
 
                     b.ToTable("SysAction", (string)null);
                 });
@@ -79,11 +86,6 @@ namespace quanliapp.Migrations
 
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isClocked")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<string>("orderNo")
                         .IsRequired()
@@ -104,12 +106,6 @@ namespace quanliapp.Migrations
 
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isClocked")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<string>("orderNo")
                         .IsRequired()
@@ -147,31 +143,8 @@ namespace quanliapp.Migrations
                         .HasColumnType("nvarchar")
                         .HasColumnName("menuid");
 
-                    b.Property<string>("action1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("action2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("action3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("action4")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("action5")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("action6")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("action7")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool?>("active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("defaultActive")
                         .HasColumnType("bit");
