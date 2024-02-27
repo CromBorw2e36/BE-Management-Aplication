@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using quan_li_app.Models;
 using System.Net;
 
 namespace quan_li_app.Helpers
@@ -50,6 +53,20 @@ namespace quan_li_app.Helpers
             else
             {
                 return data is not null || data.Length >= 0;
+            }
+        }
+
+        public string GenerateRowID(string tableName, string companyCode)
+        {
+            try
+            {
+                DataContext _dataContext = new DataContext();
+                List<string> getID = _dataContext.Database.SqlQueryRaw<string>("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", [new SqlParameter("pCompanyCode", ""), new SqlParameter("pTableName", "Token")]).ToList();
+                return getID.First();
+            }
+            catch
+            {
+                return Guid.NewGuid().ToString();
             }
         }
 

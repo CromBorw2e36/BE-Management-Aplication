@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL_QUANLI.Models.DataDB;
+using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Models.DataDB.QuanLiNhanSu;
@@ -39,6 +40,7 @@ namespace quan_li_app.Models
         public virtual DbSet<SysStatus> SysStatus { get; set; }
         public virtual DbSet<SysModule> SysModules { get; set; }
         public virtual DbSet<SysPermission> SysPermissions { get; set; }
+        public virtual DbSet<DocumentManagement> DocumentManagements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -76,6 +78,8 @@ namespace quan_li_app.Models
             {
                 e.ToTable("Token");
                 e.HasKey(e => e.id);
+                e.Property(x => x.latitude).HasColumnType("decimal(18, 6)");
+                e.Property(x => x.longitude).HasColumnType("decimal(18, 6)");
             });
 
             modelBuilder.Entity<SalaryAndBenefits>(e =>
@@ -124,6 +128,20 @@ namespace quan_li_app.Models
             {
                 e.ToTable("MenuPermissions");
                 e.HasKey(e => e.id);
+            });
+
+
+            modelBuilder.Entity<DocumentManagement>().HasNoKey();
+            modelBuilder.Entity<DocumentManagement>(e =>
+            {
+                e.ToTable("DocumentManagement");
+                //e.HasKey(e => e.code);
+                e.Property(e => e.module).IsRequired();
+                e.Property(e => e.tableName).IsRequired();
+                e.Property(e => e.lenCode).HasDefaultValue(16);
+                e.Property(e => e.primaryKeyTable).IsRequired();
+                e.Property(e => e.isCompanyCode).HasDefaultValue(false);
+                e.Property(e => e.isClose).HasDefaultValue(false);
             });
 
             base.OnModelCreating(modelBuilder);

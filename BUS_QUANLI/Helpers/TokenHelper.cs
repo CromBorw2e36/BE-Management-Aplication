@@ -10,9 +10,11 @@ namespace quan_li_app.Helpers
     public class TokenHelper
     {
         private readonly DataContext _contextData;
+        private readonly CommonHelpers commonHelpers;
         public TokenHelper(DataContext dataContext)
         {
             _contextData = dataContext;
+            commonHelpers = new CommonHelpers();
         }
 
         public async Task<string> GenTokenLogin(TOKEN acc, string username)
@@ -23,9 +25,10 @@ namespace quan_li_app.Helpers
             }
             TokenService tokenService = new TokenService();
             string token = tokenService.GenerateToken(username);
+
             TOKEN obj = new TOKEN
             {
-                id = Guid.NewGuid().ToString(),
+                id = commonHelpers.GenerateRowID("Token", ""),
                 Token = token,
                 username = username ?? null,
                 date = DateTime.Now,
@@ -71,9 +74,13 @@ namespace quan_li_app.Helpers
         {
             TokenService tokenService = new TokenService();
             string token = tokenService.GenerateToken(acc.account);
+            //string getID = _contextData.Database.SqlQuery("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", new SqlParameter("pCompanyCode", ""), new SqlParameter("pTableName", "Token")).FirstOrDefault();
+            //var getID = _contextData.Database.SqlQueryRaw<string>("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", new SqlParameter("@pCompanyCode", ""), new SqlParameter("@pTableName", "Token")).FirstOrDefault();
+
+
             TOKEN obj = new TOKEN
             {
-                id = Guid.NewGuid().ToString(),
+                id = commonHelpers.GenerateRowID("Token", acc.companyCode),
                 Token = token,
                 username = acc.account ?? null,
                 date = DateTime.Now,

@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quanliapp.Migrations.Data
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240223085750_23022024_DocumentManagerment_addtional_len_code")]
+    partial class _23022024_DocumentManagerment_addtional_len_code
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +28,7 @@ namespace quanliapp.Migrations
             modelBuilder.Entity("DAL_QUANLI.Models.DataDB.DocumentManagement", b =>
                 {
                     b.Property<string>("code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("codeLogTime")
                         .HasColumnType("nvarchar(max)");
@@ -34,31 +37,21 @@ namespace quanliapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("isClose")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("isCompanyCode")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<int?>("lenCode")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(16);
+                        .HasColumnType("int");
 
                     b.Property<string>("module")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("primaryKeyTable")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("tableName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("code");
 
                     b.ToTable("DocumentManagement", (string)null);
                 });
