@@ -1,4 +1,6 @@
-﻿namespace DAL_QUANLI.Models.SystemDB.SysAction
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DAL_QUANLI.Models.SystemDB.SysAction
 {
     public class SysAction
     {
@@ -14,5 +16,11 @@
         public string? url_2 { get; set; } // Đường dẫn URL khi click bổ sung 
         public string? url_3 { get; set; } // Đường dẫn URL khi click bổ sung
         public string? url_4 { get; set; } // Đường dẫn URL khi click bổ sung
+        [NotMapped]
+        public string? codeGroup { get; set; }
+        [NotMapped]
+        public int? orderNo { get; set; }
+        [NotMapped]
+        public bool? isClocked { get; set; }
     }
 }

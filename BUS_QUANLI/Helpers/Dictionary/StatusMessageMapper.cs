@@ -60,15 +60,30 @@ namespace quan_li_app.Helpers.Dictionary
             };
         }
 
-        public string GetMessageDescription(EnumQuanLi param)
+        public string GetMessageDescription(EnumQuanLi param, string language = "VN")
         {
-            if (statusMessageMapper.ContainsKey(param))
+            switch (language)
             {
-                return statusMessageMapper[param];
-            }
-            else
-            {
-                return statusMessageMapper[EnumQuanLi.NotFoundDictionary];
+                case "VN":
+                    if (statusMessageMapper.ContainsKey(param))
+                    {
+                        return statusMessageMapper[param];
+                    }
+                    else
+                    {
+                        return statusMessageMapper[EnumQuanLi.NotFoundDictionary];
+                    }
+                case "ORTHER":
+                    if (statusMessageMapperOther.ContainsKey(param))
+                    {
+                        return statusMessageMapperOther[param];
+                    }
+                    else
+                    {
+                        return statusMessageMapperOther[EnumQuanLi.NotFoundDictionary];
+                    }
+                default:
+                    return statusMessageMapperOther[EnumQuanLi.NotFoundDictionary];
             }
         }
 
