@@ -11,9 +11,9 @@ namespace quan_li_app.Helpers
     {
         private readonly DataContext _contextData;
         private readonly CommonHelpers commonHelpers;
-        public TokenHelper(DataContext dataContext)
+        public TokenHelper()
         {
-            _contextData = dataContext;
+            _contextData = new DataContext();
             commonHelpers = new CommonHelpers();
         }
 

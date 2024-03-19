@@ -31,6 +31,7 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.AccountIsBlocked, "Tài khoản đã bị khóa trong khoảng " },
                 {EnumQuanLi.NoneData, "Không có dữ liệu" },
                 {EnumQuanLi.AccountTypeUnknown, "Không xác định được loại người dùng" },
+                {EnumQuanLi.NotFoundItem, "Không tìm thấy đối tượng trong CSDL của quý khách" },
             };
 
             statusMessageMapperOther = new Dictionary<EnumQuanLi, string>
@@ -56,7 +57,7 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.AccountIsBlocked, "The account has been locked for a period of " },
                 {EnumQuanLi.NoneData, "None data" },
                 {EnumQuanLi.AccountTypeUnknown, "The account type is unknown" },
-
+                {EnumQuanLi.NotFoundItem, "Not found item in your database" },
             };
         }
 

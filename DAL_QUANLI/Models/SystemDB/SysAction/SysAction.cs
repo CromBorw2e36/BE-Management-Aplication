@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using quan_li_app.Models.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL_QUANLI.Models.SystemDB.SysAction
 {
@@ -22,5 +23,10 @@ namespace DAL_QUANLI.Models.SystemDB.SysAction
         public int? orderNo { get; set; }
         [NotMapped]
         public bool? isClocked { get; set; }
+
+        public static implicit operator SysAction(SysStatus v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -37,6 +37,7 @@
         NotEnoughPermissions,
         NoneData,
         AccountTypeUnknown,
+        NotFoundItem,
         /// <summary>
         /// Base
         /// </summary>

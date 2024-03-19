@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\System\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BUS_QUANLI\BUS_QUANLI.csproj" />
     <ProjectReference Include="..\DAL_QUANLI\DAL_QUANLI.csproj" />
     <ProjectReference Include="..\SignalR-Server-Quan-Li-APP\SignalR-Server-Quan-Li-APP.csproj" />

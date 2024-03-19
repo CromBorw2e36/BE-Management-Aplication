@@ -28,7 +28,7 @@ namespace quan_li_app.Controllers.Data
         {
             _context = context;
             this._viewModelAccount = new ViewModelAccount(context);
-            this.tokenHelper = new TokenHelper(context);
+            this.tokenHelper = new TokenHelper();
             this.statusMessageMapper = new StatusMessageMapper();
             this.viewModeUserInfo = new ViewModeUserInfo(context, systemContext);
             this.commonHelpers = new CommonHelpers();
@@ -46,7 +46,7 @@ namespace quan_li_app.Controllers.Data
                 }
                 return Unauthorized();
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -86,7 +86,7 @@ namespace quan_li_app.Controllers.Data
                     if (acc.password == EndcodePass && lockDate <= dateTimeNow)
                     {
                         account.ip_address = HttpContext.Connection.RemoteIpAddress.ToString(); ;
-                        string newToken = await new TokenHelper(_context).GenTokenLogin(account); // token
+                        string newToken = await new TokenHelper().GenTokenLogin(account); // token
                         UserInfo user = _context.UserInfomation.FirstOrDefault(x => x.id == acc.account);
 
                         acc.last_enter = DateTime.Now;
@@ -210,7 +210,7 @@ namespace quan_li_app.Controllers.Data
                     }
                 }
             }
-            return null;
+            return NoContent();
         }
 
         // DELETE: api/Accounts/5

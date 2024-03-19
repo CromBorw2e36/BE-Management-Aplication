@@ -20,7 +20,7 @@ namespace BUS_QUANLI.Services
             this._dataContext = pDataContext;
             this.viewModelAccount = new ViewModelAccount(pDataContext);
             this.commonHelpers = new CommonHelpers();
-            this.tokenHelper = new TokenHelper(pDataContext);
+            this.tokenHelper = new TokenHelper();
         }
 
 

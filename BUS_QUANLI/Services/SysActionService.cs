@@ -24,7 +24,7 @@ namespace BUS_QUANLI.Services
             this.systemContext = new SystemContext();
             this.viewModelAccount = new ViewModelAccount(dataContext);
             this.commonHelpers = new CommonHelpers();
-            this.tokenHelper = new TokenHelper(dataContext);
+            this.tokenHelper = new TokenHelper();
             this.statusMessageMapper = new StatusMessageMapper();
 
         }
@@ -32,83 +32,76 @@ namespace BUS_QUANLI.Services
         public async Task<StatusMessage> insert(SysAction p)
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@pcode", p.code));
-            parameters.Add(new SqlParameter("@pnameVn", p.nameVn));
-            parameters.Add(new SqlParameter("@pnameOther", p.nameOther));
-            parameters.Add(new SqlParameter("@pcolor", p.color));
-            parameters.Add(new SqlParameter("@pbackgroundColor", p.backgroundColor));
-            parameters.Add(new SqlParameter("@pisDisable", p.isDisable));
-            parameters.Add(new SqlParameter("@pdescription", p.description));
-            parameters.Add(new SqlParameter("@purl_1", p.url_1));
-            parameters.Add(new SqlParameter("@purl_2", p.url_2));
-            parameters.Add(new SqlParameter("@purl_3", p.url_3));
-            parameters.Add(new SqlParameter("@purl_4", p.url_4));
-            StatusMessage result = this.systemContext.Database.SqlQueryRaw<StatusMessage>
-                ("EXEC spSysActionIns @pcode ,@pnameVn ,@pnameOther ,@picon ,@pcolor ,@pbackgroundColor ,@pisDisable ,@pdescription ,@purl_1 ,@purl_2 ,@purl_3 ,@purl_4 ", parameters.ToArray()).FirstOrDefault();
-            SysAction data = await this.getByCode(result.currentID);
+            parameters.Add(new SqlParameter("@pcode", p.code != null ? p.code : DBNull.Value));
+            parameters.Add(new SqlParameter("@pnameVn", p.nameVn != null ? p.nameVn : DBNull.Value));
+            parameters.Add(new SqlParameter("@pnameOther", p?.nameOther != null ? p.nameOther : DBNull.Value));
+            parameters.Add(new SqlParameter("@picon", p?.icon != null ? p.icon : DBNull.Value));
+            parameters.Add(new SqlParameter("@pcolor", p?.color != null ? p.color : DBNull.Value));
+            parameters.Add(new SqlParameter("@pbackgroundColor", p?.backgroundColor != null ? p.backgroundColor : DBNull.Value));
+            parameters.Add(new SqlParameter("@pisDisable", p?.isDisable != null ? p.isDisable : DBNull.Value));
+            parameters.Add(new SqlParameter("@pdescription", p.description != null ? p.description : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_1", p?.url_1 != null ? p.url_1 : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_2", p?.url_2 != null ? p.url_2 : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_3", p?.url_3 != null ? p.url_3 : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_4", p?.url_4 != null ? p.url_4 : DBNull.Value));
+            var result = this.systemContext.Database.SqlQueryRaw<StatusMessage>(
+           "EXEC spSysActionIns @pcode, @pnameVn, @pnameOther, @picon, @pcolor, @pbackgroundColor, @pisDisable, @pdescription, @purl_1, @purl_2, @purl_3, @purl_4", parameters.ToArray()
+           ).ToList();
+            Console.WriteLine(result.ToString());
+            SysAction data = await this.getByCode(result[0].currentID);
             if (result == null)
             {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError));
-                return message;
+                return new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError));
             }
-            else if (result.status == 0)
+            else if (result[0].status == 0)
             {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError), data, result.currentID);
-                return message;
+                return new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError));
             }
-            else if (result.status == 1)
+            else if (result[0].status == 1)
             {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertSuccess), data, result.currentID);
-                return message;
+                return new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertSuccess), data, result[0].currentID);
             }
-            return null;
+            return new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError)); ;
         }
 
         public async Task<StatusMessage> update(SysAction p)
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@pcode", p.code));
-            parameters.Add(new SqlParameter("@pnameVn", p.nameVn));
-            parameters.Add(new SqlParameter("@pnameOther", p.nameOther));
-            parameters.Add(new SqlParameter("@picon", p.icon));
-            parameters.Add(new SqlParameter("@pcolor", p.color));
-            parameters.Add(new SqlParameter("@pbackgroundColor", p.backgroundColor));
-            parameters.Add(new SqlParameter("@pisDisable", p.isDisable));
-            parameters.Add(new SqlParameter("@pdescription", p.description));
-            parameters.Add(new SqlParameter("@purl_1", p.url_1));
-            parameters.Add(new SqlParameter("@purl_2", p.url_2));
-            parameters.Add(new SqlParameter("@purl_3", p.url_3));
-            parameters.Add(new SqlParameter("@purl_4", p.url_4));
-            StatusMessage result = this.systemContext.Database.SqlQueryRaw<StatusMessage>
-                ("EXEC spSysActionUpd @pcode ,@pnameVn ,@pnameOther ,@picon ,@pcolor ,@pbackgroundColor ,@pisDisable ,@pdescription ,@purl_1 ,@purl_2 ,@purl_3 ,@purl_4 ", parameters.ToArray()).FirstOrDefault();
-            SysAction data = await this.getByCode(result.currentID);
+            parameters.Add(new SqlParameter("@pcode", p.code != null ? p.code : DBNull.Value));
+            parameters.Add(new SqlParameter("@pnameVn", p.nameVn != null ? p.nameVn : DBNull.Value));
+            parameters.Add(new SqlParameter("@pnameOther", p?.nameOther != null ? p.nameOther : DBNull.Value));
+            parameters.Add(new SqlParameter("@picon", p?.icon != null ? p.icon : DBNull.Value));
+            parameters.Add(new SqlParameter("@pcolor", p?.color != null ? p.color : DBNull.Value));
+            parameters.Add(new SqlParameter("@pbackgroundColor", p?.backgroundColor != null ? p.backgroundColor : DBNull.Value));
+            parameters.Add(new SqlParameter("@pisDisable", p?.isDisable != null ? p.isDisable : DBNull.Value));
+            parameters.Add(new SqlParameter("@pdescription", p.description != null ? p.description : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_1", p?.url_1 != null ? p.url_1 : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_2", p?.url_2 != null ? p.url_2 : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_3", p?.url_3 != null ? p.url_3 : DBNull.Value));
+            parameters.Add(new SqlParameter("@purl_4", p?.url_4 != null ? p.url_4 : DBNull.Value));
+            var result = this.systemContext.Database.SqlQueryRaw<StatusMessage>(
+            "EXEC spSysActionUpd @pcode, @pnameVn, @pnameOther, @picon, @pcolor, @pbackgroundColor, @pisDisable, @pdescription, @purl_1, @purl_2, @purl_3, @purl_4", parameters.ToArray())
+            .ToList();
+            Console.WriteLine(result.ToString());
+            SysAction data = await getByCode(result[0].currentID);
             if (result == null)
             {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError), p, p.code);
+                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.UpdateError));
                 return message;
             }
-            else if (result.status == 0)
+            else if (result[0].status == 0)
             {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertError), data, result.currentID);
+                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.UpdateError));
                 return message;
             }
-            else if (result.status == 1)
+            else if (result[0].status == 1)
             {
-                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertSuccess), data, result.currentID);
+                StatusMessage message = new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.UpdateSuccess), data, result[0].currentID);
                 return message;
             }
-            return null;
+            return new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.UpdateError)); ;
         }
 
-        public async Task<List<SysAction>> get(SysAction p)
-        {
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@pcode", p.code));
-            parameters.Add(new SqlParameter("@startRowIndex", null));
-            parameters.Add(new SqlParameter("@pageSize", null));
-            List<SysAction> result = this.systemContext.Database.SqlQueryRaw<SysAction>("EXEC spSysActionUpd @pcode ,@startRowIndex ,@pageSize ", parameters.ToArray()).ToList();
-            return result;
-        }
 
         public async Task<SysAction> getByCode(string code = "")
         {
@@ -118,14 +111,31 @@ namespace BUS_QUANLI.Services
             }
             else
             {
-                var data = await this.get(new SysAction
-                {
-                    code = code
-                });
-                return data[0];
+                SysAction data = systemContext.SysActions.Where(x => x.code == code).FirstOrDefault();
+                return data;
             }
         }
 
-
+        public async Task<StatusMessage> delete(SysAction p)
+        {
+            SysAction get_action = await this.getByCode(p.code);
+            if (get_action != null)
+            {
+                try
+                {
+                    systemContext.SysActions.Remove(p);
+                    systemContext.SaveChanges();
+                    return new StatusMessage(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.DeleteSuccess), p.code);
+                }
+                catch
+                {
+                    return new StatusMessage(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.DeleteError));
+                }
+            }
+            else
+            {
+                return new StatusMessage(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotFoundItem));
+            }
+        }
     }
 }

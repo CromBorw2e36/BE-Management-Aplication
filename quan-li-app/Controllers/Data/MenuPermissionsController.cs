@@ -29,7 +29,7 @@ namespace quan_li_app.Controllers.Data
         [HttpPost, ActionName("GetListMenu")]
         public async Task<ActionResult<List<SysMenu>>> GetListMenu()
         {
-            TokenHelper tokenHelper = new TokenHelper(_contextData);
+            TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 string account = tokenHelper.GetUsername(HttpContext.Request);
@@ -57,7 +57,7 @@ namespace quan_li_app.Controllers.Data
         [HttpGet, ActionName("GetAllListMenus")]
         public async Task<ActionResult<SysMenu>> GetLstMenu()
         {
-            TokenHelper tokenHelper = new TokenHelper(_contextData);
+            TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 string account = tokenHelper.GetUsername(HttpContext.Request);

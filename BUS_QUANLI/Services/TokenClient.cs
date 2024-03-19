@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
-using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
 using quan_li_app.ViewModels.Data;
 
@@ -22,10 +20,10 @@ namespace BUS_QUANLI.Services
             this._dataContext = pDataContext;
             this.viewModelAccount = new ViewModelAccount(pDataContext);
             this.commonHelpers = new CommonHelpers();
-            this.tokenHelper = new TokenHelper(pDataContext);
+            this.tokenHelper = new TokenHelper();
         }
 
-        public void isConnecting(HttpContext httpContext, bool isConnecting  = true)
+        public void isConnecting(HttpContext httpContext, bool isConnecting = true)
         {
             string tokenString = tokenHelper.GetToken(httpContext.Request);
             TOKEN token = _dataContext.Tokens.FirstOrDefault(x => x.Token == tokenString);

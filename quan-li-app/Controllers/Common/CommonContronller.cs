@@ -21,7 +21,7 @@ namespace quan_li_app.Controllers.Common
         {
             _contextData = contextData;
             _contextSystem = contextSystem;
-            _tokenHelper = new TokenHelper(_contextData);
+            _tokenHelper = new TokenHelper();
             baseMapper = new BaseMapper();
         }
 

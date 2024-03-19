@@ -96,7 +96,7 @@ namespace quan_li_app.Controllers.Data
         [Route("GetUser")]
         public async Task<ActionResult<UserInfo>> GetMyUser()
         {
-            TokenHelper tokenHelper = new TokenHelper(_context);
+            TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 string userId = tokenHelper.GetUsername(HttpContext.Request);
@@ -119,7 +119,7 @@ namespace quan_li_app.Controllers.Data
         public async Task<ActionResult<List<UserInfo>>> GetLstUser()
         {
 
-            TokenHelper tokenHelper = new TokenHelper(_context);
+            TokenHelper tokenHelper = new TokenHelper();
 
             string userId = tokenHelper.GetUsername(HttpContext.Request);
 
@@ -155,7 +155,7 @@ namespace quan_li_app.Controllers.Data
         [HttpPost, Route("GetUserInformation")]
         public async Task<ActionResult<UserInformationClientGetUser>> GetUserInformation(string? username)
         {
-            TokenHelper tokenHelper = new TokenHelper(_context);
+            TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 string userId = tokenHelper.GetUsername(HttpContext.Request);

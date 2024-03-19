@@ -1,9 +1,12 @@
-﻿namespace quan_li_app.Models.Common
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace quan_li_app.Models.Common
 {
     public class StatusMessage
     {
         public int? status { get; set; }
         public string? msg { get; set; }
+        [NotMapped]
         public dynamic? data { get; set; }
 
         public string? currentID { get; set; }
