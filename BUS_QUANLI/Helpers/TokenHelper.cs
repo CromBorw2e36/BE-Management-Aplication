@@ -80,7 +80,7 @@ namespace quan_li_app.Helpers
 
             TOKEN obj = new TOKEN
             {
-                id = commonHelpers.GenerateRowID("Token", acc.companyCode),
+                id = commonHelpers.GenerateRowID("Token", acc.companyCode!),
                 Token = token,
                 username = acc.account ?? null,
                 date = DateTime.Now,
@@ -128,7 +128,7 @@ namespace quan_li_app.Helpers
             {
                 return tokenValue.ToString();
             }
-            return null;
+            return "";
         }
 
         public bool CheckTheExpirationDateOfTheToken(HttpRequest request)
@@ -138,7 +138,7 @@ namespace quan_li_app.Helpers
             string username = GetUsername(request);
             if (username is not null)
             {
-                TOKEN obj = _contextData.Tokens.Where(x => x.Token == token && x.username == username).FirstOrDefault();
+                TOKEN obj = _contextData.Tokens.Where(x => x.Token == token && x.username == username).FirstOrDefault()!;
                 if (obj != null)
                 {
 
@@ -152,7 +152,7 @@ namespace quan_li_app.Helpers
                             obj.is_connecting = true;
                             _contextData.SaveChangesAsync().Wait();
                         }
-                        catch (Exception ex)
+                        catch
                         {
                             return true;
                         }
@@ -175,11 +175,34 @@ namespace quan_li_app.Helpers
             {
                 ClaimsPrincipal claimsPrincipal = tokenService.GetClaimsFromToken(token);
 
-                return claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)!.Value!;
             }
             else
             {
-                return null;
+                return "";
+            }
+        }
+
+        public static string GetUsername_2(HttpRequest request)
+        {
+
+            string token = "";
+            if (request.Headers.TryGetValue("token", out var tokenValue))
+            {
+                token = tokenValue.ToString();
+            }
+            token = "";
+
+            TokenService tokenService = new TokenService();
+            if (tokenService.IsTokenExpired(token))
+            {
+                ClaimsPrincipal claimsPrincipal = tokenService.GetClaimsFromToken(token);
+
+                return claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)!.Value!;
+            }
+            else
+            {
+                return "";
             }
         }
 
@@ -192,7 +215,7 @@ namespace quan_li_app.Helpers
             }
             else
             {
-                return null;
+                return "";
             }
         }
 

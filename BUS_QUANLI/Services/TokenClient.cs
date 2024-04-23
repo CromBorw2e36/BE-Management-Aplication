@@ -17,8 +17,8 @@ namespace BUS_QUANLI.Services
 
         public TokenClient(DataContext pDataContext)
         {
-            this._dataContext = pDataContext;
-            this.viewModelAccount = new ViewModelAccount(pDataContext);
+            this._dataContext = new DataContext();
+            this.viewModelAccount = new ViewModelAccount();
             this.commonHelpers = new CommonHelpers();
             this.tokenHelper = new TokenHelper();
         }
@@ -26,7 +26,7 @@ namespace BUS_QUANLI.Services
         public void isConnecting(HttpContext httpContext, bool isConnecting = true)
         {
             string tokenString = tokenHelper.GetToken(httpContext.Request);
-            TOKEN token = _dataContext.Tokens.FirstOrDefault(x => x.Token == tokenString);
+            TOKEN token = _dataContext.Tokens.FirstOrDefault(x => x.Token == tokenString)!;
             if (token != null)
             {
                 token.is_connecting = isConnecting;

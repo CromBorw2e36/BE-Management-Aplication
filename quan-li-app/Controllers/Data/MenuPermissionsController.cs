@@ -22,7 +22,7 @@ namespace quan_li_app.Controllers.Data
         {
             _contextData = context;
             _contextSys = context1;
-            viewModelAccount = new ViewModelAccount(context);
+            viewModelAccount = new ViewModelAccount();
             this.baseMapper = new BaseMapper();
         }
 
@@ -34,14 +34,14 @@ namespace quan_li_app.Controllers.Data
             {
                 string account = tokenHelper.GetUsername(HttpContext.Request);
 
-                List<MenuPermissions> menuPermissions = await _contextData.MenuPermissions.Where(x => x.account.Equals(account)).ToListAsync<MenuPermissions>();
+                List<MenuPermissions> menuPermissions = await _contextData.MenuPermissions.Where(x => x.account!.Equals(account)).ToListAsync<MenuPermissions>();
                 List<SysMenu> sysMenus = new List<SysMenu>();
 
                 if (menuPermissions.Count > 0)
                 {
                     foreach (var item in menuPermissions)
                     {
-                        SysMenu getMenu = await _contextSys.SysMenus.FirstOrDefaultAsync(x => x.menuid.Equals(item.menuid) && x.active == true);
+                        SysMenu getMenu = _contextSys.SysMenus.FirstOrDefault(x => x.menuid!.Equals(item.menuid) && x.active == true)!;
                         if (getMenu != null)
                         {
                             sysMenus.Add(getMenu);
@@ -55,7 +55,7 @@ namespace quan_li_app.Controllers.Data
         }
 
         [HttpGet, ActionName("GetAllListMenus")]
-        public async Task<ActionResult<SysMenu>> GetLstMenu()
+        public ActionResult<SysMenu> GetLstMenu()
         {
             TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))

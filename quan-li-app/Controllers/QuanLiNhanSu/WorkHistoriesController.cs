@@ -80,7 +80,7 @@ namespace quan_li_app.Controllers.QuanLiNhanSu
             }
             catch (DbUpdateException)
             {
-                if (WorkHistoryExists(workHistory.id))
+                if (WorkHistoryExists(workHistory.id!))
                 {
                     return Conflict();
                 }

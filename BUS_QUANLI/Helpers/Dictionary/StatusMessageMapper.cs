@@ -1,4 +1,6 @@
-﻿using quan_li_app.Models;
+﻿using Microsoft.AspNetCore.Http;
+using quan_li_app.Models;
+using quan_li_app.Models.DataDB;
 
 namespace quan_li_app.Helpers.Dictionary
 {
@@ -6,8 +8,13 @@ namespace quan_li_app.Helpers.Dictionary
     {
         private Dictionary<EnumQuanLi, string> statusMessageMapper;
         private Dictionary<EnumQuanLi, string> statusMessageMapperOther;
+        private readonly DataContext _dataContext;
+
+
+
         public StatusMessageMapper()
         {
+            _dataContext = new DataContext();
             statusMessageMapper = new Dictionary<EnumQuanLi, string>
             {
                 {EnumQuanLi.Unauthorized, "Phiên đăng nhập đã hết hạn" },
@@ -32,6 +39,10 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.NoneData, "Không có dữ liệu" },
                 {EnumQuanLi.AccountTypeUnknown, "Không xác định được loại người dùng" },
                 {EnumQuanLi.NotFoundItem, "Không tìm thấy đối tượng trong CSDL của quý khách" },
+                {EnumQuanLi.DeleteSuccess, "Xóa thành công" },
+                {EnumQuanLi.DeleteError, "Xóa thất bại" },
+                {EnumQuanLi.DataExit, "Dữ liệu tồn tại" },
+                {EnumQuanLi.DataNotExit, "Dữ liệu không tồn tại" },
             };
 
             statusMessageMapperOther = new Dictionary<EnumQuanLi, string>
@@ -58,14 +69,92 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.NoneData, "None data" },
                 {EnumQuanLi.AccountTypeUnknown, "The account type is unknown" },
                 {EnumQuanLi.NotFoundItem, "Not found item in your database" },
+                {EnumQuanLi.DeleteSuccess, "Delete is success" },
+                {EnumQuanLi.DeleteError, "Delete is error" },
+                {EnumQuanLi.DataExit, "Data is exit" },
+                {EnumQuanLi.DataNotExit, "Data isn't exit" },
             };
         }
 
-        public string GetMessageDescription(EnumQuanLi param, string language = "VN")
+        public string GetMessageDescription(EnumQuanLi param)
         {
+            string language = "ORTHER";
             switch (language)
             {
-                case "VN":
+                case "vi-VN":
+                    if (statusMessageMapper.ContainsKey(param))
+                    {
+                        return statusMessageMapper[param];
+                    }
+                    else
+                    {
+                        return statusMessageMapper[EnumQuanLi.NotFoundDictionary];
+                    }
+                case "ORTHER":
+                    if (statusMessageMapperOther.ContainsKey(param))
+                    {
+                        return statusMessageMapperOther[param];
+                    }
+                    else
+                    {
+                        return statusMessageMapperOther[EnumQuanLi.NotFoundDictionary];
+                    }
+                default:
+                    return statusMessageMapperOther[EnumQuanLi.NotFoundDictionary];
+            }
+        }
+
+        public string GetMessageDescription(EnumQuanLi param, string account = "")
+        {
+            string language = "ORTHER";
+            if (account != null && account.Length > 0)
+            {
+                Account obj = _dataContext.Accounts.Where(x => x.account.Equals(account)).FirstOrDefault();
+                if (obj != null)
+                {
+                    language = obj.language;
+                }
+            }
+            switch (language)
+            {
+                case "vi-VN":
+                    if (statusMessageMapper.ContainsKey(param))
+                    {
+                        return statusMessageMapper[param];
+                    }
+                    else
+                    {
+                        return statusMessageMapper[EnumQuanLi.NotFoundDictionary];
+                    }
+                case "ORTHER":
+                    if (statusMessageMapperOther.ContainsKey(param))
+                    {
+                        return statusMessageMapperOther[param];
+                    }
+                    else
+                    {
+                        return statusMessageMapperOther[EnumQuanLi.NotFoundDictionary];
+                    }
+                default:
+                    return statusMessageMapperOther[EnumQuanLi.NotFoundDictionary];
+            }
+        }
+
+        public string GetMessageDescription(EnumQuanLi param, HttpRequest httpRequest)
+        {
+            string language = "ORTHER";
+            string account = TokenHelper.GetUsername_2(httpRequest);
+            if (account != null && account.Length > 0)
+            {
+                Account obj = _dataContext.Accounts.Where(x => x.account.Equals(account)).FirstOrDefault();
+                if (obj != null)
+                {
+                    language = obj.language;
+                }
+            }
+            switch (language)
+            {
+                case "vi-VN":
                     if (statusMessageMapper.ContainsKey(param))
                     {
                         return statusMessageMapper[param];

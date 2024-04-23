@@ -16,6 +16,8 @@
         InsertError,
         DeleteSuccess,
         DeleteError,
+        DataExit,
+        DataNotExit,
 
         /// <summary>
         /// Action details

@@ -28,6 +28,6 @@ namespace DAL_QUANLI.Models.CustomModel
         public string? nameBrach { get; set; }
         public string? codeDepartment { get; set; }
         public string? codeName { get; set; }
-        public List<TOKEN> Tokens { get; set; }
+        public List<TOKEN>? Tokens { get; set; }
     }
 }

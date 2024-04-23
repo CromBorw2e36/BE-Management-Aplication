@@ -5,9 +5,9 @@ namespace DAL_QUANLI.Models.CustomModel
     public class AccountClientLoginParamsModel
     {
         [NotNull]
-        public string account { get; set; }
+        public string? account { get; set; }
         [NotNull]
-        public string password { get; set; }
+        public string? password { get; set; }
         public string? email { get; set; }
         public string? phone { get; set; }
         public string? companyCode { get; set; }

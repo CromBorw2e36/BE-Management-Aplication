@@ -10,15 +10,15 @@ namespace BUS_QUANLI.Services
 {
     public class UserInformationClient : StatusMessageMapper
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext dataContext;
         private readonly CommonHelpers commonHelpers;
         private readonly ViewModelAccount viewModelAccount;
         private readonly TokenHelper tokenHelper;
 
         public UserInformationClient(DataContext pDataContext)
         {
-            this._dataContext = pDataContext;
-            this.viewModelAccount = new ViewModelAccount(pDataContext);
+            this.dataContext = pDataContext;
+            this.viewModelAccount = new ViewModelAccount();
             this.commonHelpers = new CommonHelpers();
             this.tokenHelper = new TokenHelper();
         }
@@ -26,12 +26,12 @@ namespace BUS_QUANLI.Services
 
         public async Task<UserInformationClientGetUser> getUserInformation(string userId)
         {
-            Account account = _dataContext.Accounts.FirstOrDefault(x => x.account.Equals(userId));
-            UserInfo userInfo = _dataContext.UserInfomation.FirstOrDefault(x => x.id.Equals(userId));
+            Account account = dataContext.Accounts.FirstOrDefault(x => x.account!.Equals(userId))!;
+            UserInfo userInfo = dataContext.UserInfomation.FirstOrDefault(x => x.id!.Equals(userId))!;
             if (account != null && userInfo != null)
             {
-                Company company = _dataContext.Companies.FirstOrDefault(x => x.code == userInfo.codeCompany);
-                List<TOKEN> tokens = _dataContext.Tokens.Where(x => x.username == userId).OrderByDescending(x => x.date).Take(20).ToList();
+                Company company = dataContext.Companies.FirstOrDefault(x => x.code == userInfo.codeCompany)!;
+                List<TOKEN> tokens = dataContext.Tokens.Where(x => x.username == userId).OrderByDescending(x => x.date).Take(20).ToList();
 
                 UserInformationClientGetUser obj = new UserInformationClientGetUser
                 {
@@ -61,7 +61,7 @@ namespace BUS_QUANLI.Services
                 };
                 return obj;
             }
-            return null;
+            return new UserInformationClientGetUser();
         }
 
     }

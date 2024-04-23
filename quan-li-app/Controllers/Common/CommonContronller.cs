@@ -36,7 +36,7 @@ namespace quan_li_app.Controllers.Common
         public async Task<ActionResult<List<SysStatus>>> GetStatusByModule(SysStatus pSysStatus)
         {
             List<SysStatus> res = await _contextData.SysStatus
-                .Where(x => x.module.Equals(pSysStatus.module) && x.enable == true)
+                .Where(x => x.module!.Equals(pSysStatus.module) && x.enable == true)
                 .OrderBy(x => x.order_numer)
                 .ToListAsync();
             return res;
@@ -49,11 +49,11 @@ namespace quan_li_app.Controllers.Common
             if (_tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 string UsernameCredential = _tokenHelper.GetUsername(HttpContext.Request);
-                Account account = await _contextData.Accounts.Where(x => x.account.Equals(UsernameCredential)).FirstOrDefaultAsync();
+                Account account = _contextData.Accounts.Where(x => x.account!.Equals(UsernameCredential)).FirstOrDefault()!;
                 if (account != null)
                 {
                     List<SysPermission> res = await _contextData.SysPermissions
-                                                .Where(x => x.codeCompany.Equals(account.companyCode) || account.companyCode.Equals(baseMapper.GetSysCompany()))
+                                                .Where(x => x.codeCompany!.Equals(account.companyCode) || account.companyCode!.Equals(baseMapper.GetSysCompany()))
                                                 .OrderBy(x => x.level)
                                                 .ThenBy(x => x.order_number)
                                                 .ToListAsync();
@@ -62,7 +62,7 @@ namespace quan_li_app.Controllers.Common
 
                 return NoContent();
             }
-            return null;
+            return Unauthorized();
         }
 
     }

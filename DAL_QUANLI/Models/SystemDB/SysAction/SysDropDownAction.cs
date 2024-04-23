@@ -4,7 +4,7 @@
     {
         public string? code { get; set; } // code for SysDropDownAction
         public string? codeAction { get; set; } // Code of sysAction
-        public string? orderNo { get; set; } // Thứ tứ vị trí
+        public int? orderNo { get; set; } // Thứ tứ vị trí
         public string? description { get; set; } // description of SysDropDownAction
         public bool? isClocked { get; set; } // Khóa action này lại
 

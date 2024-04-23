@@ -2,12 +2,12 @@
 
 namespace quan_li_app.Models.Common
 {
-    public class StatusMessage
+    public class StatusMessage<T>
     {
         public int? status { get; set; }
         public string? msg { get; set; }
         [NotMapped]
-        public dynamic? data { get; set; }
+        public T? data { get; set; }
 
         public string? currentID { get; set; }
 
@@ -15,14 +15,14 @@ namespace quan_li_app.Models.Common
         {
             this.status = 0; // Không thành công
             this.msg = "";
-            this.data = null;
+            this.data = default(T);
         }
 
         public StatusMessage(int status, string msg)
         {
             this.status = status;
             this.msg = msg;
-            this.data = null;
+            this.data = default(T);
         }
         public StatusMessage(int status, string msg, dynamic data)
         {

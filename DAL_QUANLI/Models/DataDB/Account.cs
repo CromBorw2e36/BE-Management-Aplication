@@ -25,5 +25,6 @@ namespace quan_li_app.Models.DataDB
         public int? levelPermision { get; set; }
         [NotMapped]
         public string? namePermision { get; set; }
+        public string? language { get; set; }
     }
 }

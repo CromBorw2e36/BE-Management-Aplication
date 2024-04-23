@@ -20,9 +20,9 @@ namespace SignalR_Server_Quan_Li_APP.Hubs
         {
             var httpContext = Context.GetHttpContext();
             string connectionId = Context.ConnectionId;
-            string getToken = _tokenHelper.GetToken(httpContext.Request);
+            string getToken = _tokenHelper.GetToken(httpContext!.Request);
             string getUser = _tokenHelper.GetUsername(httpContext.Request);
-            TOKEN tokenByUsername = _dataContext.Tokens.FirstOrDefault(x => x.Token == getToken);
+            TOKEN tokenByUsername = _dataContext.Tokens.FirstOrDefault(x => x.Token == getToken)!;
             if (tokenByUsername.connectionSignalID != connectionId)
             {
                 tokenByUsername.connectionSignalID = connectionId;
@@ -32,13 +32,14 @@ namespace SignalR_Server_Quan_Li_APP.Hubs
             await base.OnConnectedAsync();
         }
 
-        public async Task NotificationSubscribe(string username, string msg)
+        public Task NotificationSubscribe(string username, string msg)
         {
             List<TOKEN> listConnectID = _dataContext.Tokens.Where(x => x.username == username).ToList();
             listConnectID.ForEach(x =>
             {
-                Clients.Client(x.connectionSignalID).SendAsync("NotificationSubscribe", msg);
+                Clients.Client(x.connectionSignalID!).SendAsync("NotificationSubscribe", msg);
             });
+            return Task.CompletedTask;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace quan_li_app.Controllers.QuanLiNhanSu
             }
             catch (DbUpdateException)
             {
-                if (CurrentJobPositionExists(currentJobPosition.id))
+                if (CurrentJobPositionExists(currentJobPosition.id!))
                 {
                     return Conflict();
                 }

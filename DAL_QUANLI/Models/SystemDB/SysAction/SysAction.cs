@@ -18,11 +18,11 @@ namespace DAL_QUANLI.Models.SystemDB.SysAction
         public string? url_3 { get; set; } // Đường dẫn URL khi click bổ sung
         public string? url_4 { get; set; } // Đường dẫn URL khi click bổ sung
         [NotMapped]
+        public bool? isClocked { get; set; }
+        [NotMapped]
         public string? codeGroup { get; set; }
         [NotMapped]
         public int? orderNo { get; set; }
-        [NotMapped]
-        public bool? isClocked { get; set; }
 
         public static implicit operator SysAction(SysStatus v)
         {
