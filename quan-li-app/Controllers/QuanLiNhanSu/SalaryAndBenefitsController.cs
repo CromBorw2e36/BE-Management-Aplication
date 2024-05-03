@@ -80,7 +80,7 @@ namespace quan_li_app.Controllers.QuanLiNhanSu
             }
             catch (DbUpdateException)
             {
-                if (SalaryAndBenefitsExists(salaryAndBenefits.id))
+                if (SalaryAndBenefitsExists(salaryAndBenefits.id!))
                 {
                     return Conflict();
                 }

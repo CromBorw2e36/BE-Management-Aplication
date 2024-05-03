@@ -1,83 +1,72 @@
 ﻿using DAL_QUANLI.Models.CustomModel;
-using quan_li_app.Helpers;
-using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Models.DataDB.UserData;
 using quan_li_app.Services;
-using quan_li_app.ViewModels.Data;
 
 namespace BUS_QUANLI.Services
 {
-    public class AccountClient : StatusMessageMapper
+    public class AccountClient : rootCommonService
     {
-        private readonly DataContext _dataContext;
-        private readonly CommonHelpers commonHelpers;
-        private readonly ViewModelAccount viewModelAccount;
-        private readonly TokenHelper tokenHelper;
-
-        public AccountClient(DataContext pDataContext)
+        public AccountClient()
         {
-            this._dataContext = pDataContext;
-            this.viewModelAccount = new ViewModelAccount(pDataContext);
-            this.commonHelpers = new CommonHelpers();
-            this.tokenHelper = new TokenHelper();
         }
 
-        public async Task<StatusMessage> AccountClientIns(AccountClientProfileModel acc)
+        public async Task<StatusMessage<dynamic>> AccountClientIns(AccountClientProfileModel acc, string userName_create)
         {
             if (acc == null)
             {
-                return new StatusMessage(1, GetMessageDescription(EnumQuanLi.NoneData));
+                return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NoneData, userName_create));
             }
             else
             {
                 PasswordEndCodeDecodeMD5 encodePassword = new PasswordEndCodeDecodeMD5();
-                Account account = acc.account;
-                UserInfo userInfo = acc.userInfo;
-                TOKEN token = acc.token;
+                Account account = acc?.account!;
+                UserInfo userInfo = acc?.userInfo!;
+                TOKEN token = acc?.token!;
 
-                if (this.commonHelpers.CheckInValidVariableTypeString(account.account))
+                if (this.commonHelpers.CheckInValidVariableTypeString(account?.account!))
                 {
-                    return new StatusMessage(1, GetMessageDescription(EnumQuanLi.NotHaveUserName));
+                    return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotHaveUserName, userName_create));
                 }
-                else if (this.commonHelpers.CheckInValidVariableTypeString(account.password))
+                else if (this.commonHelpers.CheckInValidVariableTypeString(account?.password!))
                 {
-                    return new StatusMessage(1, GetMessageDescription(EnumQuanLi.NotHavePassword));
+                    return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotHavePassword, userName_create));
                 }
-                else if (this.commonHelpers.CheckInValidVariableTypeString(account.email)
-                    && this.commonHelpers.CheckInValidVariableTypeString(account.phone)
+                else if (this.commonHelpers.CheckInValidVariableTypeString(account?.email!)
+                    && this.commonHelpers.CheckInValidVariableTypeString(account?.phone!)
                     )
                 {
-                    return new StatusMessage(1, GetMessageDescription(EnumQuanLi.ContactInformationRequired));
+                    return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.ContactInformationRequired, userName_create));
                 }
-                else if (this.commonHelpers.CheckInValidVariableTypeString(userInfo.name))
+                else if (this.commonHelpers.CheckInValidVariableTypeString(userInfo?.name!))
                 {
-                    userInfo.name = "Anonymous";
+                    userInfo!.name = "Anonymous";
                 }
-                else if (this.commonHelpers.CheckInValidVariableTypeString(account.type_account) && this.commonHelpers.CheckInValidVariableTypeString(account.companyCode))
+                else if (this.commonHelpers.CheckInValidVariableTypeString(account?.type_account!) && this.commonHelpers.CheckInValidVariableTypeString(account?.companyCode!))
                 {
-                    return new StatusMessage(1, GetMessageDescription(EnumQuanLi.AccountTypeUnknown));
+                    return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.AccountTypeUnknown, userName_create));
                 }
 
-                if (await this.viewModelAccount.AccountExists(account.account))
+                if (await this.viewModelAccount.AccountExists(account?.account!))
                 {
-                    return new StatusMessage(1, GetMessageDescription(EnumQuanLi.AccountExist));
+                    return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.AccountExist, userName_create));
                 }
                 else
                 {
-                    account.password = encodePassword.EndCodeMd5(account.password);
-                    account.create_date = DateTime.Now;
-                    userInfo.id = account.account;
+                    account!.password = encodePassword.EndCodeMd5(account?.password!);
+                    account!.create_date = DateTime.Now;
+                    account!.language = "vi-VN";
+                    userInfo!.id = account.account;
 
                     try
                     {
-                        string stringToken = await this.tokenHelper.GenTokenLogin(token, account.account);
-                        _dataContext.Accounts.Add(account);
-                        _dataContext.UserInfomation.Add(userInfo);
-                        await _dataContext.SaveChangesAsync();
-                        return new StatusMessage(0, GetMessageDescription(EnumQuanLi.RegisterSuccess), new AccountClientProfileModel
+                        string stringToken = await this.tokenHelper.GenTokenLogin(token, account?.account!);
+                        dataContext.Accounts.Add(account!);
+                        dataContext.UserInfomation.Add(userInfo);
+                        await dataContext.SaveChangesAsync();
+                        return new StatusMessage<dynamic>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterSuccess, userName_create), new AccountClientProfileModel
                         {
                             token = new TOKEN
                             {
@@ -87,7 +76,7 @@ namespace BUS_QUANLI.Services
                     }
                     catch
                     {
-                        return new StatusMessage(1, GetMessageDescription(EnumQuanLi.RegisterError));
+                        return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterError, userName_create));
                     }
                 }
 

@@ -16,7 +16,7 @@ namespace quan_li_app.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string SysContextString1 = "Data Source=DESKTOP-R2ECO11\\SQLEXPRESS;Initial Catalog=PMQuanLySys;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=120";
+            //string SysContextString1 = "Data Source=DESKTOP-BCM4VJC;Initial Catalog=PMQuanLySys;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             string SysContextString2 = "Data Source=KHANHNGUYENLAPT;Initial Catalog=PMQuanLySys;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
 
             if (!optionsBuilder.IsConfigured)
@@ -82,6 +82,7 @@ namespace quan_li_app.Models
                 e.Property(item => item.orderNo).IsRequired();
                 e.Property(item => item.isClocked).IsRequired()
                  .HasDefaultValue(false);
+                e.Property(item => item.isDropDown).HasDefaultValue(false);
             });
 
             modelBuilder.Entity<SysDropDownAction>().HasNoKey();

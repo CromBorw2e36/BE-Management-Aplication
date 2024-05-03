@@ -1,7 +1,6 @@
 ﻿using BUS_QUANLI.Services;
 using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using quan_li_app.Helpers;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
@@ -16,13 +15,13 @@ namespace quan_li_app.Controllers.Data
     {
         private readonly DataContext _context;
 
-        public UserInfoesController(DataContext context)
+        public UserInfoesController()
         {
-            _context = context;
+            _context = new DataContext();
         }
 
         [HttpPost, ActionName("UserIns")]
-        public async Task<ActionResult<StatusMessage>> UserIns(UserInfo userInfo)
+        public async Task<ActionResult<StatusMessage<dynamic>>> UserIns(UserInfo userInfo)
         {
             if (userInfo is not null)
             {
@@ -47,25 +46,25 @@ namespace quan_li_app.Controllers.Data
 
                     _context.UserInfomation.Add(user);
                     await _context.SaveChangesAsync();
-                    return new StatusMessage(1, "Đã thêm thông tin người dùng");
+                    return new StatusMessage<dynamic>(1, "Đã thêm thông tin người dùng");
                 }
                 catch
                 {
-                    return new StatusMessage(0, "Thêm thông tin người dùng thất bại");
+                    return new StatusMessage<dynamic>(0, "Thêm thông tin người dùng thất bại");
                 }
             }
-            return new StatusMessage(0, "Vui lòng nhập dữ liệu đầy đủ"); ;
+            return new StatusMessage<dynamic>(0, "Vui lòng nhập dữ liệu đầy đủ"); ;
         }
 
         [HttpPost]
         [Route("UpdateUser")]
-        public async Task<ActionResult<StatusMessage>> UpdUser(UserInfo userInfo)
+        public async Task<ActionResult<StatusMessage<dynamic>>> UpdUser(UserInfo userInfo)
         {
             if (userInfo is not null)
             {
                 try
                 {
-                    UserInfo user = _context.UserInfomation.Where(x => x.id == userInfo.id).FirstOrDefault();
+                    UserInfo user = _context.UserInfomation.Where(x => x.id == userInfo.id).FirstOrDefault()!;
 
                     user.name = userInfo.name;
                     user.dateOfBirth = userInfo.dateOfBirth;
@@ -82,19 +81,19 @@ namespace quan_li_app.Controllers.Data
 
                     _context.UserInfomation.Add(user);
                     await _context.SaveChangesAsync();
-                    return new StatusMessage(1, "Đã thêm thông tin người dùng");
+                    return new StatusMessage<dynamic>(1, "Đã thêm thông tin người dùng");
                 }
                 catch
                 {
-                    return new StatusMessage(0, "Thêm thông tin người dùng thất bại");
+                    return new StatusMessage<dynamic>(0, "Thêm thông tin người dùng thất bại");
                 }
             }
-            return new StatusMessage(0, "Vui lòng nhập dữ liệu đầy đủ"); ;
+            return new StatusMessage<dynamic>(0, "Vui lòng nhập dữ liệu đầy đủ"); ;
         }
 
         [HttpPost]
         [Route("GetUser")]
-        public async Task<ActionResult<UserInfo>> GetMyUser()
+        public ActionResult<UserInfo> GetMyUser()
         {
             TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
@@ -102,28 +101,28 @@ namespace quan_li_app.Controllers.Data
                 string userId = tokenHelper.GetUsername(HttpContext.Request);
                 try
                 {
-                    UserInfo user = _context.UserInfomation.Where(x => x.id == userId).FirstOrDefault();
+                    UserInfo user = _context.UserInfomation.Where(x => x.id == userId).FirstOrDefault()!;
 
                     return user;
                 }
                 catch
                 {
-                    return null;
+                    return NoContent();
                 }
             }
-            return null;
+            return NoContent();
         }
 
         [HttpPost]
         [Route("GetUsers")]
-        public async Task<ActionResult<List<UserInfo>>> GetLstUser()
+        public ActionResult<List<UserInfo>> GetLstUser()
         {
 
             TokenHelper tokenHelper = new TokenHelper();
 
             string userId = tokenHelper.GetUsername(HttpContext.Request);
 
-            Account account = await _context.Accounts.Where(x => x.account == userId).FirstOrDefaultAsync();
+            Account account = _context.Accounts.Where(x => x.account == userId).FirstOrDefault()!;
 
             if (account.companyCode == "ADMIN")
             {
@@ -137,7 +136,7 @@ namespace quan_li_app.Controllers.Data
                 List<UserInfo> users = new List<UserInfo>();
                 foreach (var item in accounts)
                 {
-                    UserInfo user = _context.UserInfomation.Where(x => x.id == item.account).FirstOrDefault();
+                    UserInfo user = _context.UserInfomation.Where(x => x.id == item.account).FirstOrDefault()!;
                     if (user != null)
                     {
                         users.Add(user);
@@ -171,10 +170,10 @@ namespace quan_li_app.Controllers.Data
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        return null;
+                        return NoContent();
                     }
                 }
-                return null;
+                return NoContent();
             }
             else
             {

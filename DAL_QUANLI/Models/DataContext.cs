@@ -19,7 +19,7 @@ namespace quan_li_app.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string DbContextString1 = "Data Source=DESKTOP-R2ECO11\\SQLEXPRESS;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=120";
+            //string DbContextString1 = "Data Source=DESKTOP-BCM4VJC;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             string DbContextString2 = "Data Source=KHANHNGUYENLAPT;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             if (!optionsBuilder.IsConfigured)
             {
@@ -42,8 +42,16 @@ namespace quan_li_app.Models
         public virtual DbSet<SysPermission> SysPermissions { get; set; }
         public virtual DbSet<DocumentManagement> DocumentManagements { get; set; }
 
+        public virtual DbSet<National> Nationals { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<National>(e =>
+            {
+                e.ToTable("National");
+                e.HasKey(e => e.code);
+                e.Property(e => e.active).HasDefaultValue(true);
+            });
+
             modelBuilder.Entity<SysPermission>(e =>
             {
                 e.ToTable("SysPermission");

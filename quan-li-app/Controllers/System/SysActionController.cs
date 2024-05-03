@@ -20,6 +20,7 @@ namespace quan_li_app.Controllers.System
         private readonly TokenHelper tokenHelper;
         private readonly StatusMessageMapper statusMessageMapper;
         private readonly SysActionService sysActionService;
+        private readonly SysDropDownActionService sysDropDownActionService;
 
         public sysActionController()
         {
@@ -28,14 +29,15 @@ namespace quan_li_app.Controllers.System
             this.tokenHelper = new TokenHelper();
             this.statusMessageMapper = new StatusMessageMapper();
             this.sysActionService = new SysActionService();
+            this.sysDropDownActionService = new SysDropDownActionService();
         }
 
         [HttpPost, Route("SysActionIns")]
-        public async Task<ActionResult<StatusMessage>> SysActionIns(SysAction action)
+        public async Task<ActionResult<StatusMessage<SysAction>>> SysActionIns(SysAction action)
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                StatusMessage res = await this.sysActionService.insert(action);
+                StatusMessage<SysAction> res = await this.sysActionService.SysActionInsert(action, HttpContext.Request);
                 return res;
             }
             else
@@ -45,11 +47,11 @@ namespace quan_li_app.Controllers.System
         }
 
         [HttpPost, Route("SysActionUpd")]
-        public async Task<ActionResult<StatusMessage>> SysActionUpd(SysAction action)
+        public async Task<ActionResult<StatusMessage<dynamic>>> SysActionUpd(SysAction action)
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                StatusMessage res = await this.sysActionService.update(action);
+                StatusMessage<dynamic> res = await this.sysActionService.SysActionUpadte(action, HttpContext.Request);
                 return res;
             }
             else
@@ -59,11 +61,11 @@ namespace quan_li_app.Controllers.System
         }
 
         [HttpPost, Route("SysActionDel")]
-        public async Task<ActionResult<StatusMessage>> SysActionDel(SysAction action)
+        public async Task<ActionResult<StatusMessage<dynamic>>> SysActionDel(SysAction action)
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                StatusMessage res = await this.sysActionService.delete(action);
+                StatusMessage<dynamic> res = await this.sysActionService.SysActionDelete(action, HttpContext.Request);
                 return res;
             }
             else
@@ -77,7 +79,7 @@ namespace quan_li_app.Controllers.System
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                SysAction res = await this.sysActionService.getByCode(code);
+                SysAction res = await this.sysActionService.SysActionGetByCode(code);
                 return res;
             }
             else
@@ -86,6 +88,102 @@ namespace quan_li_app.Controllers.System
             }
         }
 
+        [HttpPost, Route("SysActionGetByCode2")]
+        public async Task<ActionResult<List<SysAction>>> SysActionGetByCodeByPermision(string actionCode = "")
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                List<SysAction> res = await this.sysActionService.SysActiongetByCode(actionCode, HttpContext.Request);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
 
+        [HttpPost, Route("SysDropDownActionIns")]
+        public async Task<ActionResult<StatusMessage<SysDropDownAction>>> SysDropDownActionIns(SysDropDownAction dropdownAction)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = await this.sysDropDownActionService.SysDropDownActionIns(dropdownAction, HttpContext.Request);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost, Route("SysDropdownActionUpd")]
+        public async Task<ActionResult<StatusMessage<SysDropDownAction>>> SysDropdownActionUpd(SysDropDownAction action)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<SysDropDownAction> res = await this.sysDropDownActionService.SysDropDownActionUpd(action, HttpContext.Request);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost, Route("SysDropdownActionDel")]
+        public async Task<ActionResult<StatusMessage<dynamic>>> SysDropdownActionDel(SysDropDownAction action)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<dynamic> res = await this.sysDropDownActionService.SysDropDownActionDel(action, HttpContext.Request);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost, Route("SysDropActionGetListSysActionByCode")]
+        public async Task<ActionResult<List<SysAction>>> SysDropActionGetListSysActionByCode(SysDropDownAction dropdownAction)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                List<SysAction> res = await this.sysDropDownActionService.SysDropActionGetListSysActionByCode(dropdownAction, HttpContext.Request);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost, Route("SysDropActionGet")]
+        public async Task<ActionResult<SysDropDownAction>> SysDropdownActionGet(SysDropDownAction actionCode)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                List<SysDropDownAction> res = await this.sysDropDownActionService.SysDropActionGet(actionCode, HttpContext.Request);
+                return res[0];
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        //[HttpPost, Route("SysGroupActionIns")]
+        //public async Task<ActionResult<StatusMessage<dynamic>>> SysGroupActionIns(List<SysGroupAction> listGroupAction)
+        //{
+        //    if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+        //    {
+        //        StatusMessage<dynamic> res = await this.sysGroupActionService.SysDropDownActionIns_many(dropdownAction, HttpContext.Request);
+        //        return res;
+        //    }
+        //    else
+        //    {
+        //        return Unauthorized();
+        //    }
+        //}
     }
 }

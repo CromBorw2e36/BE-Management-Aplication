@@ -8,36 +8,37 @@ namespace quan_li_app.ViewModels.Data
     public class ViewModelAccount
     {
         private readonly DataContext _dbContext;
-        public ViewModelAccount(DataContext context)
+        public ViewModelAccount()
         {
-            _dbContext = context;
+            _dbContext = new DataContext();
         }
 
         public Account GetAccountByUsername(string username)
         {
             try
             {
-                Account account = ((Account)(from a in _dbContext.Accounts
-                                             join b in _dbContext.SysPermissions on a.codePermision equals b.code
-                                             select new Account
-                                             {
-                                                 account = a.account,
-                                                 password = "",
-                                                 status = a.status,
-                                                 create_date = a.create_date,
-                                                 lock_date = a.lock_date,
-                                                 last_enter = a.last_enter,
-                                                 email = a.email,
-                                                 phone = a.phone,
-                                                 type_account = a.type_account,
-                                                 token = a.token,
-                                                 codePermision = a.codePermision,
-                                                 companyCode = a.companyCode,
-                                                 levelPermision = b.level,
-                                                 namePermision = b.name
-                                             }));
+                var account = (from a in _dbContext.Accounts
+                               join b in _dbContext.SysPermissions on a.codePermision equals b.code
+                               select new Account
+                               {
+                                   account = a.account,
+                                   password = "",
+                                   status = a.status,
+                                   create_date = a.create_date,
+                                   lock_date = a.lock_date,
+                                   last_enter = a.last_enter,
+                                   email = a.email,
+                                   phone = a.phone,
+                                   type_account = a.type_account,
+                                   token = a.token,
+                                   codePermision = a.codePermision,
+                                   companyCode = a.companyCode,
+                                   levelPermision = b.level,
+                                   namePermision = b.name,
+                                   language = a.language
+                               });
 
-                return account;
+                return account.ToList()[0];
             }
             catch (Exception ex)
             {
@@ -115,6 +116,19 @@ namespace quan_li_app.ViewModels.Data
             catch
             {
                 return false;
+            }
+        }
+
+        public string getLanguageByUserName(string username)
+        {
+            Account user = GetAccountByUsername(username);
+            if (user != null)
+            {
+                return user.language;
+            }
+            else
+            {
+                return "ORTHER";
             }
         }
 
