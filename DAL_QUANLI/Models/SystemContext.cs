@@ -23,7 +23,7 @@ namespace quan_li_app.Models
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(SysContextString2);
+                optionsBuilder.UseSqlServer(SysContextString1);
             }
         }
         public virtual DbSet<SysMenu> SysMenus { get; set; }
