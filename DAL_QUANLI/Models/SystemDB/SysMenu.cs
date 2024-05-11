@@ -5,6 +5,8 @@
         public string? menuid { get; set; }
         public string? url { get; set; }
         public string? name { get; set; }
+        public string? nameVN { get; set; }
+        public string? icon { get; set; }
         public bool? active { get; set; }
         public bool? isParent { get; set; }
         public string? menuIDParent { get; set; }
@@ -20,7 +22,7 @@
         public string? action7 { get; set; }
 
 
-        SysMenu()
+        public SysMenu()
         {
             menuid = Guid.NewGuid().ToString();
             name = "";

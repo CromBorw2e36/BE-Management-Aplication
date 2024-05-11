@@ -1,6 +1,7 @@
 ﻿using DAL_QUANLI.Interface;
 using DAL_QUANLI.Models.SystemDB.SysAction;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
 
@@ -134,6 +135,31 @@ namespace BUS_QUANLI.Services
         public Task<StatusMessage<dynamic>> SysGroupActionDel(List<SysGroupAction> p, HttpRequest httpRequest)
         {
             throw new NotImplementedException();
+        }
+
+        public StatusMessage<List<SysAction>> GetListActionByGroupCode(SysGroupAction groupAction, HttpRequest httpRequest)
+        {
+            try
+            {
+                if (groupAction.code is null || groupAction.code.Length == 0)
+                {
+                    return new StatusMessage<List<SysAction>>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotFoundItem), new List<SysAction>());
+                }
+                else
+                {
+                    List<SysAction> result = systemContext.SysGroupAction
+                        .Join(systemContext.SysActions,
+                        x => x.codeAction, y => y.code,
+                        (x, y) => new { group = x, action = y })
+                        .Where(x => x.group.code == groupAction.code)
+                        .Select(x => x.action).ToList();
+                    return new StatusMessage<List<SysAction>>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.Suceeded), result);
+                }
+            }
+            catch
+            {
+                return new StatusMessage<List<SysAction>>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotFoundItem), new List<SysAction>());
+            }
         }
     }
 }

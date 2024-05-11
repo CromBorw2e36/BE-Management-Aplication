@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quan_li_app.Migrations.System
 {
     [DbContext(typeof(SystemContext))]
-    partial class SystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240509114815_09052024_Genergic_Gen_Row_Table_Table")]
+    partial class _09052024_Genergic_Gen_Row_Table_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,35 +132,38 @@ namespace quanliapp.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("SysGenRowTableid")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("alignment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowEditing")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowEditing")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowFiltering")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowFiltering")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowFixing")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowFixing")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowGrouping")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowGrouping")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowHeaderFiltering")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowHeaderFiltering")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowHiding")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowHiding")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowSearch")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowSearch")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("allowSorting")
-                        .HasColumnType("bit");
+                    b.Property<string>("allowSorting")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("autoExpandGroup")
-                        .HasColumnType("bit");
+                    b.Property<string>("autoExpandGroup")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("caption")
                         .IsRequired()
@@ -168,9 +174,6 @@ namespace quanliapp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnOrder(4);
-
-                    b.Property<string>("column_child")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("companyCode")
                         .HasColumnType("nvarchar(max)");
@@ -210,13 +213,15 @@ namespace quanliapp.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("visible")
-                        .HasColumnType("bit");
+                    b.Property<string>("visible")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("width")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("SysGenRowTableid");
 
                     b.ToTable("SysGenRowTable", (string)null);
                 });
@@ -426,6 +431,18 @@ namespace quanliapp.Migrations
                     b.HasKey("menuid");
 
                     b.ToTable("SysMenu", (string)null);
+                });
+
+            modelBuilder.Entity("DAL_QUANLI.Models.SystemDB.SysGenRowTable", b =>
+                {
+                    b.HasOne("DAL_QUANLI.Models.SystemDB.SysGenRowTable", null)
+                        .WithMany("columns")
+                        .HasForeignKey("SysGenRowTableid");
+                });
+
+            modelBuilder.Entity("DAL_QUANLI.Models.SystemDB.SysGenRowTable", b =>
+                {
+                    b.Navigation("columns");
                 });
 #pragma warning restore 612, 618
         }

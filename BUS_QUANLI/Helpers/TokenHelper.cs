@@ -1,5 +1,7 @@
 ﻿using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Services;
@@ -138,7 +140,15 @@ namespace quan_li_app.Helpers
             string username = GetUsername(request);
             if (username is not null)
             {
-                TOKEN obj = _contextData.Tokens.Where(x => x.Token == token && x.username == username).FirstOrDefault()!;
+                //TOKEN obj = _contextData.Tokens.Where(x => x.Token == token && x.username == username).FirstOrDefault()!;
+
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                parameters.Add(new SqlParameter("@token", token.Length == 0 ? DBNull.Value : token));
+                parameters.Add(new SqlParameter("@account", username.Length == 0 ? DBNull.Value : username));
+
+                var obj = _contextData.Database.SqlQueryRaw<TOKEN>("EXEC CheckTheExpirationDateOfTheToken @token, @account", parameters.ToArray()).ToList()!;
+
                 if (obj != null)
                 {
 
@@ -148,9 +158,9 @@ namespace quan_li_app.Helpers
                     {
                         try
                         {
-                            obj.last_date_connect = DateTime.Now;
-                            obj.is_connecting = true;
-                            _contextData.SaveChangesAsync().Wait();
+                            obj[0].last_date_connect = DateTime.Now;
+                            obj[0].is_connecting = true;
+                            _contextData.SaveChangesAsync();
                         }
                         catch
                         {
@@ -163,6 +173,7 @@ namespace quan_li_app.Helpers
                         return false;
                     }
                 }
+
             }
             return false;
         }

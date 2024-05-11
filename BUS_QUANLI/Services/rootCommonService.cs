@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BUS_QUANLI.Helpers;
+using Microsoft.AspNetCore.Http;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
@@ -6,7 +7,7 @@ using quan_li_app.ViewModels.Data;
 
 namespace BUS_QUANLI.Services
 {
-    public class rootCommonService
+    public class rootCommonService : CommonHelpers
     {
         public readonly DataContext dataContext;
         public readonly SystemContext systemContext;

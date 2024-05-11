@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BUS_QUANLI.Services;
+using DAL_QUANLI.Models.CustomModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
+using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Models.SystemDB;
 using quan_li_app.ViewModels.Data;
@@ -17,6 +21,7 @@ namespace quan_li_app.Controllers.Data
         private readonly SystemContext _contextSys;
         private readonly ViewModelAccount viewModelAccount;
         private readonly BaseMapper baseMapper;
+        private readonly MenuPermissionService menuPermissionService;
 
         public MenuPermissionsController(DataContext context, SystemContext context1)
         {
@@ -24,9 +29,10 @@ namespace quan_li_app.Controllers.Data
             _contextSys = context1;
             viewModelAccount = new ViewModelAccount();
             this.baseMapper = new BaseMapper();
+            menuPermissionService = new MenuPermissionService();
         }
 
-        [HttpPost, ActionName("GetListMenu")]
+        [HttpPost("list_menu_get")]
         public async Task<ActionResult<List<SysMenu>>> GetListMenu()
         {
             TokenHelper tokenHelper = new TokenHelper();
@@ -54,8 +60,66 @@ namespace quan_li_app.Controllers.Data
             return Unauthorized();
         }
 
-        [HttpGet, ActionName("GetAllListMenus")]
-        public ActionResult<SysMenu> GetLstMenu()
+
+        [HttpPost("sys_menu_get")]
+        public async Task<ActionResult<List<SysMenu>>> GetListMenuV2()
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                string account = tokenHelper.GetUsername(HttpContext.Request);
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                parameters.Add(new SqlParameter("@account", account != null ? account : DBNull.Value));
+
+                List<SysMenu> result = this._contextData.Database.SqlQueryRaw<SysMenu>(
+                "EXEC SYS_MENU_GET @account", parameters.ToArray()
+                ).ToList();
+
+                return result;
+            }
+            return Unauthorized();
+
+        }
+
+        [HttpPost("list_menu_tree_view")]
+        public async Task<ActionResult<List<Sys_Menu_Tree_View_MODEL>>> ListMenuTreeView()
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                string username = tokenHelper.GetUsername(HttpContext.Request);
+
+                Account account = new Account()
+                {
+                    account = username,
+                };
+
+                List<Sys_Menu_Tree_View_MODEL> list_menu_tree_view = this.menuPermissionService.List_Menu_Bind_Tree_View(account);
+
+                return list_menu_tree_view;
+            }
+            return Unauthorized();
+
+        }
+
+        [HttpPost("list_menu_by_id")]
+        public async Task<ActionResult<List<Sys_Menu_Tree_View_MODEL>>> ListMenuById(Sys_Menu_Tree_View_MODEL p)
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+
+                List<Sys_Menu_Tree_View_MODEL> list_menu_tree_view = this.menuPermissionService.List_menu_By_Id(p);
+
+                return list_menu_tree_view;
+            }
+            return Unauthorized();
+
+        }
+
+        [HttpPost("list_menu_get_all")]
+        public ActionResult<SysMenu> GetAllListMenu()
         {
             TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))

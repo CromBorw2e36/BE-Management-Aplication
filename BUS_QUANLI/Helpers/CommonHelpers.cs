@@ -56,12 +56,12 @@ namespace quan_li_app.Helpers
             }
         }
 
-        public string GenerateRowID(string tableName, string companyCode)
+        public string GenerateRowID(string tableName, string companyCode = "")
         {
             try
             {
                 DataContext _dataContext = new DataContext();
-                List<string> getID = _dataContext.Database.SqlQueryRaw<string>("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", [new SqlParameter("pCompanyCode", ""), new SqlParameter("pTableName", "Token")]).ToList();
+                List<string> getID = _dataContext.Database.SqlQueryRaw<string>("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", [new SqlParameter("pCompanyCode", companyCode.Length == 0 ? null : companyCode), new SqlParameter("pTableName", tableName)]).ToList();
                 return getID.First();
             }
             catch

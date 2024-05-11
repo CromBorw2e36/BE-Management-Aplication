@@ -1,6 +1,8 @@
 ﻿using BUS_QUANLI.Services;
 using DAL_QUANLI.Models.SystemDB.SysAction;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
@@ -21,6 +23,7 @@ namespace quan_li_app.Controllers.System
         private readonly StatusMessageMapper statusMessageMapper;
         private readonly SysActionService sysActionService;
         private readonly SysDropDownActionService sysDropDownActionService;
+        private readonly SysGroupActionService sysGroupActionService;
 
         public sysActionController()
         {
@@ -30,6 +33,7 @@ namespace quan_li_app.Controllers.System
             this.statusMessageMapper = new StatusMessageMapper();
             this.sysActionService = new SysActionService();
             this.sysDropDownActionService = new SysDropDownActionService();
+            this.sysGroupActionService = new SysGroupActionService();
         }
 
         [HttpPost, Route("SysActionIns")]
@@ -165,6 +169,20 @@ namespace quan_li_app.Controllers.System
             {
                 List<SysDropDownAction> res = await this.sysDropDownActionService.SysDropActionGet(actionCode, HttpContext.Request);
                 return res[0];
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost, Route("GetListActionByGroupCode")]
+        public async Task<ActionResult<StatusMessage<List<SysAction>>>> GetListActionByGroupCode(SysGroupAction groupAction)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<List<SysAction>> res = this.sysGroupActionService.GetListActionByGroupCode(groupAction, HttpContext.Request);
+                return res;
             }
             else
             {

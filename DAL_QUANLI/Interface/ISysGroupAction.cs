@@ -13,5 +13,7 @@ namespace DAL_QUANLI.Interface
         Task<StatusMessage<dynamic>> SysGroupActionUpd(List<SysGroupAction> p, HttpRequest httpRequest);
         Task<StatusMessage<dynamic>> SysGroupActionDel(SysAction p, HttpRequest httpRequest);
         Task<StatusMessage<dynamic>> SysGroupActionDel(List<SysGroupAction> p, HttpRequest httpRequest);
+
+        StatusMessage<List<SysAction>> GetListActionByGroupCode(SysGroupAction groupAction, HttpRequest httpRequest);
     }
 }

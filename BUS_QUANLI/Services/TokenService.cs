@@ -7,7 +7,7 @@ namespace quan_li_app.Services
     public class TokenService
     {
         private const string SecretKey = "PHAN_PHEM_QUAN_LI_123"; // Khóa bí mật để tạo token
-        private readonly SymmetricSecurityKey _securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
+        private readonly SymmetricSecurityKey _securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF32.GetBytes(SecretKey));
         private int _Time = 24;
 
         public TokenService() { }

@@ -43,6 +43,13 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.DeleteError, "Xóa thất bại" },
                 {EnumQuanLi.DataExit, "Dữ liệu tồn tại" },
                 {EnumQuanLi.DataNotExit, "Dữ liệu không tồn tại" },
+                {EnumQuanLi.VoucherFormNotCode, "DataField chưa có giá trị" },
+                {EnumQuanLi.VoucherFormNotTable, "Table chưa có giá trị" },
+                {EnumQuanLi.Suceeded, "Thực hiện thành công" },
+                {EnumQuanLi.GenRowTableNotCode, "Object have \"code\" isn't value" },
+                {EnumQuanLi.GenRowTableNotDataField, "Object have \"data field\" isn't value" },
+                {EnumQuanLi.GenRowTableNotTable, "Object have \"table name\" isn't value" },
+                {EnumQuanLi.GenRowTableNotDataType, "Object have \"data type\" isn't value" },
             };
 
             statusMessageMapperOther = new Dictionary<EnumQuanLi, string>
@@ -73,6 +80,13 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.DeleteError, "Delete is error" },
                 {EnumQuanLi.DataExit, "Data is exit" },
                 {EnumQuanLi.DataNotExit, "Data isn't exit" },
+                {EnumQuanLi.VoucherFormNotCode, "DataField isn't exit" },
+                {EnumQuanLi.VoucherFormNotTable, "Table isn't exit" },
+                {EnumQuanLi.Suceeded, "Successed" },
+                {EnumQuanLi.GenRowTableNotCode, "Object have \"code\" isn't value" },
+                {EnumQuanLi.GenRowTableNotDataField, "Object have \"data field\" isn't value" },
+                {EnumQuanLi.GenRowTableNotTable, "Object have \"table name\" isn't value" },
+                {EnumQuanLi.GenRowTableNotDataType, "Object have \"data type\" isn't value" },
             };
         }
 

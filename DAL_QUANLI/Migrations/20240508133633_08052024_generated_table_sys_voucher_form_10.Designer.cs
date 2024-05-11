@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quan_li_app.Migrations.System
 {
     [DbContext(typeof(SystemContext))]
-    partial class SystemContextModelSnapshot : ModelSnapshot
+    [Migration("20240508133633_08052024_generated_table_sys_voucher_form_10")]
+    partial class _08052024_generated_table_sys_voucher_form_10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,104 +126,6 @@ namespace quanliapp.Migrations
                     b.ToTable("SysGroupAction", (string)null);
                 });
 
-            modelBuilder.Entity("DAL_QUANLI.Models.SystemDB.SysGenRowTable", b =>
-                {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnOrder(0);
-
-                    b.Property<string>("alignment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("allowEditing")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowFiltering")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowFixing")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowGrouping")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowHeaderFiltering")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowHiding")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowSearch")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("allowSorting")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("autoExpandGroup")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("caption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(3);
-
-                    b.Property<string>("caption_VN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(4);
-
-                    b.Property<string>("column_child")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("companyCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("create_date")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("cssClass")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("dataField")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("dataType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("format")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("minWidth")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("table_name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(1);
-
-                    b.Property<DateTime?>("update_date")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("visible")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("width")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("SysGenRowTable", (string)null);
-                });
-
             modelBuilder.Entity("DAL_QUANLI.Models.SystemDB.SysVoucherForm.SysVoucherFormColumn", b =>
                 {
                     b.Property<string>("id")
@@ -229,14 +134,7 @@ namespace quanliapp.Migrations
                     b.Property<string>("code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("companyCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("createBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("create_date")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("disabled")
@@ -244,9 +142,6 @@ namespace quanliapp.Migrations
 
                     b.Property<bool?>("edit")
                         .HasColumnType("bit");
-
-                    b.Property<string>("format")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("groupId")
                         .HasColumnType("nvarchar(max)");
@@ -287,13 +182,6 @@ namespace quanliapp.Migrations
                     b.Property<string>("table_name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("typeControl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("update_date")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2");
-
                     b.Property<bool?>("visible")
                         .HasColumnType("bit");
 
@@ -311,11 +199,7 @@ namespace quanliapp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("companyCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("create_date")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("group_id")
@@ -329,10 +213,6 @@ namespace quanliapp.Migrations
 
                     b.Property<string>("table_name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("update_date")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2");
 
                     b.HasKey("id");
 

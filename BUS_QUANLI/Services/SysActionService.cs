@@ -33,7 +33,6 @@ namespace BUS_QUANLI.Services
             var result = this.systemContext.Database.SqlQueryRaw<StatusMessage<dynamic>>(
            "EXEC spSysActionIns @pcode, @pnameVn, @pnameOther, @picon, @pcolor, @pbackgroundColor, @pisDisable, @pdescription, @purl_1, @purl_2, @purl_3, @purl_4", parameters.ToArray()
            ).ToList();
-            Console.WriteLine(result.ToString());
             SysAction data = await this.SysActionGetByCode(result[0].currentID);
             if (result == null)
             {
@@ -136,6 +135,7 @@ namespace BUS_QUANLI.Services
                 return new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest));
             }
         }
+
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using DAL_QUANLI.Models.SystemDB.SysAction;
+﻿using DAL_QUANLI.Models.SystemDB;
+using DAL_QUANLI.Models.SystemDB.SysAction;
+using DAL_QUANLI.Models.SystemDB.SysVoucherForm;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.SystemDB;
 
@@ -30,6 +32,9 @@ namespace quan_li_app.Models
         public virtual DbSet<SysAction> SysActions { get; set; }
         public virtual DbSet<SysGroupAction> SysGroupAction { get; set; }
         public virtual DbSet<SysDropDownAction> SysDropDownActions { get; set; }
+        public virtual DbSet<SysVoucherFormColumn> SysVoucherFormColumns { get; set; }
+        public virtual DbSet<SysVoucherFormGroup> SysVoucherFormGroups { get; set; }
+        public virtual DbSet<SysGenRowTable> SysGenRowTables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -93,6 +98,37 @@ namespace quan_li_app.Models
                 e.Property(item => item.codeAction).IsRequired();
                 e.Property(item => item.orderNo).IsRequired();
                 e.Property(item => item.isClocked).HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<SysVoucherFormColumn>(e =>
+            {
+                e.ToTable("SysVoucherFormColumn");
+                e.HasKey(item => item.id);
+                e.Property(item => item.create_date).ValueGeneratedOnAdd();
+                e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
+            });
+
+            modelBuilder.Entity<SysVoucherFormGroup>(e =>
+            {
+                e.ToTable("SysVoucherFormGroup");
+                e.HasKey(item => item.id);
+                e.Property(item => item.code).IsRequired();
+                e.Property(item => item.create_date).ValueGeneratedOnAdd();
+                e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
+            });
+
+            modelBuilder.Entity<SysGenRowTable>(e =>
+            {
+                e.ToTable("SysGenRowTable");
+                e.HasKey(item => item.id);
+                e.Property(item => item.id).HasColumnOrder(0);
+                e.Property(item => item.table_name).IsRequired().HasColumnOrder(1);
+                e.Property(item => item.dataField).IsRequired().HasColumnOrder(2);
+                e.Property(item => item.caption).IsRequired().HasColumnOrder(3);
+                e.Property(item => item.caption_VN).IsRequired().HasColumnOrder(4);
+                e.Property(item => item.dataType).IsRequired().HasColumnOrder(5);
+                e.Property(item => item.create_date).ValueGeneratedOnAdd();
+                e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
             });
 
             base.OnModelCreating(modelBuilder);

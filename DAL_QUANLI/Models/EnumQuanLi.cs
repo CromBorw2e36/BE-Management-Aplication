@@ -10,10 +10,13 @@
         /// <summary>
         /// Action CRUD
         /// </summary>
+        /// 
+        Suceeded,
         UpdateError,
         UpdateSuccess,
         InsertSuccess,
         InsertError,
+        
         DeleteSuccess,
         DeleteError,
         DataExit,
@@ -46,5 +49,11 @@
 
         ADMIN,
         NEWUSER,
+        VoucherFormNotCode,
+        VoucherFormNotTable,
+        GenRowTableNotCode,
+        GenRowTableNotDataField,
+        GenRowTableNotTable,
+        GenRowTableNotDataType,
     }
 }
