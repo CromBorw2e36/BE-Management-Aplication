@@ -18,5 +18,7 @@ namespace DAL_QUANLI.Models.SystemDB.SysVoucherForm
         public DateTime? create_date { get; set; }
         public DateTime? update_date { get; set; }
         public string? companyCode { get; set; }
+        public string? description { get; set; }
+
     }
 }

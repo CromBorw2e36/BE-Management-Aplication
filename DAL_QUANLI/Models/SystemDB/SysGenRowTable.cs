@@ -38,5 +38,7 @@ namespace DAL_QUANLI.Models.SystemDB
         public DateTime? update_date { get; set; }
         public string? companyCode { get; set; }
         public int? orderNo { get; set; }
+        public string? description { get; set; }
+
     }
 }

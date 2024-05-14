@@ -35,6 +35,6 @@ namespace DAL_QUANLI.Models.SystemDB.SysVoucherForm
         public string? createBy { get; set; }
         public string? typeControl { get; set; } // Loại control config
         public string? format { get; set; }
-
+        public string? description { get; set; }
     }
 }
