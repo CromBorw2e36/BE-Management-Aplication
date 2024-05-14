@@ -11,6 +11,7 @@ using quan_li_app.Helpers;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using BUS_QUANLI.Services;
 using quan_li_app.Models.Common;
+using DAL_QUANLI.Models.DataDB;
 
 namespace quan_li_app.Controllers.System
 {
@@ -36,6 +37,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 StatusMessage<SysGenRowTable> res = this.sysGenRowTableService.Insert(HttpContext.Request, sysGenRowTable);
+                this.sysGenRowTableService.LogTime<SysGenRowTable>(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -50,6 +52,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 StatusMessage<SysGenRowTable> res = this.sysGenRowTableService.Update(HttpContext.Request, sysGenRowTable);
+                this.sysGenRowTableService.LogTime<SysGenRowTable>(HttpContext.Request, "UPDATE", res );
                 return res;
             }
             else
@@ -64,6 +67,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 StatusMessage<SysGenRowTable> res = this.sysGenRowTableService.Delete(HttpContext.Request, sysGenRowTable);
+                this.sysGenRowTableService.LogTime<SysGenRowTable>(HttpContext.Request, "DELETE", res);
                 return res;
             }
             else
@@ -78,6 +82,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 StatusMessage<List<SysGenRowTable>> res = this.sysGenRowTableService.Search(HttpContext.Request, sysGenRowTable);
+                this.sysGenRowTableService.LogTime<List<SysGenRowTable>>(HttpContext.Request, "SEARCH", res);
                 return res;
             }
             else

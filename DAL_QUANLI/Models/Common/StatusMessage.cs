@@ -10,7 +10,7 @@ namespace quan_li_app.Models.Common
         public T? data { get; set; }
 
         public string? currentID { get; set; }
-
+ 
         public StatusMessage()
         {
             this.status = 0; // Không thành công

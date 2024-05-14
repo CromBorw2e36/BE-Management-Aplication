@@ -15,6 +15,7 @@ namespace BUS_QUANLI.Services
         public readonly ViewModelAccount viewModelAccount;
         public readonly TokenHelper tokenHelper;
         public readonly StatusMessageMapper statusMessageMapper;
+        public readonly LogTimeDataUpdateService logTimeDataUpdateService;
 
         public rootCommonService()
         {
@@ -24,6 +25,7 @@ namespace BUS_QUANLI.Services
             this.commonHelpers = new CommonHelpers();
             this.tokenHelper = new TokenHelper();
             this.statusMessageMapper = new StatusMessageMapper();
+            this.logTimeDataUpdateService = new LogTimeDataUpdateService();
         }
 
         public string GetMessageDescription(EnumQuanLi param, HttpRequest httpRequest)

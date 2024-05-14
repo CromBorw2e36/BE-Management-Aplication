@@ -1,4 +1,5 @@
 ﻿using DAL_QUANLI.Interface;
+using DAL_QUANLI.Models.DataDB;
 using DAL_QUANLI.Models.SystemDB.SysVoucherForm;
 using Microsoft.AspNetCore.Http;
 using quan_li_app.Models;
@@ -13,6 +14,7 @@ namespace BUS_QUANLI.Services.VoucherForm
 {
     public class VoucherFormColumnService : rootCommonService, IVoucherFormServiceColumn
     {
+        public string _table_name = "SysVoucherFormColumn";
         public async Task<StatusMessage<SysVoucherFormColumn>> Delete(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn)
         {
             try
@@ -21,7 +23,7 @@ namespace BUS_QUANLI.Services.VoucherForm
                 {
                     return new StatusMessage<SysVoucherFormColumn>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest));
                 }
-                
+
                 var oldRow = systemContext.SysVoucherFormColumns.Find(sysVoucherFormColumn.id);
 
                 if (oldRow is not null)
@@ -57,6 +59,11 @@ namespace BUS_QUANLI.Services.VoucherForm
                 }
 
                 sysVoucherFormColumn.id = commonHelpers.GenerateRowID("SysVoucherFormColumn", sysVoucherFormColumn.companyCode is not null ? sysVoucherFormColumn.companyCode : "");
+                sysVoucherFormColumn.create_date = DateTime.Now;
+                sysVoucherFormColumn.create_by = tokenHelper.GetUsername(httpRequest);
+                sysVoucherFormColumn.update_date = DateTime.Now;
+                sysVoucherFormColumn.update_by = sysVoucherFormColumn.create_by;
+
                 systemContext.SysVoucherFormColumns.Add(sysVoucherFormColumn);
                 systemContext.SaveChanges();
 
@@ -77,6 +84,17 @@ namespace BUS_QUANLI.Services.VoucherForm
                 return new StatusMessage<SysVoucherFormColumn>(1, GetMessageDescription(EnumQuanLi.InsertError, httpRequest));
             }
 
+        }
+
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message)
+        {
+            logTimeDataUpdateService.Insert(httpRequest, new LogTimeDataUpdateModel()
+            {
+                table_name = _table_name,
+                action_name = action,
+                status = message.status == 0 ? "SUCCESED" : "ERRORED",
+                notes = message.msg,
+            });
         }
 
         public async Task<StatusMessage<List<SysVoucherFormColumn>>> Search(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn)
@@ -120,6 +138,8 @@ namespace BUS_QUANLI.Services.VoucherForm
 
                 if (oldRow is not null)
                 {
+                    sysVoucherFormColumn.update_date = DateTime.Now;
+                    sysVoucherFormColumn.update_by = tokenHelper.GetUsername(httpRequest);
                     systemContext.SysVoucherFormColumns.Remove(oldRow);
                     systemContext.SysVoucherFormColumns.Add(sysVoucherFormColumn);
                     systemContext.SaveChanges();

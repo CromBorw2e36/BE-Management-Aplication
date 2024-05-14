@@ -15,5 +15,6 @@ namespace DAL_QUANLI.Interface
         public StatusMessage<SysGenRowTable> Update(HttpRequest httpRequest, SysGenRowTable sysGenRowTable);
         public StatusMessage<SysGenRowTable> Delete(HttpRequest httpRequest, SysGenRowTable sysGenRowTable);
         public StatusMessage<List<SysGenRowTable>> Search(HttpRequest httpRequest, SysGenRowTable sysGenRowTable);
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message);
     }
 }

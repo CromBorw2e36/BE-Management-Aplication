@@ -42,6 +42,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = await this.voucherFormColumnService.Insert(httpRequest, sysVoucherFormColumn);
+                this.voucherFormColumnService.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -58,6 +59,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = await this.voucherFormColumnService.Update(httpRequest, sysVoucherFormColumn);
+                this.voucherFormColumnService.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -74,6 +76,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = await this.voucherFormColumnService.Delete(httpRequest, sysVoucherFormColumn);
+                this.voucherFormColumnService.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -90,6 +93,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = await this.voucherFormColumnService.Search(httpRequest, sysVoucherFormColumn);
+                this.voucherFormColumnService.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -106,6 +110,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = this.voucherFormGroupSerivce.Insert(httpRequest, sysVoucherFormGroup);
+                this.voucherFormGroupSerivce.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -122,6 +127,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = this.voucherFormGroupSerivce.Update(httpRequest, sysVoucherFormGroup);
+                this.voucherFormGroupSerivce.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -138,6 +144,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = this.voucherFormGroupSerivce.Delete(httpRequest, sysVoucherFormGroup);
+                this.voucherFormGroupSerivce.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else
@@ -154,6 +161,7 @@ namespace quan_li_app.Controllers.System
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(httpRequest))
             {
                 var res = this.voucherFormGroupSerivce.Search(httpRequest, sysVoucherFormGroup);
+                this.voucherFormGroupSerivce.LogTime(HttpContext.Request, "INSERT", res );
                 return res;
             }
             else

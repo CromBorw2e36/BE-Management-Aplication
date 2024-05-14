@@ -104,8 +104,6 @@ namespace quan_li_app.Models
             {
                 e.ToTable("SysVoucherFormColumn");
                 e.HasKey(item => item.id);
-                e.Property(item => item.create_date).ValueGeneratedOnAdd();
-                e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<SysVoucherFormGroup>(e =>
@@ -113,8 +111,6 @@ namespace quan_li_app.Models
                 e.ToTable("SysVoucherFormGroup");
                 e.HasKey(item => item.id);
                 e.Property(item => item.code).IsRequired();
-                e.Property(item => item.create_date).ValueGeneratedOnAdd();
-                e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<SysGenRowTable>(e =>
@@ -127,8 +123,6 @@ namespace quan_li_app.Models
                 e.Property(item => item.caption).IsRequired().HasColumnOrder(3);
                 e.Property(item => item.caption_VN).IsRequired().HasColumnOrder(4);
                 e.Property(item => item.dataType).IsRequired().HasColumnOrder(5);
-                e.Property(item => item.create_date).ValueGeneratedOnAdd();
-                e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
                 e.Property(item => item.orderNo).HasDefaultValue(0);
             });
 

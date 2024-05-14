@@ -1,4 +1,5 @@
 ﻿using DAL_QUANLI.Interface;
+using DAL_QUANLI.Models.DataDB;
 using DAL_QUANLI.Models.SystemDB.SysVoucherForm;
 using Microsoft.AspNetCore.Http;
 using quan_li_app.Models;
@@ -13,6 +14,8 @@ namespace BUS_QUANLI.Services.VoucherForm
 {
     public class VoucherFormGroupSerivce : rootCommonService, ISysVoucherFormGroup
     {
+
+        public string _table_name = "SysVoucherFormGroup";
         public StatusMessage<SysVoucherFormGroup> Delete(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup)
         {
             try
@@ -57,6 +60,10 @@ namespace BUS_QUANLI.Services.VoucherForm
                 }
 
                 sysVoucherFormGroup.id = commonHelpers.GenerateRowID("SysVoucherFormGroup", sysVoucherFormGroup.companyCode is not null ? sysVoucherFormGroup.companyCode : "");
+                sysVoucherFormGroup.create_date = DateTime.Now;
+                sysVoucherFormGroup.create_by = tokenHelper.GetUsername(httpRequest);
+                sysVoucherFormGroup.update_date = DateTime.Now;
+                sysVoucherFormGroup.update_by = sysVoucherFormGroup.create_by;
                 systemContext.SysVoucherFormGroups.Add(sysVoucherFormGroup);
                 systemContext.SaveChanges();
 
@@ -77,6 +84,17 @@ namespace BUS_QUANLI.Services.VoucherForm
                 return new StatusMessage<SysVoucherFormGroup>(1, GetMessageDescription(EnumQuanLi.InsertError, httpRequest));
             }
 
+        }
+
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message)
+        {
+            logTimeDataUpdateService.Insert(httpRequest, new LogTimeDataUpdateModel()
+            {
+                table_name = _table_name,
+                action_name = action,
+                status = message.status == 0 ? "SUCCESED" : "ERRORED",
+                notes = message.msg,
+            });
         }
 
         public StatusMessage<List<SysVoucherFormGroup>> Search(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup)
@@ -121,6 +139,8 @@ namespace BUS_QUANLI.Services.VoucherForm
 
                 if (oldRow is not null)
                 {
+                    sysVoucherFormGroup.update_date = DateTime.Now;
+                    sysVoucherFormGroup.update_by = tokenHelper.GetUsername(httpRequest);
                     systemContext.SysVoucherFormGroups.Remove(oldRow);
                     systemContext.SysVoucherFormGroups.Add(sysVoucherFormGroup);
                     systemContext.SaveChanges();

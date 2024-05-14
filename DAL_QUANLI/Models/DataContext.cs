@@ -43,6 +43,9 @@ namespace quan_li_app.Models
         public virtual DbSet<DocumentManagement> DocumentManagements { get; set; }
 
         public virtual DbSet<National> Nationals { get; set; }
+        //public virtual DbSet<LogTimeDataUpdateModel> LogTimeDataUpdateModels { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<National>(e =>

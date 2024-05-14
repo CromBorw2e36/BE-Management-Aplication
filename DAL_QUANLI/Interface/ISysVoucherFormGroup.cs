@@ -15,5 +15,6 @@ namespace DAL_QUANLI.Interface
         public StatusMessage<SysVoucherFormGroup> Update(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup);
         public StatusMessage<SysVoucherFormGroup> Delete(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup);
         public StatusMessage<List<SysVoucherFormGroup>> Search(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup);
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message);
     }
 }

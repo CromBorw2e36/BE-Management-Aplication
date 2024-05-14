@@ -15,5 +15,6 @@ namespace DAL_QUANLI.Interface
         public Task<StatusMessage<SysVoucherFormColumn>> Update(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn);
         public Task<StatusMessage<SysVoucherFormColumn>> Delete(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn);
         public Task<StatusMessage<List<SysVoucherFormColumn>>> Search(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn);
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message);
     }
 }
