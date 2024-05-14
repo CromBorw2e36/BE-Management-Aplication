@@ -152,7 +152,9 @@ namespace BUS_QUANLI.Services
                         x => x.codeAction, y => y.code,
                         (x, y) => new { group = x, action = y })
                         .Where(x => x.group.code == groupAction.code)
+                        .OrderBy(x => x.group.orderNo)
                         .Select(x => x.action).ToList();
+                    var resultOrderBy = result.OrderBy(x => x.orderNo).ToList(); // order by column orderNo
                     return new StatusMessage<List<SysAction>>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.Suceeded), result);
                 }
             }

@@ -59,7 +59,7 @@ namespace BUS_QUANLI.Services
                 sysGenRowTable.id = commonHelpers.GenerateRowID("SysGenRowTable", sysGenRowTable.companyCode ?? "");
                 systemContext.SysGenRowTables.Add(sysGenRowTable);
                 systemContext.SaveChanges();
-                return new StatusMessage<SysGenRowTable>(0, GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), sysGenRowTable);
+                return new StatusMessage<SysGenRowTable>(0, GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), sysGenRowTable, sysGenRowTable.id);
 
             }
             catch
@@ -82,7 +82,7 @@ namespace BUS_QUANLI.Services
                 var result = systemContext.SysGenRowTables.Where(x => (
                 (x.id == sysGenRowTable.id) || sysGenRowTable.id == null || sysGenRowTable.id.Length == 0)
                 && (x.table_name == sysGenRowTable.table_name || sysGenRowTable.table_name == null)
-                && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).ToList();
+                && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).OrderBy(x => x.orderNo).OrderBy(x => x.id).ToList();
 
                 return new StatusMessage<List<SysGenRowTable>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
@@ -107,7 +107,7 @@ namespace BUS_QUANLI.Services
                     systemContext.SysGenRowTables.Remove(result);
                     systemContext.SysGenRowTables.Add(sysGenRowTable);
                     systemContext.SaveChanges();
-                    return new StatusMessage<SysGenRowTable>(0, GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), sysGenRowTable);
+                    return new StatusMessage<SysGenRowTable>(0, GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), sysGenRowTable, sysGenRowTable.id);
                 }
 
                 return new StatusMessage<SysGenRowTable>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest));

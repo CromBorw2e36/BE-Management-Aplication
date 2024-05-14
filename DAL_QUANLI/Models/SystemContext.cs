@@ -18,12 +18,12 @@ namespace quan_li_app.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //string SysContextString1 = "Data Source=DESKTOP-BCM4VJC;Initial Catalog=PMQuanLySys;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
+            string SysContextString1 = "Data Source=DESKTOP-BCM4VJC;Initial Catalog=PMQuanLySys;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             string SysContextString2 = "Data Source=KHANHNGUYENLAPT;Initial Catalog=PMQuanLySys;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(SysContextString1);
+                optionsBuilder.UseSqlServer(SysContextString2);
             }
         }
         public virtual DbSet<SysMenu> SysMenus { get; set; }
@@ -129,6 +129,7 @@ namespace quan_li_app.Models
                 e.Property(item => item.dataType).IsRequired().HasColumnOrder(5);
                 e.Property(item => item.create_date).ValueGeneratedOnAdd();
                 e.Property(item => item.update_date).ValueGeneratedOnAddOrUpdate();
+                e.Property(item => item.orderNo).HasDefaultValue(0);
             });
 
             base.OnModelCreating(modelBuilder);

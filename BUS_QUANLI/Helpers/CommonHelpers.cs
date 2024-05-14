@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models;
+using quan_li_app.Models.Common;
 using System.Net;
 
 namespace quan_li_app.Helpers
@@ -60,9 +61,15 @@ namespace quan_li_app.Helpers
         {
             try
             {
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@pTableName", tableName != null ? tableName : DBNull.Value));
+                parameters.Add(new SqlParameter("@pCompanyCode", (companyCode.Length == 0 || companyCode != null) ? companyCode : DBNull.Value));
+
                 DataContext _dataContext = new DataContext();
-                List<string> getID = _dataContext.Database.SqlQueryRaw<string>("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", [new SqlParameter("pCompanyCode", companyCode.Length == 0 ? null : companyCode), new SqlParameter("pTableName", tableName)]).ToList();
-                return getID.First();
+
+                var result = _dataContext.Database.SqlQueryRaw<string>("EXEC GenerateCodePrimaryKey @pCompanyCode, @pTableName", parameters.ToArray())
+.ToList();
+                return result.First().ToString();
             }
             catch
             {

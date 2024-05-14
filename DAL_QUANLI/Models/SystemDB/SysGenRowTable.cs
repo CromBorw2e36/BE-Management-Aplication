@@ -17,9 +17,9 @@ namespace DAL_QUANLI.Models.SystemDB
         public string? name {  get; set; }
         public string? dataType {  get; set; }
         public string? format {  get; set; }
-        public string? width {  get; set; }
+        public decimal? width {  get; set; }
         public bool? visible {  get; set; }
-        public string? minWidth {  get; set; }
+        public decimal? minWidth {  get; set; }
         public string? alignment {  get; set; }
         public bool? allowEditing {  get; set; }
         public bool? allowFiltering {  get; set; }
@@ -37,5 +37,6 @@ namespace DAL_QUANLI.Models.SystemDB
         public DateTime? create_date { get; set; }
         public DateTime? update_date { get; set; }
         public string? companyCode { get; set; }
+        public int? orderNo { get; set; }
     }
 }
