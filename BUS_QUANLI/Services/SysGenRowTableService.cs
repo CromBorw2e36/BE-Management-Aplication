@@ -79,12 +79,24 @@ namespace BUS_QUANLI.Services
                 //}
 
 
-                var result = systemContext.SysGenRowTables.Where(x => (
-                (x.id == sysGenRowTable.id) || sysGenRowTable.id == null || sysGenRowTable.id.Length == 0)
-                && (x.table_name == sysGenRowTable.table_name || sysGenRowTable.table_name == null)
-                && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).OrderBy(x => x.orderNo).OrderBy(x => x.id).ToList();
+                if (sysGenRowTable.table_name != null)
+                {
+                    var result = systemContext.SysGenRowTables.Where(x => (
+                   (x.id == sysGenRowTable.id) || sysGenRowTable.id == null || sysGenRowTable.id.Length == 0)
+                   && (x.table_name == sysGenRowTable.table_name || sysGenRowTable.table_name == null)
+                   && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).OrderBy(x => x.orderNo).ToList();
 
-                return new StatusMessage<List<SysGenRowTable>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+                    return new StatusMessage<List<SysGenRowTable>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+                }
+                else
+                {
+                    var result = systemContext.SysGenRowTables.Where(x => (
+                                      (x.id == sysGenRowTable.id) || sysGenRowTable.id == null || sysGenRowTable.id.Length == 0)
+                                      && (x.table_name == sysGenRowTable.table_name || sysGenRowTable.table_name == null)
+                                      && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).OrderByDescending(x => x.table_name).ThenBy(x => x.orderNo).ToList();
+
+                    return new StatusMessage<List<SysGenRowTable>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+                }
             }
             catch
             {
