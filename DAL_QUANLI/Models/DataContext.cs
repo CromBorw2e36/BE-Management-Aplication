@@ -19,11 +19,11 @@ namespace quan_li_app.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string DbContextString1 = "Data Source=DESKTOP-BCM4VJC;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
+            string DbContextString1 = "Data Source=DESKTOP-R2ECO11\\SQLEXPRESS;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             string DbContextString2 = "Data Source=KHANHNGUYENLAPT;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(DbContextString2);
+                optionsBuilder.UseSqlServer(DbContextString1);
             }
         }
 
@@ -43,6 +43,7 @@ namespace quan_li_app.Models
         public virtual DbSet<DocumentManagement> DocumentManagements { get; set; }
 
         public virtual DbSet<National> Nationals { get; set; }
+        public virtual DbSet<UploadFileModel> UploadFileModels { get; set; }
         //public virtual DbSet<LogTimeDataUpdateModel> LogTimeDataUpdateModels { get; set; }
 
 
@@ -153,6 +154,11 @@ namespace quan_li_app.Models
                 e.Property(e => e.primaryKeyTable).IsRequired();
                 e.Property(e => e.isCompanyCode).HasDefaultValue(false);
                 e.Property(e => e.isClose).HasDefaultValue(false);
+            });
+            modelBuilder.Entity<UploadFileModel>(e =>
+            {
+                e.ToTable("UploadFileModel");
+                e.HasKey(e => e.id);
             });
 
             base.OnModelCreating(modelBuilder);

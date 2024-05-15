@@ -32,4 +32,8 @@
     <ProjectReference Include="..\SignalR-Server-Quan-Li-APP\SignalR-Server-Quan-Li-APP.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Upload\Files\" />
+  </ItemGroup>
+
 </Project>

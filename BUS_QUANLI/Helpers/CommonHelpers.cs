@@ -63,7 +63,7 @@ namespace quan_li_app.Helpers
             {
                 List<SqlParameter> parameters = new List<SqlParameter>();
                 parameters.Add(new SqlParameter("@pTableName", tableName != null ? tableName : DBNull.Value));
-                parameters.Add(new SqlParameter("@pCompanyCode", (companyCode.Length == 0 || companyCode != null) ? companyCode : DBNull.Value));
+                parameters.Add(new SqlParameter("@pCompanyCode", (companyCode is not null && companyCode.Length >  0) ? companyCode : DBNull.Value));
 
                 DataContext _dataContext = new DataContext();
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using quan_li_app.Models;
 using System.Text.Json;
@@ -43,7 +44,7 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("https://localhost:4200", "https://localhost:7777", "https://system-srouce.infinityfreeapp.com", "https://www.system-srouce.infinityfreeapp.com",
-                              "https://91e1-2402-800-634b-8536-9dc8-46f2-efa-22c6.ngrok-free.app",
+                              "https://58ca-2402-800-63e2-8816-44b5-67e2-1378-19b.ngrok-free.app",
                               "https://quan-tri-doanh-nghiep.click").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
                       });
 });
@@ -72,6 +73,7 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 
+
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
 
@@ -83,6 +85,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+// Thêm thư mục lưu trữ tệp vào cấu hình
+var fileUploadDirectory = Path.Combine(AppContext.BaseDirectory, "Upload", "Files");
+if (!Directory.Exists(fileUploadDirectory))
+{
+    Directory.CreateDirectory(fileUploadDirectory);
+}
+
+app.UseStaticFiles(); // Đảm bảo ứng dụng có thể phục vụ các tệp tĩnh từ thư mục lưu trữ
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = new PhysicalFileProvider(fileUploadDirectory),
+    RequestPath = "/Upload/Files" // Đường dẫn mà các tệp có thể truy cập từ bên ngoài
+});
+
 
 app.UseHttpsRedirection();
 app.UseOpenApi();
