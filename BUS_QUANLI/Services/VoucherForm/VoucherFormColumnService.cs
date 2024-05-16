@@ -109,6 +109,12 @@ namespace BUS_QUANLI.Services.VoucherForm
                     &&
                         (x.id == x.id || x.id == null)
                 )).ToList();
+
+                if(sysVoucherFormColumn.table_name is not null && sysVoucherFormColumn.code is null)
+                {
+                    getRow = getRow.Where(x => x.visible  == true).OrderBy(x => x.number_order).ToList(); // lấy ra những cột có visible = true
+                }
+
                 return new StatusMessage<List<SysVoucherFormColumn>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), getRow);
             }
             catch

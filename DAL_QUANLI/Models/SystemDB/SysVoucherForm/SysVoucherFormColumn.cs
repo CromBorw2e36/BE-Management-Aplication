@@ -27,7 +27,7 @@ namespace DAL_QUANLI.Models.SystemDB.SysVoucherForm
         public bool? showClearButton { get; set; }
         public string? label { get; set; }// Tạm thời không sử dụng
         public string? placeholder { get; set; }
-        public string? mode { get; set; }
+        public string? mode { get; set; } // ERROR: When use for date box component then not accept this null => default is 'text' value if typeControl is 'DATEBOX'
         public string? mask { get; set; }
         public string? maskRules { get; set; } // JSON parase
         public string? groupId { get; set; } // Form Group
@@ -43,6 +43,8 @@ namespace DAL_QUANLI.Models.SystemDB.SysVoucherForm
         public string? description2 { get; set; } // Vietnamese
         public string? description3 { get; set; } // Chinese
         public int? number_order { get; set; } // Order by of column
+        public string? displayFormat { get; set; } // For component datebox
+        public string? type { get; set; } // Date , Datetime, time}
 
     }
 }
