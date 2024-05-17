@@ -22,15 +22,15 @@
         public string? action7 { get; set; }
 
 
-        public SysMenu()
-        {
-            menuid = Guid.NewGuid().ToString();
-            name = "";
-            active = true;
-            isParent = false;
-            menuIDParent = null;
-            moduleApp = "";
-        }
+        //public SysMenu()
+        //{
+        //    menuid = Guid.NewGuid().ToString();
+        //    name = "";
+        //    active = true;
+        //    isParent = false;
+        //    menuIDParent = null;
+        //    moduleApp = "";
+        //}
 
     }
 }

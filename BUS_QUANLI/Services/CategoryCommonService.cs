@@ -14,6 +14,8 @@ namespace BUS_QUANLI.Services
 {
     public class CategoryCommonService : rootCommonService, ICategoryCommon
     {
+
+        string _table_name = "CategoryCommon";
         public StatusMessage<CategoryCommonModel> Delete(HttpRequest httpRequest, CategoryCommonModel model)
         {
             try
@@ -82,6 +84,17 @@ namespace BUS_QUANLI.Services
             {
                 return new StatusMessage<CategoryCommonModel>(1, GetMessageDescription(EnumQuanLi.InsertError, httpRequest));
             }
+        }
+
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message)
+        {
+            logTimeDataUpdateService.Insert(httpRequest, new LogTimeDataUpdateModel
+            {
+                table_name = _table_name,
+                action_name = action,
+                status = message.status == 0 ? "SUCCESED" : "ERRORED",
+                notes = message.msg,
+            });
         }
 
         public StatusMessage<List<CategoryCommonModel>> Search(HttpRequest httpRequest, CategoryCommonModel model)

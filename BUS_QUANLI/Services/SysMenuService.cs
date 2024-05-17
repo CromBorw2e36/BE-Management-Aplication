@@ -83,10 +83,15 @@ namespace BUS_QUANLI.Services
         {
             try
             {
-                var result = systemContext.SysMenus.Where(x => 
-                    (x.menuid == model.menuid || model.menuid == null)
-                    ).OrderBy(x => x.menuid).ToList();
+                List<SysMenu> result = new List<SysMenu>();
 
+               if(model.menuid != null && model.menuid.Length > 0)
+                {
+                    result = systemContext.SysMenus.Where(x => x.menuid == model.menuid ).OrderBy(x => x.menuid).ToList();
+                }
+                else {
+                    result = systemContext.SysMenus.OrderBy(x => x.menuid).ToList();
+                }
                 return new StatusMessage<List<SysMenu>>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
             catch

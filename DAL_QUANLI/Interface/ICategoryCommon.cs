@@ -10,5 +10,7 @@ namespace DAL_QUANLI.Interface
         StatusMessage<List<CategoryCommonModel>> Search(HttpRequest httpRequest, CategoryCommonModel model);
         StatusMessage<CategoryCommonModel> Update(HttpRequest httpRequest, CategoryCommonModel model);
         StatusMessage<CategoryCommonModel> Delete(HttpRequest httpRequest, CategoryCommonModel model);
+        public void LogTime<T>(HttpRequest httpRequest, string action, StatusMessage<T> message);
+
     }
 }
