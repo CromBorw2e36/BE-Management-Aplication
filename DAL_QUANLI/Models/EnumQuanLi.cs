@@ -55,5 +55,7 @@
         GenRowTableNotDataField,
         GenRowTableNotTable,
         GenRowTableNotDataType,
+        SysMenuNotMenuID,
+        DataExists,
     }
 }

@@ -189,19 +189,5 @@ namespace quan_li_app.Controllers.System
                 return Unauthorized();
             }
         }
-
-        //[HttpPost, Route("SysGroupActionIns")]
-        //public async Task<ActionResult<StatusMessage<dynamic>>> SysGroupActionIns(List<SysGroupAction> listGroupAction)
-        //{
-        //    if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
-        //    {
-        //        StatusMessage<dynamic> res = await this.sysGroupActionService.SysDropDownActionIns_many(dropdownAction, HttpContext.Request);
-        //        return res;
-        //    }
-        //    else
-        //    {
-        //        return Unauthorized();
-        //    }
-        //}
     }
 }

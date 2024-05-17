@@ -50,6 +50,9 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.GenRowTableNotDataField, "Object have \"data field\" isn't value" },
                 {EnumQuanLi.GenRowTableNotTable, "Object have \"table name\" isn't value" },
                 {EnumQuanLi.GenRowTableNotDataType, "Object have \"data type\" isn't value" },
+                {EnumQuanLi.SysMenuNotMenuID, "Object have \"menuid\" isn't value" },
+                {EnumQuanLi.DataExists, "Dữ liệu tồn tại!" },
+
             };
 
             statusMessageMapperOther = new Dictionary<EnumQuanLi, string>
@@ -87,6 +90,8 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.GenRowTableNotDataField, "Object have \"data field\" isn't value" },
                 {EnumQuanLi.GenRowTableNotTable, "Object have \"table name\" isn't value" },
                 {EnumQuanLi.GenRowTableNotDataType, "Object have \"data type\" isn't value" },
+                {EnumQuanLi.SysMenuNotMenuID, "Object have \"menuid\" isn't value" },
+                {EnumQuanLi.DataExists, "Data is exists!" },
             };
         }
 
