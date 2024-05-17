@@ -44,6 +44,7 @@ namespace quan_li_app.Models
 
         public virtual DbSet<National> Nationals { get; set; }
         public virtual DbSet<UploadFileModel> UploadFileModels { get; set; }
+        public virtual DbSet<CategoryCommonModel> CategoryCommonModels { get; set; }
         //public virtual DbSet<LogTimeDataUpdateModel> LogTimeDataUpdateModels { get; set; }
 
 
@@ -157,7 +158,13 @@ namespace quan_li_app.Models
             });
             modelBuilder.Entity<UploadFileModel>(e =>
             {
-                e.ToTable("UploadFileModel");
+                e.ToTable("UploadFile");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<CategoryCommonModel>(e =>
+            {
+                e.ToTable("CategoryCommon");
                 e.HasKey(e => e.id);
             });
 

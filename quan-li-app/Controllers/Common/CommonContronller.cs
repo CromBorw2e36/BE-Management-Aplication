@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BUS_QUANLI.Services;
+using DAL_QUANLI.Models.Common;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
@@ -16,6 +18,7 @@ namespace quan_li_app.Controllers.Common
         private SystemContext _contextSystem;
         private readonly TokenHelper _tokenHelper;
         private readonly BaseMapper baseMapper;
+        private CommonService commonService;
 
         public CommonContronller(DataContext contextData, SystemContext contextSystem)
         {
@@ -23,6 +26,7 @@ namespace quan_li_app.Controllers.Common
             _contextSystem = contextSystem;
             _tokenHelper = new TokenHelper();
             baseMapper = new BaseMapper();
+            commonService = new CommonService();
         }
 
         [HttpGet, ActionName("ListCompany")]
@@ -61,6 +65,17 @@ namespace quan_li_app.Controllers.Common
                 }
 
                 return NoContent();
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost, Route("ExcuteQueryString")]
+        public async Task<ActionResult<List<dynamic>>> ExcuteQueryString(QueryCommonModel model)
+        {
+            if (_tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var result = this.commonService.ExcuteStringQuery(model);
+                return result;
             }
             return Unauthorized();
         }
