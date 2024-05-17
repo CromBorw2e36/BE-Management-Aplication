@@ -45,6 +45,7 @@ namespace DAL_QUANLI.Models.SystemDB.SysVoucherForm
         public int? number_order { get; set; } // Order by of column
         public string? displayFormat { get; set; } // For component datebox
         public string? type { get; set; } // Date , Datetime, time}
+        public string? query { get; set; }
 
     }
 }
