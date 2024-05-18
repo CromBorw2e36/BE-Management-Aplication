@@ -11,6 +11,8 @@ using BUS_QUANLI.Services;
 using quan_li_app.Helpers;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.SystemDB;
+using System.Runtime.InteropServices.JavaScript;
+using Newtonsoft.Json.Linq;
 
 namespace quan_li_app.Controllers.Data
 {
@@ -90,6 +92,21 @@ namespace quan_li_app.Controllers.Data
             {
                 return Unauthorized();
             }
+        }
+
+        [HttpPost, Route("TestDynamicData")]
+        public async Task<ActionResult<object>> TestDynamicData(object model)
+        {
+            JObject obj = JObject.Parse(model.ToString());
+
+            var id = obj["id"]; // check null
+
+            object a = new
+            {
+                id = id != null ? id.ToString() : null,
+            };
+
+            return a;
         }
     }
 }

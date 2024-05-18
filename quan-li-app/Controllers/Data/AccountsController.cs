@@ -104,7 +104,8 @@ namespace quan_li_app.Controllers.Data
                                 status = acc.status,
                                 type_account = acc.type_account,
                                 email = acc.email,
-                                token = newToken
+                                token = newToken,
+                                language = acc.language
                             },
                             user = user,
                             //menuPermissions

@@ -108,7 +108,7 @@ namespace BUS_QUANLI.Services.VoucherForm
                         (x.code == sysVoucherFormColumn.code || sysVoucherFormColumn.code == null)
                     &&
                         (x.id == x.id || x.id == null)
-                )).ToList();
+                )).OrderByDescending(x => x.id).ThenBy(x => x.number_order).ToList();
 
                 if(sysVoucherFormColumn.table_name is not null && sysVoucherFormColumn.code is null)
                 {

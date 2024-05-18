@@ -59,26 +59,40 @@ namespace BUS_QUANLI.Services
 
             try
             {
-                if (model.group_id == null || model.group_id.Length == 0)
+                if (model.group_id == null && model.group_id.Length == 0)
                 {
                     return new StatusMessage<CategoryCommonModel>(1, GetMessageDescription(EnumQuanLi.InsertError, httpRequest));
                 }
 
-                for (int i = 0; i < model.items.Count(); i++)
+               if( model.items != null &&  model.items.Count > 0)
                 {
-                    model.items[i].id = commonHelpers.GenerateRowID("CategoryCommon", model.company_code ?? "");
-                    model.items[i].create_date = DateTime.Now;
-                    model.items[i].create_by = tokenHelper.GetUsername(httpRequest);
-                    model.items[i].update_date = DateTime.Now;
-                    model.items[i].update_by = tokenHelper.GetUsername(httpRequest);
-                    model.items[i].group_id = model.group_id;
+                    for (int i = 0; i < model.items.Count(); i++)
+                    {
+                        model.items[i].id = commonHelpers.GenerateRowID("CategoryCommon", model.company_code ?? "");
+                        model.items[i].create_date = DateTime.Now;
+                        model.items[i].create_by = tokenHelper.GetUsername(httpRequest);
+                        model.items[i].update_date = DateTime.Now;
+                        model.items[i].update_by = tokenHelper.GetUsername(httpRequest);
+                        model.items[i].group_id = model.group_id;
 
-                    dataContext.Add(model.items[i]);
+                        dataContext.Add(model.items[i]);
+                    }
+
+                    dataContext.SaveChanges();
+
+                    return new StatusMessage<CategoryCommonModel>(0, GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), model);
                 }
-
-                dataContext.SaveChanges();
-
-                return new StatusMessage<CategoryCommonModel>(0, GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), model);
+                else
+                {
+                    model.id = commonHelpers.GenerateRowID("CategoryCommon", model.company_code ?? "");
+                    model.create_date = DateTime.Now;
+                    model.create_by = tokenHelper.GetUsername(httpRequest);
+                    model.update_date = DateTime.Now;
+                    model.update_by = tokenHelper.GetUsername(httpRequest);
+                    dataContext.Add(model);
+                    dataContext.SaveChanges();
+                    return new StatusMessage<CategoryCommonModel>(0, GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), model);
+                }
             }
             catch
             {
@@ -101,9 +115,15 @@ namespace BUS_QUANLI.Services
         {
             try
             {
-                if (model.group_id == null || model.group_id.Length == 0)
+                 if (model.id != null && model.id.Length > 0)
                 {
-                    var result = dataContext.CategoryCommonModels.ToList();
+                    // Search with condition is group_id
+                    var result = dataContext.CategoryCommonModels.Where(x => x.id == model.id).ToList();
+                    return new StatusMessage<List<CategoryCommonModel>>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), result);
+                }
+                else if(model.group_id == null || model.group_id.Length == 0)
+                {
+                    var result = dataContext.CategoryCommonModels.OrderByDescending(x => x.id).ToList();
                     return new StatusMessage<List<CategoryCommonModel>>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), result);
                 }
                 else
@@ -132,32 +152,43 @@ namespace BUS_QUANLI.Services
                 {
                     return new StatusMessage<CategoryCommonModel>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest));
                 }
-
-                var result = dataContext.CategoryCommonModels.Where(x => x.group_id == model.group_id).ToList();
-                dataContext.CategoryCommonModels.RemoveRange(result);
-
-                if (model.items != null)
+                if(model.items != null && model.items.Count > 0)
                 {
-                    for (int i = 0; i < model.items.Count(); i++)
+
+                    var result = dataContext.CategoryCommonModels.Where(x => x.group_id == model.group_id).ToList();
+                    dataContext.CategoryCommonModels.RemoveRange(result);
+
+                    if (model.items != null)
                     {
-                        if (model.items[i].id == null || model.items[i]?.id?.Length == 0) // Insert new item
+                        for (int i = 0; i < model.items.Count(); i++)
                         {
-                            model.items[i].id = commonHelpers.GenerateRowID("CategoryCommon", model.company_code ?? "");
-                            model.items[i].create_date = DateTime.Now;
-                            model.items[i].create_by = tokenHelper.GetUsername(httpRequest);
+                            if (model.items[i].id == null || model.items[i]?.id?.Length == 0) // Insert new item
+                            {
+                                model.items[i].id = commonHelpers.GenerateRowID("CategoryCommon", model.company_code ?? "");
+                                model.items[i].create_date = DateTime.Now;
+                                model.items[i].create_by = tokenHelper.GetUsername(httpRequest);
+                            }
+
+                            model.items[i].update_date = DateTime.Now;
+                            model.items[i].update_by = tokenHelper.GetUsername(httpRequest);
+                            model.items[i].group_id = model.group_id;
+
+                            dataContext.Add(model.items[i]);
                         }
-
-                        model.items[i].update_date = DateTime.Now;
-                        model.items[i].update_by = tokenHelper.GetUsername(httpRequest);
-                        model.items[i].group_id = model.group_id;
-
-                        dataContext.Add(model.items[i]);
                     }
+
+                    dataContext.SaveChanges();
+
+                    return new StatusMessage<CategoryCommonModel>(0, GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), model);
                 }
-
-                dataContext.SaveChanges();
-
-                return new StatusMessage<CategoryCommonModel>(0, GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), model);
+                else
+                {
+                    var result = dataContext.CategoryCommonModels.Where(x => x.id == model.id).ToList();
+                    dataContext.CategoryCommonModels.RemoveRange(result);
+                    dataContext.Add(model);
+                    dataContext.SaveChanges();
+                    return new StatusMessage<CategoryCommonModel>(0, GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), model);
+                }
             }
             catch
             {

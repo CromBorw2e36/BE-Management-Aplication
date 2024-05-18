@@ -102,15 +102,22 @@ namespace BUS_QUANLI.Services.VoucherForm
             try
             {
 
-                var getRow = systemContext.SysVoucherFormColumns.Where(x => (
-                        (x.table_name == sysVoucherFormGroup.table_name || sysVoucherFormGroup.table_name == null)
+                var getRow = systemContext.SysVoucherFormGroups.Where(x => 
+                        ( sysVoucherFormGroup.table_name == null || x.table_name == sysVoucherFormGroup.table_name)
                     &&
-                        (x.code == sysVoucherFormGroup.code || sysVoucherFormGroup.code == null)
+                        (  sysVoucherFormGroup.code == null || x.code == sysVoucherFormGroup.code)
                     &&
-                        (x.id == x.id || x.id == null)
-                )).ToList();
+                        (  x.id == null ||  x.id == x.id)
+                ).ToList();
 
-                return new StatusMessage<List<SysVoucherFormGroup>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), getRow);
+              if(getRow.Count == 0)
+                {
+                    return new StatusMessage<List<SysVoucherFormGroup>>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<SysVoucherFormGroup>());
+                }
+                else
+                {
+                    return new StatusMessage<List<SysVoucherFormGroup>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), getRow);
+                }
             }
             catch
             {

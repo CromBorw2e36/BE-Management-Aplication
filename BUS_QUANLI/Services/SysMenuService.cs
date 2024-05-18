@@ -29,7 +29,7 @@ namespace BUS_QUANLI.Services
                 {
                     this.systemContext.SysMenus.Remove(result);
                     this.systemContext.SaveChanges();
-                    return new StatusMessage<dynamic>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest));
+                    return new StatusMessage<dynamic>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.DeleteSuccess, httpRequest));
                 }
                 else
                 {

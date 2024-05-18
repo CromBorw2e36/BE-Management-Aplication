@@ -109,7 +109,8 @@ namespace quan_li_app.Controllers.Data
             TokenHelper tokenHelper = new TokenHelper();
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-
+                string account = tokenHelper.GetUsername(HttpContext.Request);
+                p.account = account;
                 List<Sys_Menu_Tree_View_MODEL> list_menu_tree_view = this.menuPermissionService.List_menu_By_Id(p);
 
                 return list_menu_tree_view;
