@@ -230,5 +230,26 @@ namespace quan_li_app.Helpers
             }
         }
 
+
+        public string GetCompanyCode(HttpRequest request)
+        {
+            string account = this.GetUsername(request);
+            if(account == null)
+            {
+                return "";
+            }
+            else
+            {
+                Account userAccount = _contextData.Accounts.Where(x => x.account == account).FirstOrDefault()!;
+                if (userAccount == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return userAccount.companyCode ?? "";
+                }
+            }
+        }
     }
 }

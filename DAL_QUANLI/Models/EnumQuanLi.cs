@@ -56,6 +56,9 @@
         GenRowTableNotTable,
         GenRowTableNotDataType,
         SysMenuNotMenuID,
+        DataNoCode,
         DataExists,
+        DataNoName, 
+        DataNoLevel,
     }
 }

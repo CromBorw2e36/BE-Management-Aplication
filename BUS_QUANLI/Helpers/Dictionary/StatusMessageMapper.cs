@@ -52,6 +52,9 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.GenRowTableNotDataType, "Object have \"data type\" isn't value" },
                 {EnumQuanLi.SysMenuNotMenuID, "Object have \"menuid\" isn't value" },
                 {EnumQuanLi.DataExists, "Dữ liệu tồn tại!" },
+                {EnumQuanLi.DataNoCode, "Chưa khởi tạo mã" },
+                {EnumQuanLi.DataNoName, "Chưa khởi tạo tên" },
+                {EnumQuanLi.DataNoLevel, "Chưa khởi tạo cấp độ" },
 
             };
 
@@ -92,6 +95,10 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.GenRowTableNotDataType, "Object have \"data type\" isn't value" },
                 {EnumQuanLi.SysMenuNotMenuID, "Object have \"menuid\" isn't value" },
                 {EnumQuanLi.DataExists, "Data is exists!" },
+                {EnumQuanLi.DataNoCode, "Not value key" },
+                {EnumQuanLi.DataNoName, "Please enter name" },
+                {EnumQuanLi.DataNoLevel, "Please enter level" },
+
             };
         }
 

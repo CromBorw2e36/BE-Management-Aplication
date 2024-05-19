@@ -5,7 +5,7 @@
         public string? code { get; set; }
         public string? name { get; set; }
         public int? level { get; set; }
-        public string? order_number { get; set; }
+        public int? order_number { get; set; }
         public string? codeCompany { get; set; }
     }
 }
