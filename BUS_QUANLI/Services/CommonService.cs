@@ -1,6 +1,7 @@
 ﻿using DAL_QUANLI.Interface;
 using DAL_QUANLI.Models.Common;
 using DAL_QUANLI.Models.DataDB;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.Common;
@@ -21,6 +22,17 @@ namespace BUS_QUANLI.Services
             List<object> list = new List<object>();
             list.AddRange(result);
             return list;
+        }
+
+        public void LogTime<T>(HttpRequest httpRequest, string table_name, string action, StatusMessage<T> message)
+        {
+            logTimeDataUpdateService.Insert(httpRequest, new LogTimeDataUpdateModel
+            {
+                table_name = table_name,
+                action_name = action,
+                status = message.status == 0 ? "SUCCESED" : "ERRORED",
+                notes = message.msg,
+            });
         }
     }
 }

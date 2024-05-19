@@ -36,7 +36,7 @@ namespace quan_li_app.Models
         public virtual DbSet<TOKEN> Tokens { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
 
-        public virtual DbSet<SysTypeAccount> TypeAccSysTypeAccount { get; set; }
+        public virtual DbSet<SysTypeAccount> SysTypeAccounts { get; set; }
         public virtual DbSet<SysStatus> SysStatus { get; set; }
         public virtual DbSet<SysModule> SysModules { get; set; }
         public virtual DbSet<SysPermission> SysPermissions { get; set; }
