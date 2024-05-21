@@ -55,7 +55,16 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.DataNoCode, "Chưa khởi tạo mã" },
                 {EnumQuanLi.DataNoName, "Chưa khởi tạo tên" },
                 {EnumQuanLi.DataNoLevel, "Chưa khởi tạo cấp độ" },
-
+                {EnumQuanLi.ChangePasswordError, "Đổi mật khẩu thất bại" },
+                {EnumQuanLi.Failded, "Không thành công!" },
+                {EnumQuanLi.ChangePasswordSuccess, "Thay đổi thành công mật khẩu" },
+                {EnumQuanLi.PasswordIncorrect, "Mật khẩu không khớp" },
+                {EnumQuanLi.LockError, "Khóa tài khoản thât bại" },
+                {EnumQuanLi.LockSuccess, "Khóa tài khoảng thành công" },
+                {EnumQuanLi.ApprovalSuccess, "Đã duyệt tài khoản" },
+                {EnumQuanLi.ApprovalError, "Không thể duyệt tài khoản này" },
+                {EnumQuanLi.ApprovalExits, "Không thể duyệt tài khoản đã được duyệt" },
+                {EnumQuanLi.LockExits, "Tài khoản này đẫ được khóa trước đó" },
             };
 
             statusMessageMapperOther = new Dictionary<EnumQuanLi, string>
@@ -98,6 +107,17 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.DataNoCode, "Not value key" },
                 {EnumQuanLi.DataNoName, "Please enter name" },
                 {EnumQuanLi.DataNoLevel, "Please enter level" },
+                {EnumQuanLi.ChangePasswordError, "Change password Error" },
+                {EnumQuanLi.Failded, "Acount failed!" },
+                {EnumQuanLi.ChangePasswordSuccess, "Change password success" },
+                {EnumQuanLi.PasswordIncorrect, "Password and password confirm don't match" },
+                {EnumQuanLi.LockError, "Lock account successed" },
+                {EnumQuanLi.LockSuccess, "Lock account failed" },
+                {EnumQuanLi.ApprovalSuccess, "Approval account successed" },
+                {EnumQuanLi.ApprovalError, "Approval account failed" },
+                {EnumQuanLi.ApprovalExits, "Account was approvaled" },
+                {EnumQuanLi.LockExits, "Account was Lock" },
+
 
             };
         }

@@ -60,5 +60,15 @@
         DataExists,
         DataNoName, 
         DataNoLevel,
+        ChangePasswordError,
+        Failded,
+        PasswordIncorrect,
+        ChangePasswordSuccess,
+        LockSuccess,
+        LockError,
+        ApprovalError,
+        ApprovalSuccess,
+        ApprovalExits,
+        LockExits,
     }
 }

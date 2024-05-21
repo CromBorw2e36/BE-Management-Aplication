@@ -12,7 +12,7 @@ namespace BUS_QUANLI.Services.SystemCategory
 {
     public class SysStatusService : rootCommonService, ISysStatus
     {
-        public string _tableName = "SysStatus";
+        public string _tableName = "*";
         public StatusMessage<SysStatus> Delete(HttpRequest httpRequest, SysStatus model)
         {
             try

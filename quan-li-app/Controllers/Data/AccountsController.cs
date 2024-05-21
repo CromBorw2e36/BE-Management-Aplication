@@ -1,5 +1,7 @@
 ﻿using BUS_QUANLI.Services;
+using BUS_QUANLI.Services.AccountAndPermission;
 using DAL_QUANLI.Models.CustomModel;
+using DAL_QUANLI.Models.DataDB;
 using Microsoft.AspNetCore.Mvc;
 using quan_li_app.Helpers;
 using quan_li_app.Helpers.Dictionary;
@@ -22,7 +24,10 @@ namespace quan_li_app.Controllers.Data
         private readonly StatusMessageMapper statusMessageMapper;
         private readonly ViewModeUserInfo viewModeUserInfo;
         private readonly CommonHelpers commonHelpers;
-        private readonly AccountClient _accoutnClient;
+        private readonly AccountService _accoutnClient;
+        private readonly CommonService commonService;
+
+
 
         public AccountsController(DataContext context, SystemContext systemContext)
         {
@@ -32,7 +37,8 @@ namespace quan_li_app.Controllers.Data
             this.statusMessageMapper = new StatusMessageMapper();
             this.viewModeUserInfo = new ViewModeUserInfo(context, systemContext);
             this.commonHelpers = new CommonHelpers();
-            this._accoutnClient = new AccountClient();
+            this._accoutnClient = new AccountService();
+            this.commonService = new CommonService();
         }
 
         [HttpPost, Route("CheckTheExpirationDateOfToken")]
@@ -52,8 +58,7 @@ namespace quan_li_app.Controllers.Data
             }
         }
 
-        // POST: api/Accounts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         [Route("Login")]
         public async Task<ActionResult<StatusMessage<dynamic>>> Login(AccountClientLoginParamsModel account)
@@ -130,8 +135,6 @@ namespace quan_li_app.Controllers.Data
             }
         }
 
-        // POST: api/Accounts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("AccountIns")]
         public async Task<ActionResult<StatusMessage<dynamic>>> AccountIns(AccountClientProfileModel profile)
         {
@@ -214,7 +217,6 @@ namespace quan_li_app.Controllers.Data
             return NoContent();
         }
 
-        // DELETE: api/Accounts/5
         [HttpDelete("{id}")]
         public async Task<StatusMessage<dynamic>> DeleteAccount(string id)
         {
@@ -231,6 +233,125 @@ namespace quan_li_app.Controllers.Data
 
             StatusMessage<dynamic> message = new StatusMessage<dynamic>(1, statusMessageMapper.GetMessageDescription(EnumQuanLi.DeleteSuccess, UsernameCredential));
             return message;
+        }
+
+
+        [HttpPost("AccountUpdate")]
+        public async Task<ActionResult<StatusMessage<AccountClientProfileModel>>> AccountUpdate(AccountClientProfileModel model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<AccountClientProfileModel> res = this._accoutnClient.Update(HttpContext.Request, model);
+                this.commonService.LogTime<AccountClientProfileModel>(HttpContext.Request, _accoutnClient._tablename, string.Format("UPDATE FOR ACCOUNT: {0}", model.account), res);
+                this.commonService.LogTime<AccountClientProfileModel>(HttpContext.Request, _accoutnClient._tableName2, string.Format("UPDATE FOR ACCOUNT: {0}", model.account), res);
+                return res;
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+
+        [HttpPost("AccountSearch")]
+        public async Task<ActionResult<StatusMessage<AccountClientProfileModel>>> AccountSearch(Account model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<AccountClientProfileModel> res = this._accoutnClient.Search(HttpContext.Request, model);
+                this.commonService.LogTime<AccountClientProfileModel>(HttpContext.Request, _accoutnClient._tablename, string.Format("SEARCH WITH ACCOUNT: {0}", model.account ), res);
+                this.commonService.LogTime<AccountClientProfileModel>(HttpContext.Request, _accoutnClient._tableName2, string.Format("SEARCH WITH ACCOUNT: {0}", model.account), res);
+                return res;
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("AccountGetALL")]
+        public async Task<ActionResult<StatusMessage<List<UserInfo>>>> AccountGetALL(Account model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<List<UserInfo>> res = this._accoutnClient.GetListUser(HttpContext.Request, model);
+                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER", res);
+                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tableName2, "GET LIST USER", res);
+                return res;
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("AccountDelete")]
+        public async Task<ActionResult<StatusMessage<Account>>> AccountDelete(Account model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage <Account> res = this._accoutnClient.Delete(HttpContext.Request, model);
+                this.commonService.LogTime<Account>(HttpContext.Request, _accoutnClient._tablename, string.Format("DELETE  ACCOUNT: {0}", model.account), res);
+                this.commonService.LogTime<Account>(HttpContext.Request, _accoutnClient._tableName2, string.Format("DELETE  ACCOUNT: {0}", model.account), res);
+                return res;
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("AccountChangeStatusLock")]
+        public async Task<ActionResult<StatusMessage<dynamic>>> AccountChangeStatusLock(Account model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<dynamic> res = this._accoutnClient.Lock(HttpContext.Request, model);
+                this.commonService.LogTime<dynamic>(HttpContext.Request, _accoutnClient._tablename, string.Format("LOCK  ACCOUNT: {0}", model.account), res);
+                this.commonService.LogTime<dynamic>(HttpContext.Request, _accoutnClient._tableName2, string.Format("LOCK  ACCOUNT: {0}", model.account), res);
+                return res;
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("AccountChangeStatusApproval")]
+        public async Task<ActionResult<StatusMessage<dynamic>>> AccountChangeStatusApproval(Account model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<dynamic> res = this._accoutnClient.Approval(HttpContext.Request, model);
+                this.commonService.LogTime<dynamic>(HttpContext.Request, _accoutnClient._tablename, string.Format("APPROVAL  ACCOUNT: {0}", model.account), res);
+                this.commonService.LogTime<dynamic>(HttpContext.Request, _accoutnClient._tableName2, string.Format("APPROVAL  ACCOUNT: {0}", model.account), res);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("AccountChangePassword")]
+        public async Task<ActionResult<StatusMessage<dynamic>>> AccountChangePassword(Account model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                StatusMessage<dynamic> res = this._accoutnClient.ChangePassword(HttpContext.Request, model);
+                this.commonService.LogTime<dynamic>(HttpContext.Request, _accoutnClient._tablename, string.Format("CHANGE PASSWORD  ACCOUNT: {0}", model.account), res);
+                this.commonService.LogTime<dynamic>(HttpContext.Request, _accoutnClient._tableName2, string.Format("CHANGE PASSWORD  ACCOUNT: {0}", model.account), res);
+                return res;
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         private bool AccountExists(string id)

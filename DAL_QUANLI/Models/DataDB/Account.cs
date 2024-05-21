@@ -7,6 +7,8 @@ namespace quan_li_app.Models.DataDB
     {
         public string? account { get; set; }
         public string? password { get; set; }
+        [NotMapped]
+        public string? password1 { get; set; }
         public string? status { get; set; }
         [JsonIgnore]
         public DateTime? create_date { get; set; }
