@@ -1,6 +1,7 @@
 ﻿using DAL_QUANLI.Interface;
 using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
@@ -179,16 +180,27 @@ namespace BUS_QUANLI.Services.AccountAndPermission
             }
         }
 
-        public StatusMessage<List<UserInfo>> GetListUser(HttpRequest httpRequest, Account model)
+        public StatusMessage<List<AccountClientProfileModel>> GetListUser(HttpRequest httpRequest, Account model)
         {
             try
             {
-                var result = dataContext.UserInfomation.ToList();
-                return new StatusMessage<List<UserInfo>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+
+                //var result = dataContext.UserInfomation.ToList();
+
+                var result2 = dataContext.Accounts.LeftJoin(dataContext.UserInfomation, a => a.account, b => b.id, (a, b) => new { account = a, userInfo = b })
+                    .Select(x => new AccountClientProfileModel()
+                    {
+                        account = x.account,
+                        userInfo = x.userInfo,
+                        token = null,
+                    });
+
+
+                return new StatusMessage<List<AccountClientProfileModel>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result2);
             }
             catch
             {
-                return new StatusMessage<List<UserInfo>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<UserInfo>());
+                return new StatusMessage<List<AccountClientProfileModel>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<UserInfo>());
             }
         }
 

@@ -272,15 +272,14 @@ namespace quan_li_app.Controllers.Data
         }
 
         [HttpPost("AccountGetALL")]
-        public async Task<ActionResult<StatusMessage<List<UserInfo>>>> AccountGetALL(Account model)
+        public async Task<ActionResult<StatusMessage<List<AccountClientProfileModel>>>> AccountGetALL(Account model)
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                StatusMessage<List<UserInfo>> res = this._accoutnClient.GetListUser(HttpContext.Request, model);
-                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER", res);
-                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tableName2, "GET LIST USER", res);
+                StatusMessage<List<AccountClientProfileModel>> res = this._accoutnClient.GetListUser(HttpContext.Request, model);
+                this.commonService.LogTime<List<AccountClientProfileModel>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER", res);
+                this.commonService.LogTime<List<AccountClientProfileModel>>(HttpContext.Request, _accoutnClient._tableName2, "GET LIST USER", res);
                 return res;
-
             }
             else
             {
