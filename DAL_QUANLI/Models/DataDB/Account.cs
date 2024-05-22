@@ -28,5 +28,11 @@ namespace quan_li_app.Models.DataDB
         [NotMapped]
         public string? namePermision { get; set; }
         public string? language { get; set; }
+        [NotMapped]
+        public string? status_f { get; set; }
+        [NotMapped]
+        public string? type_account_f { get; set; }
+        [NotMapped]
+        public string? companyCode_f { get; set; } // Chưa có trường khởi tạo
     }
 }

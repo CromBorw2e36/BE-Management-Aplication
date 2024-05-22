@@ -103,11 +103,11 @@ namespace BUS_QUANLI.Services.VoucherForm
             {
 
                 var getRow = systemContext.SysVoucherFormColumns.Where(x => (
-                        (x.table_name == sysVoucherFormColumn.table_name || sysVoucherFormColumn.table_name == null)
+                        (sysVoucherFormColumn.table_name == null || x.table_name == sysVoucherFormColumn.table_name )
                     &&
-                        (x.code == sysVoucherFormColumn.code || sysVoucherFormColumn.code == null)
+                        (sysVoucherFormColumn.code == null || x.code == sysVoucherFormColumn.code )
                     &&
-                        (x.id == x.id || x.id == null)
+                        (sysVoucherFormColumn.id == null || x.id == x.id )
                 )).OrderByDescending(x => x.id).ThenBy(x => x.number_order).ToList();
 
                 if(sysVoucherFormColumn.table_name is not null && sysVoucherFormColumn.code is null)

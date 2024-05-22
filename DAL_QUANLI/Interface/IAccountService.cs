@@ -15,12 +15,14 @@ namespace DAL_QUANLI.Interface
     {
         public StatusMessage<AccountClientProfileModel> Update (HttpRequest httpRequest, AccountClientProfileModel account);
         public StatusMessage<AccountClientProfileModel> Search (HttpRequest httpRequest, Account model);
-        public StatusMessage<List<AccountClientProfileModel>> GetListUser (HttpRequest httpRequest, Account model);
+        public StatusMessage<List<UserInfo>> GetListUser (HttpRequest httpRequest, Account model);
+        public StatusMessage<List<UserInfo>> GetListUserRegister(HttpRequest httpRequest, Account model);
         public StatusMessage<Account> Delete (HttpRequest httpRequest, Account model);
         public Task<StatusMessage<dynamic>> AccountClientIns(AccountClientProfileModel acc, string userName_create);
         public StatusMessage<dynamic> Lock (HttpRequest httpRequest, Account model);
         public StatusMessage<dynamic> Approval(HttpRequest httpRequest, Account model);
         public StatusMessage<dynamic> ChangePassword(HttpRequest httpRequest, Account model);
+        
 
 
     }

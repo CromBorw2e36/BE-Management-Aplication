@@ -1,6 +1,8 @@
 ﻿using DAL_QUANLI.Interface;
 using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
@@ -180,27 +182,26 @@ namespace BUS_QUANLI.Services.AccountAndPermission
             }
         }
 
-        public StatusMessage<List<AccountClientProfileModel>> GetListUser(HttpRequest httpRequest, Account model)
+        public StatusMessage<List<UserInfo>> GetListUser(HttpRequest httpRequest, Account model)
         {
             try
             {
+                List<SqlParameter> parameters = new List<SqlParameter>();
 
-                //var result = dataContext.UserInfomation.ToList();
-
-                var result2 = dataContext.Accounts.LeftJoin(dataContext.UserInfomation, a => a.account, b => b.id, (a, b) => new { account = a, userInfo = b })
-                    .Select(x => new AccountClientProfileModel()
-                    {
-                        account = x.account,
-                        userInfo = x.userInfo,
-                        token = null,
-                    });
+                parameters.Add(new SqlParameter("@pcompanyCode", this.tokenHelper.GetCompanyCode(httpRequest)));
+                parameters.Add(new SqlParameter("@pstatus", model.status != null ? model.status : DBNull.Value));
 
 
-                return new StatusMessage<List<AccountClientProfileModel>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result2);
+                var result = this.dataContext.Database.SqlQueryRaw<UserInfo>(
+                "EXEC GetListUserByStatus @pcompanyCode, @pstatus", parameters.ToArray()
+                ).ToList();
+
+
+                return new StatusMessage<List<UserInfo>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
             catch
             {
-                return new StatusMessage<List<AccountClientProfileModel>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<UserInfo>());
+                return new StatusMessage<List<UserInfo>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<UserInfo>());
             }
         }
 
@@ -304,6 +305,13 @@ namespace BUS_QUANLI.Services.AccountAndPermission
             {
                 return new StatusMessage<AccountClientProfileModel>(1, GetMessageDescription(EnumQuanLi.UpdateError, httpRequest), new AccountClientProfileModel());
             }
+        }
+
+        public StatusMessage<List<UserInfo>> GetListUserRegister(HttpRequest httpRequest, Account model)
+        {
+            model.status = this.statusWaitActive;
+            return this.GetListUser(httpRequest, model);
+
         }
     }
 }
