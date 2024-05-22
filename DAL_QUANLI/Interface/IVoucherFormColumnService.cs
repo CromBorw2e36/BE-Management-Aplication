@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface IVoucherFormServiceColumn
+    public interface IVoucherFormColumnService
     {
         public Task<StatusMessage<SysVoucherFormColumn>> Insert(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn);
         public Task<StatusMessage<SysVoucherFormColumn>> Update(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn);

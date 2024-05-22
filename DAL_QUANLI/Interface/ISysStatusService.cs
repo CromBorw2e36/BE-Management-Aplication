@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysStatus
+    public interface ISysStatusService
     {
         StatusMessage<List<SysStatus>> Search(HttpRequest httpRequest, SysStatus model);
         StatusMessage<SysStatus> Insert(HttpRequest httpRequest, SysStatus model);

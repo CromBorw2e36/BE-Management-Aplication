@@ -6,7 +6,7 @@ using quan_li_app.Models.Common;
 
 namespace BUS_QUANLI.Services
 {
-    public class SysDropDownActionService : rootCommonService, ISysDropDownActionInterface
+    public class SysDropDownActionService : rootCommonService, ISysDropDownActionService
     {
         public SysDropDownActionService()
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysGenRowTable
+    public interface ISysGenRowTableService
     {
         public StatusMessage<SysGenRowTable> Insert(HttpRequest httpRequest, SysGenRowTable sysGenRowTable);
         public StatusMessage<SysGenRowTable> Update(HttpRequest httpRequest, SysGenRowTable sysGenRowTable);

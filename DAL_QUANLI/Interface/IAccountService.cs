@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface IAccount
+    public interface IAccountService
     {
         public StatusMessage<AccountClientProfileModel> Update (HttpRequest httpRequest, AccountClientProfileModel account);
         public StatusMessage<AccountClientProfileModel> Search (HttpRequest httpRequest, Account model);

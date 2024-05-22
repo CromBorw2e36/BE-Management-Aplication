@@ -4,7 +4,7 @@ using quan_li_app.Models.Common;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysGroupAction
+    public interface ISysGroupActionService
     {
         Task<StatusMessage<dynamic>> SysGroupActionIns(SysGroupAction p, HttpRequest httpRequest);
         Task<StatusMessage<dynamic>> SysGroupActionIns(List<SysGroupAction> p, HttpRequest httpRequest);

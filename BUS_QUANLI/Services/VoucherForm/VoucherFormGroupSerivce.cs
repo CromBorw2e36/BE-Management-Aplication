@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.VoucherForm
 {
-    public class VoucherFormGroupSerivce : rootCommonService, ISysVoucherFormGroup
+    public class VoucherFormGroupSerivce : rootCommonService, ISysVoucherFormGroupService
     {
 
         public string _table_name = "SysVoucherFormGroup";

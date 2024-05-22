@@ -1,5 +1,6 @@
 ﻿using DAL_QUANLI.Interface;
 using DAL_QUANLI.Models.Common;
+using DAL_QUANLI.Models.CustomModel;
 using DAL_QUANLI.Models.DataDB;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
@@ -18,9 +19,18 @@ namespace BUS_QUANLI.Services
         public List<dynamic> ExcuteStringQuery(QueryCommonModel model)
         {
             var stringQuery = model.string_query;
-            var result = dataContext.CategoryCommonModels.FromSqlRaw(stringQuery).ToList();
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            parameters.Add(new SqlParameter("@pstring_query", stringQuery));
+
+            var result = this.dataContext.Database.SqlQueryRaw<QueryComboBoxModel>(
+            "EXEC ExcuteStringQuery @pstring_query", parameters.ToArray()
+            ).ToList();
+
             List<object> list = new List<object>();
             list.AddRange(result);
+
             return list;
         }
 

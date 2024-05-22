@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services
 {
-    public class LogTimeDataUpdateService : ILogTimeDataUpdate
+    public class LogTimeDataUpdateService : ILogTimeDataUpdateService
     {
 
 

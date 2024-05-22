@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BUS_QUANLI.Services
 {
-    public class UploadFileService : IUploadFile
+    public class UploadFileService : IUploadFileService
     {
         public readonly DataContext dataContext;
         public readonly SystemContext systemContext;

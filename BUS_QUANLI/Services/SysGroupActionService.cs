@@ -7,7 +7,7 @@ using quan_li_app.Models.Common;
 
 namespace BUS_QUANLI.Services
 {
-    public class SysGroupActionService : rootCommonService, ISysGroupAction
+    public class SysGroupActionService : rootCommonService, ISysGroupActionService
     {
         public SysGroupActionService()
         {

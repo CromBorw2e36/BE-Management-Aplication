@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysVoucherFormGroup
+    public interface ISysVoucherFormGroupService
     {
         public StatusMessage<SysVoucherFormGroup> Insert(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup);
         public StatusMessage<SysVoucherFormGroup> Update(HttpRequest httpRequest, SysVoucherFormGroup sysVoucherFormGroup);

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services
 {
-    public class SysMenuService : rootCommonService, ISysMenu
+    public class SysMenuService : rootCommonService, ISysMenuService
     {
 
         private string _table_name = "SysMenu";

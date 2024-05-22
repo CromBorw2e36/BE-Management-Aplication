@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysTypeAccount
+    public interface ISysTypeAccountService
     {
         StatusMessage<List<SysTypeAccount>> Search(HttpRequest httpRequest, SysTypeAccount model);
         StatusMessage<SysTypeAccount> Insert(HttpRequest httpRequest, SysTypeAccount model);

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.SystemCategory
 {
-    public class SysStatusService : rootCommonService, ISysStatus
+    public class SysStatusService : rootCommonService, ISysStatusService
     {
         public string _tableName = "*";
         public StatusMessage<SysStatus> Delete(HttpRequest httpRequest, SysStatus model)

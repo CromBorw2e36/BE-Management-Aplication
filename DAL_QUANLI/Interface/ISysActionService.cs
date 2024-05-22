@@ -4,7 +4,7 @@ using quan_li_app.Models.Common;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysAction
+    public interface ISysActionService
     {
         Task<StatusMessage<SysAction>> SysActionInsert(SysAction p, HttpRequest httpRequest);
         Task<StatusMessage<dynamic>> SysActionUpadte(SysAction p, HttpRequest httpRequest);

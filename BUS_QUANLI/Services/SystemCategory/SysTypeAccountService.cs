@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.SystemCategory
 {
-    public class SysTypeAccountService : rootCommonService, ISysTypeAccount
+    public class SysTypeAccountService : rootCommonService, ISysTypeAccountService
     {
         public string _tableName = "SysTypeAccount";
 

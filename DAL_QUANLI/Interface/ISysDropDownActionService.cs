@@ -4,7 +4,7 @@ using quan_li_app.Models.Common;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysDropDownActionInterface
+    public interface ISysDropDownActionService
     {
         Task<StatusMessage<SysDropDownAction>> SysDropDownActionIns(SysDropDownAction p, HttpRequest httpRequest);
         Task<StatusMessage<SysDropDownAction>> SysDropDownActionUpd(SysDropDownAction p, HttpRequest httpRequest);

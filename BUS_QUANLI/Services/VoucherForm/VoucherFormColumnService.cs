@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.VoucherForm
 {
-    public class VoucherFormColumnService : rootCommonService, IVoucherFormServiceColumn
+    public class VoucherFormColumnService : rootCommonService, IVoucherFormColumnService
     {
         public string _table_name = "SysVoucherFormColumn";
         public async Task<StatusMessage<SysVoucherFormColumn>> Delete(HttpRequest httpRequest, SysVoucherFormColumn sysVoucherFormColumn)

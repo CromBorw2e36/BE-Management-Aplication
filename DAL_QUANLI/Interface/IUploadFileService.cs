@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface IUploadFile
+    public interface IUploadFileService
     {
         public Task<List<UploadFileModel>> Insert(UploadFileModel model);
         public List<UploadFileModel> Search (UploadFileModel model);

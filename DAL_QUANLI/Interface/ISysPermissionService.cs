@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysPermission
+    public interface ISysPermissionService
     {
         StatusMessage<List<SysPermission>> Search(HttpRequest httpRequest, SysPermission model);
         StatusMessage<SysPermission> Insert(HttpRequest httpRequest, SysPermission model);

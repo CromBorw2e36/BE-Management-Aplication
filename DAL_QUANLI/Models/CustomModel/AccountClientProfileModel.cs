@@ -8,6 +8,7 @@ namespace DAL_QUANLI.Models.CustomModel
         public Account? account { get; set; }
         public UserInfo? userInfo { get; set; }
         public TOKEN? token { get; set; }
+
         public AccountClientProfileModel() { }
     }
 }

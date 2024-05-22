@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface INationalLanguage
+    public interface INationalLanguageService
     {
         StatusMessage<List<National>> Search(HttpRequest httpRequest, National model);
         StatusMessage<National> Insert(HttpRequest httpRequest, National model);

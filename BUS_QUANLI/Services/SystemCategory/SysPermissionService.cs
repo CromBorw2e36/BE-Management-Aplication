@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.SystemCategory
 {
-    public class SysPermissionService : rootCommonService, ISysPermission
+    public class SysPermissionService : rootCommonService, ISysPermissionService
     {
         public string _tableName = "SysPermission";
 

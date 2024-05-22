@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ISysMenu
+    public interface ISysMenuService
     {
         public StatusMessage<List<SysMenu>> Search(HttpRequest httpRequest, SysMenu model);
         public StatusMessage<SysMenu> Update(HttpRequest httpRequest, SysMenu model);

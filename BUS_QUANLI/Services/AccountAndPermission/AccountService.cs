@@ -9,7 +9,7 @@ using quan_li_app.Services;
 
 namespace BUS_QUANLI.Services.AccountAndPermission
 {
-    public class AccountService : rootCommonService, IAccount
+    public class AccountService : rootCommonService, IAccountService
     {
 
         string statusApproval = "3";
@@ -183,15 +183,8 @@ namespace BUS_QUANLI.Services.AccountAndPermission
         {
             try
             {
-                if (model.account != null)
-                {
-                    var result = dataContext.UserInfomation.Where(x => x.id == model.account && x.codeCompany == model.companyCode).ToList();
-                    return new StatusMessage<List<UserInfo>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
-                }
-                else
-                {
-                return new StatusMessage<List<UserInfo>>(1, GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), new List<UserInfo>());
-                }
+                var result = dataContext.UserInfomation.ToList();
+                return new StatusMessage<List<UserInfo>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
             catch
             {
@@ -235,6 +228,7 @@ namespace BUS_QUANLI.Services.AccountAndPermission
                 {
                     var result = dataContext.Accounts.Where(x => x.account == model.account && x.companyCode == model.companyCode).ToList();
                     var result2 = dataContext.UserInfomation.Where(x => x.id == model.account && x.codeCompany == model.companyCode).ToList();
+                    result[0].password = "";
                     AccountClientProfileModel oPP = new AccountClientProfileModel()
                     {
                         account = result[0],
@@ -272,11 +266,20 @@ namespace BUS_QUANLI.Services.AccountAndPermission
                     if(accountFind != null && userInfoFind != null)
                     {
                         model.account.password = accountFind.password; // Giữ password cũ của người dùng
-                        accountFind = model.account;
-                        userInfoFind = model.userInfo;
-                        dataContext.Accounts.Update(accountFind);
-                        dataContext.UserInfomation.Update(userInfoFind);
+                        model.account.create_date = accountFind.create_date;
+                        model.account.lock_date = accountFind.lock_date;
+                        model.account.last_enter = accountFind.last_enter;
+
+                        model.userInfo.modifyDate = DateTime.Now;
+
+                        dataContext.Accounts.Remove(accountFind);
+                        dataContext.Accounts.Add(model.account);
+
+                        dataContext.UserInfomation.Remove(userInfoFind);
+                        dataContext.UserInfomation.Add(model.userInfo);
+
                         dataContext.SaveChanges();
+
                         return new StatusMessage<AccountClientProfileModel>(0, GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), model);
                     }
                     else

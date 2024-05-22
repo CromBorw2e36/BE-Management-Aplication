@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services
 {
-    public class SysGenRowTableService : rootCommonService, ISysGenRowTable
+    public class SysGenRowTableService : rootCommonService, ISysGenRowTableService
     {
 
         public string _table_name = "SysGenRowTable";

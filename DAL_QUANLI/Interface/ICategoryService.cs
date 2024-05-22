@@ -3,7 +3,7 @@ using quan_li_app.Models.Common;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ICategory<T>
+    public interface ICategoryService<T>
     {
         Task<StatusMessage<T>> Insert(T pObject, HttpRequest httpRequest);
         Task<StatusMessage<List<T>>> Insert2(List<T> pObject, HttpRequest httpRequest); //  Insert nhiều

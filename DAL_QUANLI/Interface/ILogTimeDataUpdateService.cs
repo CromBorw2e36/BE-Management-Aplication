@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Interface
 {
-    public interface ILogTimeDataUpdate
+    public interface ILogTimeDataUpdateService
     {
         StatusMessage<List<LogTimeDataUpdateModel>> Search (HttpRequest httpRequest, LogTimeDataUpdateModel model);
         void Insert (HttpRequest httpRequest, LogTimeDataUpdateModel model);

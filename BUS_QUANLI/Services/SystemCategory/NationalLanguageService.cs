@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.SystemCategory
 {
-    public class NationalLanguageService : rootCommonService, INationalLanguage
+    public class NationalLanguageService : rootCommonService, INationalLanguageService
     {
         public string _tableName = "National";
 
