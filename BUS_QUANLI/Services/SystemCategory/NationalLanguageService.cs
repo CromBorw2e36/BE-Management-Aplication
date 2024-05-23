@@ -62,7 +62,7 @@ namespace BUS_QUANLI.Services.SystemCategory
             try
             {
                 var result = dataContext.Nationals.Where(x => (model.code == null || x.code == model.code)).OrderBy(x => x.zip_code).ToList();
-                return new StatusMessage<List<National>>(0, GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), result);
+                return new StatusMessage<List<National>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
             catch
             {

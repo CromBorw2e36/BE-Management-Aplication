@@ -46,6 +46,16 @@ namespace quan_li_app.Controllers.Data
         {
             try
             {
+                string userName = this.tokenHelper.GetUsername(HttpContext.Request);
+                Account acc = _context.Accounts.FirstOrDefault(e => e.account == userName)!;
+                SysStatus status_account = _context.SysStatus.FirstOrDefault(x => x.code == acc.status && x.module == "ACCOUNT");
+
+                if (status_account != null && status_account.accept_login != true)
+                {
+                    StatusMessage<dynamic> message = new StatusMessage<dynamic>(0, status_account.name!);
+                    return false;
+                }
+
                 if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
                 {
                     return true;
@@ -76,7 +86,15 @@ namespace quan_li_app.Controllers.Data
             else
             {
                 string EndcodePass = new PasswordEndCodeDecodeMD5().EndCodeMd5(account.password);
-                Account acc = _context.Accounts.FirstOrDefault(e => e.account == account.account)!;
+                Account acc = _context.Accounts.FirstOrDefault(e => e.account == account.account )!;
+
+                SysStatus status_account = _context.SysStatus.FirstOrDefault(x => x.code == acc.status && x.module == "ACCOUNT");
+
+                if(status_account != null &&  status_account.accept_login != true)
+                {
+                    StatusMessage<dynamic> message = new StatusMessage<dynamic>(0, status_account.name!);
+                    return message;
+                }
 
                 if (acc == null)
                 {
@@ -272,13 +290,13 @@ namespace quan_li_app.Controllers.Data
         }
 
         [HttpPost("AccountGetALL")]
-        public async Task<ActionResult<StatusMessage<List<UserInfo>>>> AccountGetALL(Account model)
+        public async Task<ActionResult<StatusMessage<List<UserInfoGetListModel>>>> AccountGetALL(Account model)
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                StatusMessage<List<UserInfo>> res = this._accoutnClient.GetListUser(HttpContext.Request, model);
-                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER", res);
-                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tableName2, "GET LIST USER", res);
+                StatusMessage<List<UserInfoGetListModel>> res = this._accoutnClient.GetListUser(HttpContext.Request, model);
+                this.commonService.LogTime<List<UserInfoGetListModel>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER", res);
+                this.commonService.LogTime<List<UserInfoGetListModel>>(HttpContext.Request, _accoutnClient._tableName2, "GET LIST USER", res);
                 return res;
             }
             else
@@ -288,12 +306,12 @@ namespace quan_li_app.Controllers.Data
         }
 
         [HttpPost("GetListUserRegister")]
-        public async Task<ActionResult<StatusMessage<List<UserInfo>>>> GetListUserRegister(Account model)
+        public async Task<ActionResult<StatusMessage<List<UserInfoGetListModel>>>> GetListUserRegister(Account model)
         {
             if (this.tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
-                StatusMessage<List<UserInfo>> res = this._accoutnClient.GetListUserRegister(HttpContext.Request, model);
-                this.commonService.LogTime<List<UserInfo>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER REGISTER", res);
+                StatusMessage<List<UserInfoGetListModel>> res = this._accoutnClient.GetListUserRegister(HttpContext.Request, model);
+                this.commonService.LogTime<List<UserInfoGetListModel>>(HttpContext.Request, _accoutnClient._tablename, "GET LIST USER REGISTER", res);
                 return res;
             }
             else

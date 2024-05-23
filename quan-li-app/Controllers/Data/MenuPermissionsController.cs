@@ -10,6 +10,7 @@ using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Models.SystemDB;
 using quan_li_app.ViewModels.Data;
+using System.Net;
 
 namespace quan_li_app.Controllers.Data
 {
@@ -143,6 +144,73 @@ namespace quan_li_app.Controllers.Data
             }
             return BadRequest();
         }
+
+
+
+        [HttpPost("GetMenuPermissions")]
+        public async Task<ActionResult<StatusMessage<List<SysMenu>>>> GetMenuPermissions(string account)
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.menuPermissionService.GetPermission(HttpContext.Request);
+                return res;
+            }
+            return Unauthorized();
+        }
+
+
+
+        [HttpPost("RoleMenuSearch")]
+        public async Task<ActionResult<StatusMessage<MenuPermissionInsModel>>> RoleMenuSearch(MenuPermissionInsModel model)
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.menuPermissionService.Search(HttpContext.Request, model);
+                return res;
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost("RoleMenuInsert")]
+        public async Task<ActionResult<StatusMessage<MenuPermissionInsModel>>> RoleMenuInsert(MenuPermissionInsModel model)
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.menuPermissionService.Insert(HttpContext.Request, model);
+                return res;
+            }
+            return Unauthorized();
+        }
+
+
+        [HttpPost("RoleMenuUpdate")]
+        public async Task<ActionResult<StatusMessage<MenuPermissionInsModel>>> RoleMenuUpdate(MenuPermissionInsModel model)
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.menuPermissionService.Insert(HttpContext.Request, model);
+                return res;
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost("RoleMenuOfUserLogin")]
+        public async Task<ActionResult<StatusMessage<List<string>>>> RoleMenuOfUserLogin()
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.menuPermissionService.GetMyMenuUrl(HttpContext.Request);
+                return res;
+            }
+            return Unauthorized();
+        }
+
+
         private bool MenuPermissionsExists(string id)
         {
             return _contextData.MenuPermissions.Any(e => e.id == id);

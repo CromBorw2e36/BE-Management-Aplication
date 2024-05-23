@@ -12,5 +12,6 @@ namespace quan_li_app.Models.DataDB
         [JsonIgnore]
         public string? modify { get; set; }
         public string? notes { get; set; }
+        public string? companyCode { get; set; }
     }
 }

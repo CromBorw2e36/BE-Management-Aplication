@@ -182,7 +182,7 @@ namespace BUS_QUANLI.Services.AccountAndPermission
             }
         }
 
-        public StatusMessage<List<UserInfo>> GetListUser(HttpRequest httpRequest, Account model)
+        public StatusMessage<List<UserInfoGetListModel>> GetListUser(HttpRequest httpRequest, Account model)
         {
             try
             {
@@ -192,16 +192,16 @@ namespace BUS_QUANLI.Services.AccountAndPermission
                 parameters.Add(new SqlParameter("@pstatus", model.status != null ? model.status : DBNull.Value));
 
 
-                var result = this.dataContext.Database.SqlQueryRaw<UserInfo>(
+                var result = this.dataContext.Database.SqlQueryRaw<UserInfoGetListModel>(
                 "EXEC GetListUserByStatus @pcompanyCode, @pstatus", parameters.ToArray()
                 ).ToList();
 
 
-                return new StatusMessage<List<UserInfo>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+                return new StatusMessage<List<UserInfoGetListModel>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
             catch
             {
-                return new StatusMessage<List<UserInfo>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<UserInfo>());
+                return new StatusMessage<List<UserInfoGetListModel>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<UserInfo>());
             }
         }
 
@@ -307,7 +307,7 @@ namespace BUS_QUANLI.Services.AccountAndPermission
             }
         }
 
-        public StatusMessage<List<UserInfo>> GetListUserRegister(HttpRequest httpRequest, Account model)
+        public StatusMessage<List<UserInfoGetListModel>> GetListUserRegister(HttpRequest httpRequest, Account model)
         {
             model.status = this.statusWaitActive;
             return this.GetListUser(httpRequest, model);
