@@ -49,11 +49,35 @@ namespace BUS_QUANLI.Services
                     .LeftJoin(
                                 this.dataContext.MenuPermissions
                                     .Where(x => x.account == account 
-                                        && x.companyCode == x.companyCode),
+                                        && x.companyCode == company_code),
                                 x => x.menuid,
                                 y => y.menuid,
                                 (x, y) => new { menu = x, menu_permission = y }
                               )
+                    .Where(x => x.menu_permission == null)
+                    .Select(x => x.menu)
+                    .ToList();
+
+                return new StatusMessage<List<SysMenu>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+            }
+            catch
+            {
+                return new StatusMessage<List<SysMenu>>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<MenuPermissions>());
+            }
+        }
+
+        public StatusMessage<List<SysMenu>> GetPermission2(HttpRequest httpRequest, Account model)
+        {
+            try
+            {
+                var sysMenus = this.systemContext.SysMenus.ToList();
+
+                var menuPermissions = dataContext.MenuPermissions
+                       .Where(mp => mp.account == model.account
+                                 && mp.companyCode == model.companyCode)
+                       .ToList();
+
+                var result = sysMenus.Join(menuPermissions, x => x.menuid, y => y.menuid, (x ,y ) => new { menu = x, menu_permission = y })
                     .Where(x => x.menu_permission == null)
                     .Select(x => x.menu)
                     .ToList();
@@ -173,16 +197,31 @@ namespace BUS_QUANLI.Services
                 }
                 else
                 {
-                    var list_permission_of_user = this.dataContext.MenuPermissions
-                        .Where(x => x.account == model.account.account
-                        && x.companyCode == model.account.companyCode)
-                        .LeftJoin(systemContext.SysMenus, a => a.menuid, b => b.menuid, (a, b) => new { menuPermission = a, menu = b })
-                        .Select(x => x.menu)
+                    //var list_permission_of_user = dataContext.MenuPermissions
+                    //    .Join(systemContext.SysMenus, a => a.menuid, b => b.menuid, (a, b) => new { menuPermission = a, menu = b })
+                    //    .Where(x => x.menuPermission.account == model.account.account
+                    //    && x.menuPermission.companyCode == model.account.companyCode)
+                    //    .Select(x => x.menu)
+                    //    .ToList();
+
+                    // Tải dữ liệu từ dataContext vào bộ nhớ
+                    var menuPermissions = dataContext.MenuPermissions
+                        .Where(mp => mp.account == model.account.account
+                                  && mp.companyCode == model.account.companyCode)
+                        .ToList();
+
+                    // Tải dữ liệu từ systemContext vào bộ nhớ
+                    var sysMenus = systemContext.SysMenus
+                        .ToList();
+
+                    // Thực hiện join trong bộ nhớ
+                    var list_permission_of_user = menuPermissions
+                        .Join(sysMenus, mp => mp.menuid, sm => sm.menuid, (mp, sm) => sm)
                         .ToList();
 
                     var account = this.dataContext.Accounts.FirstOrDefault(x => x.account == model.account.account && x.companyCode == model.account.companyCode);
                    
-                    if(account == null || list_permission_of_user.Count == 0)
+                    if(account == null)
                     {
                         return new StatusMessage<MenuPermissionInsModel>(1, GetMessageDescription(quan_li_app.Models.EnumQuanLi.NotFoundItem, httpRequest), model);
                     }

@@ -17,6 +17,7 @@ namespace DAL_QUANLI.Interface
         public StatusMessage<MenuPermissionInsModel> Update(HttpRequest httpRequest, MenuPermissionInsModel model);
         public StatusMessage<MenuPermissionInsModel> Search(HttpRequest httpRequest, MenuPermissionInsModel model);
         public StatusMessage<List<SysMenu>> GetPermission(HttpRequest httpRequest);   // List menu permission user haven't yet permission
+        public StatusMessage<List<SysMenu>> GetPermission2(HttpRequest httpRequest, Account model);   // List menu permission user haven't yet permission
         public StatusMessage<List<string>> GetMyMenuUrl(HttpRequest httpRequest);   
     }
 }
