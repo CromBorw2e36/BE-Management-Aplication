@@ -1,4 +1,5 @@
 ﻿using quan_li_app.Models.DataDB;
+using quan_li_app.Models.SystemDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace DAL_QUANLI.Models.CustomModel
     {
         public Account? account {  get; set; }
         public List<MenuPermissions>? list_permission { get; set; }
+        public List<SysMenu>? list_menu { get; set; }
     }
 }

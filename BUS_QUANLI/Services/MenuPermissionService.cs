@@ -175,7 +175,9 @@ namespace BUS_QUANLI.Services
                 {
                     var list_permission_of_user = this.dataContext.MenuPermissions
                         .Where(x => x.account == model.account.account
-                        && x.companyCode == this.tokenHelper.GetCompanyCode(httpRequest))
+                        && x.companyCode == model.account.companyCode)
+                        .LeftJoin(systemContext.SysMenus, a => a.menuid, b => b.menuid, (a, b) => new { menuPermission = a, menu = b })
+                        .Select(x => x.menu)
                         .ToList();
 
                     var account = this.dataContext.Accounts.FirstOrDefault(x => x.account == model.account.account && x.companyCode == model.account.companyCode);
@@ -186,7 +188,7 @@ namespace BUS_QUANLI.Services
                     }
 
                     model.account = account;
-                    model.list_permission = list_permission_of_user;
+                    model.list_menu = list_permission_of_user;
 
                     return new StatusMessage<MenuPermissionInsModel>(0, GetMessageDescription(quan_li_app.Models.EnumQuanLi.Suceeded, httpRequest), model);
                 }
