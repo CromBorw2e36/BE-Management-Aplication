@@ -23,6 +23,7 @@ namespace quan_li_app.Controllers.Data
         private readonly ViewModelAccount viewModelAccount;
         private readonly BaseMapper baseMapper;
         private readonly MenuPermissionService menuPermissionService;
+        private readonly CommonService commonService;
 
         public MenuPermissionsController(DataContext context, SystemContext context1)
         {
@@ -31,6 +32,7 @@ namespace quan_li_app.Controllers.Data
             viewModelAccount = new ViewModelAccount();
             this.baseMapper = new BaseMapper();
             menuPermissionService = new MenuPermissionService();
+            commonService = new CommonService();
         }
 
         [HttpPost("list_menu_get")]
@@ -168,6 +170,7 @@ namespace quan_li_app.Controllers.Data
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 var res = this.menuPermissionService.Search(HttpContext.Request, model);
+                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, "SysPermission", "SEARCH", res);
                 return res;
             }
             return Unauthorized();
@@ -180,6 +183,7 @@ namespace quan_li_app.Controllers.Data
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 var res = this.menuPermissionService.Insert(HttpContext.Request, model);
+                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, "SysPermission", "INSERT", res);
                 return res;
             }
             return Unauthorized();
@@ -193,6 +197,7 @@ namespace quan_li_app.Controllers.Data
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 var res = this.menuPermissionService.Insert(HttpContext.Request, model);
+                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, "SysPermission", "UPDATE", res);
                 return res;
             }
             return Unauthorized();
@@ -210,6 +215,18 @@ namespace quan_li_app.Controllers.Data
             return Unauthorized();
         }
 
+
+        [HttpPost("RoleMenuPermissionByUserNotYet")]
+        public async Task<ActionResult<StatusMessage<List<SysMenu>>>> RoleMenuPermissionByUserNotYet(Account model)
+        {
+            TokenHelper tokenHelper = new TokenHelper();
+            if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.menuPermissionService.GetPermission2(HttpContext.Request, model);
+                return res;
+            }
+            return Unauthorized();
+        }
 
         private bool MenuPermissionsExists(string id)
         {
