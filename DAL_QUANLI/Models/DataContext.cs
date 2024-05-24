@@ -59,6 +59,7 @@ namespace quan_li_app.Models
         public virtual DbSet<MovieReactionToMovieModel> MovieRactionToMovieModel { get; set; }
         public virtual DbSet<MovieReivewModel> MovieReivewModel { get; set; }
         public virtual DbSet<MovieWatchHistoryModel> MovieWatchHistoryModel { get; set; }
+        public virtual DbSet<LanguageModel> LanguageModel { get; set; }
 
 
 
@@ -224,7 +225,11 @@ namespace quan_li_app.Models
                 e.HasKey(e => e.id);
             });
 
-
+            modelBuilder.Entity<LanguageModel>(e =>
+            {
+                e.ToTable("Language");
+                e.HasKey(e => e.id);
+            });
 
             base.OnModelCreating(modelBuilder);
         }

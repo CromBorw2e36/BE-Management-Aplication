@@ -11,9 +11,9 @@ namespace DAL_QUANLI.Interface.Movie.MasterData
 {
     public interface IMovieGenresService
     {
-        StatusMessage<MovieGenresModel> Insert(HttpRequest httpRequest, MovieGenresModel model);
-        StatusMessage<MovieGenresModel> Update(HttpRequest httpRequest, MovieGenresModel model);
-        StatusMessage<MovieGenresModel> Delete(HttpRequest httpRequest, MovieGenresModel model);
-        StatusMessage<List<MovieGenresModel>> Search(HttpRequest httpRequest, MovieGenresModel model);
+        public StatusMessage<MovieGenresModel> Insert(HttpRequest httpRequest, MovieGenresModel model);
+       public StatusMessage<MovieGenresModel> Update(HttpRequest httpRequest, MovieGenresModel model);
+       public StatusMessage<MovieGenresModel> Delete(HttpRequest httpRequest, MovieGenresModel model);
+       public StatusMessage<List<MovieGenresModel>> Search(HttpRequest httpRequest, MovieGenresModel model);
     }
 }

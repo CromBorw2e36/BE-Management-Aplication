@@ -11,7 +11,6 @@ namespace DAL_QUANLI.Models.DataDB.Movie.MasterData
         public string? id { get; set; }
         public string? name { get; set; }
         public string? description { get; set; }
-        public string? year { get; set; }
         public string? genres_id { get; set; }
         public string? thumbnail_url { get; set; }
         public string? trailer_url { get; set; }
@@ -24,5 +23,7 @@ namespace DAL_QUANLI.Models.DataDB.Movie.MasterData
         public bool? is_active { get; set; }
         public string? national_id { get; set; }
         public string? language_id { get; set; }
+        public int? release_year {  get; set; } 
+        public double? duration { get; set; }   
     }
 }
