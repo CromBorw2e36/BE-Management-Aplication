@@ -1,10 +1,10 @@
-﻿using DAL_QUANLI.Models.CustomModel;
+﻿using BUS_QUANLI.Services.MasterData;
+using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
-using quan_li_app.Services;
 using System.Security.Claims;
 
 namespace quan_li_app.Helpers

@@ -9,9 +9,9 @@ using DAL_QUANLI.Models.SystemDB;
 using quan_li_app.Models;
 using quan_li_app.Helpers;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
-using BUS_QUANLI.Services;
 using quan_li_app.Models.Common;
 using DAL_QUANLI.Models.DataDB;
+using BUS_QUANLI.Services.MasterData;
 
 namespace quan_li_app.Controllers.System
 {

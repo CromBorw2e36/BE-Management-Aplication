@@ -1,4 +1,7 @@
 ﻿using DAL_QUANLI.Models.DataDB;
+using DAL_QUANLI.Models.DataDB.Movie;
+using DAL_QUANLI.Models.DataDB.Movie.MasterData;
+using DAL_QUANLI.Models.DataDB.Movie.Transaction;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
@@ -46,6 +49,17 @@ namespace quan_li_app.Models
         public virtual DbSet<UploadFileModel> UploadFileModels { get; set; }
         public virtual DbSet<CategoryCommonModel> CategoryCommonModels { get; set; }
         //public virtual DbSet<LogTimeDataUpdateModel> LogTimeDataUpdateModels { get; set; }
+
+
+        public virtual DbSet<MovieGenresModel> MovieGenresModel { get; set; }
+        public virtual DbSet<MovieModel> MovieModel { get; set; }
+        public virtual DbSet<MovieCommentModel> MovieCommentModel { get; set; }
+        public virtual DbSet<MovieFavoritesModel> MovieFavoritesModel { get; set; }
+        public virtual DbSet<MovieReactionToCommentModel> MovieReactionToCommentModel { get; set; }
+        public virtual DbSet<MovieReactionToMovieModel> MovieRactionToMovieModel { get; set; }
+        public virtual DbSet<MovieReivewModel> MovieReivewModel { get; set; }
+        public virtual DbSet<MovieWatchHistoryModel> MovieWatchHistoryModel { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -167,6 +181,50 @@ namespace quan_li_app.Models
                 e.ToTable("CategoryCommon");
                 e.HasKey(e => e.id);
             });
+
+
+            modelBuilder.Entity<MovieGenresModel>(e => {
+                e.ToTable("MovieGenres");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieModel>(e => {
+                e.ToTable("Movie");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieCommentModel>(e => {
+                e.ToTable("MovieComment");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieFavoritesModel>(e => {
+                e.ToTable("MovieFavorites");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieReactionToCommentModel>(e => {
+                e.ToTable("MovieReactionToComment");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieReactionToMovieModel>(e => {
+                e.ToTable("MovieReactionToMovie");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieReivewModel>(e => {
+                e.ToTable("MovieReivew");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<MovieWatchHistoryModel>(e =>
+            {
+                e.ToTable("MovieWatchHistory");
+                e.HasKey(e => e.id);
+            });
+
+
 
             base.OnModelCreating(modelBuilder);
         }

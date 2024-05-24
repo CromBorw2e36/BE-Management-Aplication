@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BUS_QUANLI.Services.MasterData;
+using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
-using quan_li_app.Services;
 
 namespace quan_li_app.ViewModels.Data
 {

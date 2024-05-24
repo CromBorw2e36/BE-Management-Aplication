@@ -1,5 +1,5 @@
-﻿using BUS_QUANLI.Services;
-using BUS_QUANLI.Services.AccountAndPermission;
+﻿using BUS_QUANLI.Services.MasterData;
+using BUS_QUANLI.Services.MasterData.AccountAndPermission;
 using DAL_QUANLI.Models.CustomModel;
 using DAL_QUANLI.Models.DataDB;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,6 @@ using quan_li_app.Models;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
 using quan_li_app.Models.DataDB.UserData;
-using quan_li_app.Services;
 using quan_li_app.ViewModels.Data;
 
 namespace quan_li_app.Controllers.Data
@@ -159,6 +158,8 @@ namespace quan_li_app.Controllers.Data
             string userName = this.tokenHelper.GetUsername(HttpContext.Request);
             StatusMessage<dynamic> msg = new StatusMessage<dynamic>();
             msg = await _accoutnClient.AccountClientIns(profile, userName);
+            this.commonService.LogTime<dynamic>(HttpContext.Request, this._accoutnClient._tablename , "INSERT", msg);
+            this.commonService.LogTime<dynamic>(HttpContext.Request, this._accoutnClient._tableName2 , "INSERT", msg);
             return msg;
         }
 

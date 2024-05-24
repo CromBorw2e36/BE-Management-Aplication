@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL_QUANLI.Models.DataDB;
 using quan_li_app.Models;
-using BUS_QUANLI.Services;
 using quan_li_app.Helpers;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.SystemDB;
 using System.Runtime.InteropServices.JavaScript;
 using Newtonsoft.Json.Linq;
-using BUS_QUANLI.Services.SystemCategory;
+using BUS_QUANLI.Services.MasterData;
+using BUS_QUANLI.Services.MasterData.SystemCategory;
 
 namespace quan_li_app.Controllers.Data
 {

@@ -1,4 +1,4 @@
-﻿using BUS_QUANLI.Services;
+﻿using BUS_QUANLI.Services.MasterData;
 using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -170,7 +170,7 @@ namespace quan_li_app.Controllers.Data
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 var res = this.menuPermissionService.Search(HttpContext.Request, model);
-                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, "SysPermission", "SEARCH", res);
+                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, this.menuPermissionService._table_name, "SEARCH", res);
                 return res;
             }
             return Unauthorized();
@@ -183,7 +183,7 @@ namespace quan_li_app.Controllers.Data
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 var res = this.menuPermissionService.Insert(HttpContext.Request, model);
-                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, "SysPermission", "INSERT", res);
+                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, this.menuPermissionService._table_name, "INSERT", res);
                 return res;
             }
             return Unauthorized();
@@ -197,7 +197,7 @@ namespace quan_li_app.Controllers.Data
             if (tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
                 var res = this.menuPermissionService.Insert(HttpContext.Request, model);
-                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, "SysPermission", "UPDATE", res);
+                this.commonService.LogTime<MenuPermissionInsModel>(HttpContext.Request, this.menuPermissionService._table_name, "UPDATE", res);
                 return res;
             }
             return Unauthorized();

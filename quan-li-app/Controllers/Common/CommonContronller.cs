@@ -1,4 +1,4 @@
-﻿using BUS_QUANLI.Services;
+﻿using BUS_QUANLI.Services.MasterData;
 using DAL_QUANLI.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -11,8 +11,8 @@ using quan_li_app.Models.Common;
 using BUS_QUANLI.Services;
 using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Helpers;
-using BUS_QUANLI.Services.VoucherForm;
 using System.ComponentModel;
+using BUS_QUANLI.Services.MasterData.VoucherForm;
 
 namespace quan_li_app.Controllers.System
 {

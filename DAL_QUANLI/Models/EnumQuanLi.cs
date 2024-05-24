@@ -70,5 +70,6 @@
         ApprovalSuccess,
         ApprovalExits,
         LockExits,
+        AccountStatusUnknow,
     }
 }

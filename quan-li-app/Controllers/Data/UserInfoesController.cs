@@ -1,4 +1,4 @@
-﻿using BUS_QUANLI.Services;
+﻿using BUS_QUANLI.Services.MasterData;
 using DAL_QUANLI.Models.CustomModel;
 using Microsoft.AspNetCore.Mvc;
 using quan_li_app.Helpers;

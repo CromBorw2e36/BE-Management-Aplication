@@ -1,4 +1,4 @@
-﻿using BUS_QUANLI.Services;
+﻿using BUS_QUANLI.Services.MasterData;
 using DAL_QUANLI.Models.SystemDB.SysAction;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
