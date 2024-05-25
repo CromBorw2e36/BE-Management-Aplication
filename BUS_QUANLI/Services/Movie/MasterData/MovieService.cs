@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BUS_QUANLI.Services.Movie.MasterData
 {
-    internal class MovieService : rootCommonService, IMovieService
+    public class MovieService : rootCommonService, IMovieService
     {
         public readonly string _tableName = "Movie";
         public StatusMessage<MovieModel> Delete(HttpRequest httpRequest, MovieModel model)

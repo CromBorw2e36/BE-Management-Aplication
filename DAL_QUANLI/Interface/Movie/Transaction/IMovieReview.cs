@@ -15,7 +15,6 @@ namespace DAL_QUANLI.Interface.Movie.Transaction
         public StatusMessage<MovieReivewModel> Update(HttpRequest httpRequest, MovieReivewModel model);
         public StatusMessage<MovieReivewModel> Delete(HttpRequest httpRequest, MovieReivewModel model);
         public StatusMessage<List<MovieReivewModel>> Search(HttpRequest httpRequest, MovieReivewModel model);
-        public StatusMessage<List<MovieReivewModel>> SearchRangeDate(HttpRequest httpRequest, MovieReivewModel model);
         public StatusMessage<List<MovieReivewModel>> SearchRangePage(HttpRequest httpRequest, MovieReivewModel model);
     }
 }

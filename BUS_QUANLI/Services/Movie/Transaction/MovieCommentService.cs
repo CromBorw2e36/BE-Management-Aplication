@@ -14,6 +14,8 @@ namespace BUS_QUANLI.Services.Movie.Transaction
 {
     public class MovieCommentService : rootCommonService, IMovieComment
     {
+
+        public readonly string _tableName = "MovieComment";
         public StatusMessage<MovieCommentModel> Delete(HttpRequest httpRequest, MovieCommentModel model)
         {
             try
@@ -63,6 +65,7 @@ namespace BUS_QUANLI.Services.Movie.Transaction
                 }
                 else
                 {
+                    model.id = this.commonHelpers.GenerateRowID(this._tableName);
                     model.is_delete = false;
                     model.create_date = DateTime.Now;
                     model.user_id = this.tokenHelper.GetUsername(httpRequest);
@@ -107,7 +110,7 @@ namespace BUS_QUANLI.Services.Movie.Transaction
                         && (model.id_parent == null || x.id_parent == model.id_parent)
                         && (model.user_id == null || x.user_id == model.user_id)
                         && (model.is_delete == null || x.is_delete == model.is_delete)
-                        && (model.form_date == null || model.to_date == null || x.create_date >= model.form_date && x.create_date <= model.to_date)
+                        && (model.form_date == null || model.to_date == null || (x.create_date >= model.form_date && x.create_date <= model.to_date))
                     ).ToList();
 
                 return new StatusMessage<List<MovieCommentModel>>(0, this.GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);

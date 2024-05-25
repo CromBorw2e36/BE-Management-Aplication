@@ -12,10 +12,8 @@ namespace DAL_QUANLI.Interface.Movie.Transaction
     public interface IMovieWatchHistory
     {
         public StatusMessage<MovieWatchHistoryModel> Insert(HttpRequest httpRequest, MovieWatchHistoryModel model);
-        public StatusMessage<MovieWatchHistoryModel> Update(HttpRequest httpRequest, MovieWatchHistoryModel model);
         public StatusMessage<MovieWatchHistoryModel> Delete(HttpRequest httpRequest, MovieWatchHistoryModel model);
         public StatusMessage<List<MovieWatchHistoryModel>> Search(HttpRequest httpRequest, MovieWatchHistoryModel model);
-        public StatusMessage<List<MovieWatchHistoryModel>> SearchRangeDate(HttpRequest httpRequest, MovieWatchHistoryModel model);
         public StatusMessage<List<MovieWatchHistoryModel>> SearchRangePage(HttpRequest httpRequest, MovieWatchHistoryModel model);
 
 

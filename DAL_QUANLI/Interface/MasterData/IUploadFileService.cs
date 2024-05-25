@@ -1,4 +1,6 @@
 ﻿using DAL_QUANLI.Models.DataDB;
+using Microsoft.AspNetCore.Http;
+using quan_li_app.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace DAL_QUANLI.Interface.MasterData
 {
     public interface IUploadFileService
     {
-        public Task<List<UploadFileModel>> Insert(UploadFileModel model);
-        public List<UploadFileModel> Search(UploadFileModel model);
+        public Task<StatusMessage<List<UploadFileModel>>> Insert(HttpRequest httpRequest, UploadFileModel model);
+        public List<UploadFileModel> Search(HttpRequest httpRequest, UploadFileModel model);
     }
 }

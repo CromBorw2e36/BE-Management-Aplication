@@ -1,5 +1,6 @@
 ﻿using BUS_QUANLI.Services.MasterData;
 using DAL_QUANLI.Models.Common;
+using DAL_QUANLI.Models.DataDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Helpers;
@@ -19,6 +20,7 @@ namespace quan_li_app.Controllers.Common
         private readonly TokenHelper _tokenHelper;
         private readonly BaseMapper baseMapper;
         private CommonService commonService;
+        private UploadFileService uploadFileService;
 
         public CommonContronller(DataContext contextData, SystemContext contextSystem)
         {
@@ -27,6 +29,7 @@ namespace quan_li_app.Controllers.Common
             _tokenHelper = new TokenHelper();
             baseMapper = new BaseMapper();
             commonService = new CommonService();
+            uploadFileService = new UploadFileService();
         }
 
         [HttpGet, ActionName("ListCompany")]
@@ -78,6 +81,14 @@ namespace quan_li_app.Controllers.Common
                 return result;
             }
             return Unauthorized();
+        }
+
+
+        [HttpPost("UploadFileVersion11")]
+        public async Task<ActionResult<StatusMessage<List<UploadFileModel>>>> UploadFileVersion11(UploadFileModel model)
+        {
+            var res = await this.uploadFileService.Insert(HttpContext.Request, model);
+            return res;
         }
 
     }
