@@ -18,6 +18,8 @@ namespace DAL_QUANLI.Interface.Movie.MasterData
         public StatusMessage<MovieParamModel> Get (HttpRequest httpRequest, MovieModel model);
 
         public StatusMessage<List<MovieModel>> Search(HttpRequest httpRequest, MovieModel model);
+        public StatusMessage<List<MovieModel>> SearchRangePage(HttpRequest httpRequest, MovieModel model);
+
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,11 @@ namespace DAL_QUANLI.Models.DataDB.Movie.MasterData
         public string? national_id { get; set; }
         public string? language_id { get; set; }
         public int? release_year {  get; set; } 
-        public double? duration { get; set; }   
+        public double? duration { get; set; }
+
+        [NotMapped]
+        public int? page_current { get; set; } = 0;
+        [NotMapped]
+        public int? item_take { get; set; } = 10;
     }
 }

@@ -15,6 +15,7 @@ namespace BUS_QUANLI.Services.Movie.MasterData
 {
     internal class MovieService : rootCommonService, IMovieService
     {
+        public readonly string _tableName = "Movie";
         public StatusMessage<MovieModel> Delete(HttpRequest httpRequest, MovieModel model)
         {
             try
@@ -26,7 +27,7 @@ namespace BUS_QUANLI.Services.Movie.MasterData
                 {
                     return new StatusMessage<MovieModel>(1, this.GetMessageDescription(EnumQuanLi.NoneData, httpRequest), new MovieModel());
                 }
-                else
+                else 
                 {
                     var result = this.dataContext.MovieModel.FirstOrDefault(x => x.id == model.id);
                     if (result != null)
@@ -101,7 +102,34 @@ namespace BUS_QUANLI.Services.Movie.MasterData
 
         public StatusMessage<MovieModel> Insert(HttpRequest httpRequest, MovieModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(this.commonHelpers.CheckInValidVariableTypeString(model.language_id, false))
+                {
+                    model.language_id = "UNKONW";
+                }
+                if(this.commonHelpers.CheckInValidVariableTypeString(model.genres_id, false))
+                {
+                    model.genres_id = "UNKONW"; 
+                }
+                if(this.commonHelpers.CheckInValidVariableTypeString(model.national_id, false))
+                {
+                    model.national_id = "UNKONW";   
+                }
+
+                model.id = this.commonHelpers.GenerateRowID(this._tableName);
+                model.is_delete = false;
+                model.is_active = model.is_active != true ?  false : true;
+
+                this.dataContext.MovieModel.Add(model);
+                this.dataContext.SaveChanges();
+
+                return new StatusMessage<MovieModel>(0, this.GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), model);
+            }
+            catch
+            {
+                return new StatusMessage<MovieModel>(1, this.GetMessageDescription(EnumQuanLi.InsertError, httpRequest), model);
+            }
         }
 
         public StatusMessage<List<MovieModel>> Search(HttpRequest httpRequest, MovieModel model)
@@ -117,6 +145,38 @@ namespace BUS_QUANLI.Services.Movie.MasterData
                    .OrderByDescending(x => x.release_year).ThenBy(x => x.name)
                    .ToList();
                    return new StatusMessage<List<MovieModel>>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), result);     
+            }
+            catch
+            {
+                return new StatusMessage<List<MovieModel>>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<MovieModel>());
+            }
+        }
+
+        public StatusMessage<List<MovieModel>> SearchRangePage(HttpRequest httpRequest, MovieModel model)
+        {
+            try
+            {
+                try
+                {
+                    if (model.page_current == null) model.page_current = 0;
+                    if (model.item_take == null) model.page_current = 10;
+
+                    var result = this.dataContext.MovieModel.Where(x =>
+                       (model.genres_id == null || x.genres_id == model.genres_id)
+                       && (model.language_id == null || x.language_id == model.language_id)
+                       && (model.national_id == null || x.national_id == model.national_id)
+                       && (model.release_year == null || x.release_year == model.release_year)
+                       )
+                       .OrderByDescending(x => x.release_year).ThenBy(x => x.name)
+                       .Skip(model.page_current ?? 0)
+                       .Take(model.item_take ?? 10)
+                       .ToList();
+                    return new StatusMessage<List<MovieModel>>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), result);
+                }
+                catch
+                {
+                    return new StatusMessage<List<MovieModel>>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<MovieModel>());
+                }
             }
             catch
             {

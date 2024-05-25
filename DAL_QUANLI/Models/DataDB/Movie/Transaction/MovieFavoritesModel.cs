@@ -17,6 +17,6 @@ namespace DAL_QUANLI.Models.DataDB.Movie.Transaction
         public string? movie_url { get; set; }
         public string? movie_description { get; set; }
         public string? movie_thumbnail_url { get; set; }
-        public double? time_view { get; set; }
+        public DateTime? delete_at { get; set; }
     }
 }
