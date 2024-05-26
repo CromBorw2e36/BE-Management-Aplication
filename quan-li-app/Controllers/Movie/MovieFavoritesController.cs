@@ -45,7 +45,7 @@ namespace quan_li_app.Controllers.Movie
         }
 
         [HttpPost("Search")]
-        public async Task<ActionResult<StatusMessage<List<MovieFavoritesModel>>>> Search(HttpRequest httpRequest, MovieFavoritesModel model)
+        public async Task<ActionResult<StatusMessage<List<MovieFavoritesModel>>>> Search( MovieFavoritesModel model)
         {
             var res = this.movieFavoritesService.Search(this.Request, model);
             return res;
