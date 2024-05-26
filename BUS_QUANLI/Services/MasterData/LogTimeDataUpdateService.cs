@@ -43,7 +43,10 @@ namespace BUS_QUANLI.Services.MasterData
             model.account = tokenHelper.GetUsername(httpRequest);
             try
             {
-                model.companyCode = dataContext.Accounts.Where(x => x.account == model.account).FirstOrDefault()!.companyCode;
+                if(model.account != "")
+                {
+                    model.companyCode = dataContext.Accounts.Where(x => x.account == model.account).FirstOrDefault()!.companyCode;
+                }
             }
             catch { }
 

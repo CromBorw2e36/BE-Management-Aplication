@@ -56,43 +56,92 @@ namespace BUS_QUANLI.Services.Movie.MasterData
         {
             try
             {
-                var result = this.dataContext.MovieModel
-                   .Join(this.dataContext.MovieGenresModel, x => x.genres_id, y => y.id, (x, y) => new { movie = x, genres = y })
-                   .Join(this.dataContext.Nationals, x =>  x.movie.national_id, z => z.code, (x, z) => new { movie = x.movie, genres = x.genres, national = z })
-                    .Where(x =>
-                   (model.genres_id == null || x.movie.genres_id == model.genres_id)
-                   && (model.language_id == null || x.movie.language_id == model.language_id)
-                   && (model.national_id == null || x.movie.national_id == model.national_id)
-                   && (model.release_year == null || x.movie.release_year == model.release_year)
-                   )
-                   .OrderByDescending(x => x.movie.release_year).ThenBy(x => x.movie.name)
-                   .Select(x => new MovieParamModel
-                   {
-                        id = x.movie.id,
-                        name = x.movie.name ,
-                        description = x.movie.description ,
-                        genres_id = x.movie.genres_id ,
-                        thumbnail_url = x.movie.thumbnail_url ,
-                        trailer_url = x.movie.trailer_url ,
-                        movie_url = x.movie.movie_url ,
-                        create_date = x.movie.create_date ,
-                        update_date = x.movie.update_date ,
-                        create_by = x.movie.create_by ,
-                        update_by = x.movie.update_by ,
-                        is_delete = x.movie.is_delete ,
-                        is_active = x.movie.is_active ,
-                        national_id = x.movie.national_id ,
-                        language_id = x.movie.language_id ,
-                        release_year = x.movie.release_year ,
-                        duration = x.movie.duration ,
-                        curret_idx_item = null,
-                        national_name = x.national.name ,
-                        genres_name = x.genres.name ,
-                        language_name = x.movie.language_id,
-                   })
-                   .ToList();
+                //var result = this.dataContext.MovieModel
+                //   .Join(this.dataContext.MovieGenresModel, x => x.genres_id, y => y.id, (x, y) => new { movie = x, genres = y })
+                //   .Join(this.dataContext.Nationals, x => x.movie.national_id, z => z.code, (x, z) => new { movie = x.movie, genres = x.genres, national = z })
+                //    .Where(x =>
+                //   (model.genres_id == null || x.movie.genres_id == model.genres_id)
+                //   && (model.language_id == null || x.movie.language_id == model.language_id)
+                //   && (model.national_id == null || x.movie.national_id == model.national_id)
+                //   && (model.release_year == null || x.movie.release_year == model.release_year)
+                //   && (model.id == null || x.movie.id == model.id)
+                //   )
+                //   .OrderByDescending(x => x.movie.release_year).ThenBy(x => x.movie.name)
+                //   .Select(x => new MovieParamModel
+                //   {
+                //        id = x.movie.id,
+                //        name = x.movie.name ,
+                //        description = x.movie.description ,
+                //        genres_id = x.movie.genres_id ,
+                //        thumbnail_url = x.movie.thumbnail_url ,
+                //        trailer_url = x.movie.trailer_url ,
+                //        movie_url = x.movie.movie_url ,
+                //        create_date = x.movie.create_date ,
+                //        update_date = x.movie.update_date ,
+                //        create_by = x.movie.create_by ,
+                //        update_by = x.movie.update_by ,
+                //        is_delete = x.movie.is_delete ,
+                //        is_active = x.movie.is_active ,
+                //        national_id = x.movie.national_id ,
+                //        language_id = x.movie.language_id ,
+                //        release_year = x.movie.release_year ,
+                //        duration = x.movie.duration ,
+                //        curret_idx_item = null,
+                //        national_name = x.national.name ,
+                //        genres_name = x.genres.name ,
+                //        language_name = x.movie.language_id,
+                //   })
+                //   .ToList();
 
-                return new StatusMessage<MovieParamModel>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), result);
+
+                var result = from movie in this.dataContext.MovieModel
+                             join genre in this.dataContext.MovieGenresModel
+                             on movie.genres_id equals genre.id into gj
+                             from genre in gj.DefaultIfEmpty()
+                             join national in this.dataContext.Nationals
+                             on movie.national_id equals national.code into nj
+                             from national in nj.DefaultIfEmpty()
+                             where (model.genres_id == null || movie.genres_id == model.genres_id)
+                                && (model.language_id == null || movie.language_id == model.language_id)
+                                && (model.national_id == null || movie.national_id == model.national_id)
+                                && (model.release_year == null || movie.release_year == model.release_year)
+                                && (model.id == null || movie.id == model.id)
+                             orderby movie.release_year descending, movie.name
+                             select new MovieParamModel
+                             {
+                                 id = movie.id,
+                                 name = movie.name,
+                                 description = movie.description,
+                                 genres_id = movie.genres_id,
+                                 thumbnail_url = movie.thumbnail_url,
+                                 trailer_url = movie.trailer_url,
+                                 movie_url = movie.movie_url,
+                                 create_date = movie.create_date,
+                                 update_date = movie.update_date,
+                                 create_by = movie.create_by,
+                                 update_by = movie.update_by,
+                                 is_delete = movie.is_delete,
+                                 is_active = movie.is_active,
+                                 national_id = movie.national_id,
+                                 language_id = movie.language_id,
+                                 release_year = movie.release_year,
+                                 duration = movie.duration,
+                                 curret_idx_item = null, // Sửa lỗi chính tả ở đây
+                                 national_name = national != null ? national.name : null,
+                                 genres_name = genre != null ? genre.name : null,
+                                 language_name = movie.language_id // Điều chỉnh nếu bạn cần tên ngôn ngữ
+                             };
+
+                var resultList = result.ToList();
+
+               if(resultList.Count == 1)
+                {
+                    return new StatusMessage<MovieParamModel>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), resultList[0]);
+                }
+                else
+                {
+                    return new StatusMessage<MovieParamModel>(1, this.GetMessageDescription(EnumQuanLi.NoneData, httpRequest), new MovieParamModel());
+                }
             }
             catch
             {
@@ -144,7 +193,7 @@ namespace BUS_QUANLI.Services.Movie.MasterData
                    )
                    .OrderByDescending(x => x.release_year).ThenBy(x => x.name)
                    .ToList();
-                   return new StatusMessage<List<MovieModel>>(0, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), result);     
+                   return new StatusMessage<List<MovieModel>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);     
             }
             catch
             {
