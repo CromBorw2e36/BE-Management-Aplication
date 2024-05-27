@@ -27,6 +27,11 @@ namespace BUS_QUANLI.Services.MasterData
         public readonly LogTimeDataUpdateService logTimeDataUpdateService;
         public readonly string _tableName = "UploadFile";
 
+        private readonly string[] AllowedDocumentTypes = { "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" };
+        private readonly string[] AllowedOrderTypes = { "text/plain" }; // Assuming orders are text files
+        private readonly string[] AllowedImageTypes = { "image/jpeg", "image/png", "image/gif" };
+        private readonly string[] AllowedVideoTypes = { "video/mp4", "video/mpeg", "video/quicktime" };
+
 
 
         public UploadFileService()
@@ -39,6 +44,31 @@ namespace BUS_QUANLI.Services.MasterData
             statusMessageMapper = new StatusMessageMapper();
             logTimeDataUpdateService = new LogTimeDataUpdateService();
         }
+
+        private string FileType(string contentType)
+        {
+            if (AllowedDocumentTypes.Contains(contentType))
+            {
+                return "Document";
+            }
+            else if (AllowedOrderTypes.Contains(contentType))
+            {
+                return "Order";
+            }
+            else if (AllowedImageTypes.Contains(contentType))
+            {
+                return "Image";
+            }
+            else if (AllowedVideoTypes.Contains(contentType))
+            {
+                return "Video";
+            }
+            else
+            {
+                return "Order"; // Unknown file type
+            }
+        }
+
 
         public string GetMessageDescription(EnumQuanLi param, HttpRequest httpRequest)
         {
@@ -116,7 +146,8 @@ namespace BUS_QUANLI.Services.MasterData
                         string fileId = commonHelpers.GenerateRowID(this._tableName);
                         string extension = Path.GetExtension(file.FileName);
                         string fileName = $"{date:yyyy-MM-dd_HH-mm-ss}_{fileId}{extension}";
-                        string filePath_f = Path.Combine("Upload", "Files", tableName, col_name);
+                        string folderNameFile = this.FileType(file.ContentType);
+                        string filePath_f = Path.Combine("Upload", folderNameFile, tableName, col_name);
                         string filePath = Path.Combine(filePath_f, fileName);
 
                         // Ensure the directory exists
@@ -124,7 +155,6 @@ namespace BUS_QUANLI.Services.MasterData
                         {
                             Directory.CreateDirectory(filePath_f);
                         }
-
 
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
@@ -136,7 +166,7 @@ namespace BUS_QUANLI.Services.MasterData
                             id = fileId,
                             table_name = tableName,
                             create_date = DateTime.Now,
-                            create_by = tokenHelper.GetUsername(httpRequest),
+                            create_by = tokenHelper.GetUsername(httpRequest) ?? "UNKNOWN",
                             file_name = file.FileName,
                             file_type = file.ContentType,
                             file_size = file.Length,
