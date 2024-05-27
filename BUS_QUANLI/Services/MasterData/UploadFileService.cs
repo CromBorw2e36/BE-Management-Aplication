@@ -77,11 +77,11 @@ namespace BUS_QUANLI.Services.MasterData
                         {
                             id = fileId,
                             table_name = model.table_name,
-                            create_date = date.ToString("yyyy-MM-dd HH:mm:ss"),
+                            create_date = DateTime.Now,
                             create_by = this.tokenHelper.GetUsername(httpRequest),
                             file_name = file.FileName,
                             file_type = file.ContentType,
-                            file_size = file.Length.ToString(),
+                            file_size = file.Length,
                             file_path = fileName,
                             description = model.description,
                             company_code = model.company_code,
@@ -113,9 +113,9 @@ namespace BUS_QUANLI.Services.MasterData
                     if (file.Length > 0)
                     {
                         DateTime date = DateTime.UtcNow.AddHours(7);
-                        string fileId = commonHelpers.GenerateRowID(tableName);
+                        string fileId = commonHelpers.GenerateRowID(this._tableName);
                         string extension = Path.GetExtension(file.FileName);
-                        string fileName = $"{date:yyyyMMdd-HHmmss}-{fileId}{extension}";
+                        string fileName = $"{date:yyyy-MM-dd_HH-mm-ss}_{fileId}{extension}";
                         string filePath_f = Path.Combine("Upload", "Files", tableName, col_name);
                         string filePath = Path.Combine(filePath_f, fileName);
 
@@ -135,23 +135,23 @@ namespace BUS_QUANLI.Services.MasterData
                         {
                             id = fileId,
                             table_name = tableName,
-                            create_date = date.ToString("yyyy-MM-dd HH:mm:ss"),
+                            create_date = DateTime.Now,
                             create_by = tokenHelper.GetUsername(httpRequest),
                             file_name = file.FileName,
                             file_type = file.ContentType,
-                            file_size = file.Length.ToString(),
+                            file_size = file.Length,
                             file_path = $"{filePath_f}/{fileName}",  // Store the full file path here
                             description = "your_description",
                             company_code = "your_company_code",
-                            enabled = true
+                            enabled = true,
+                            col_name = col_name
                         };
 
                         dataContext.UploadFileModels.Add(uploadFile);
+                        this.dataContext.SaveChanges();
                         uploadedFiles.Add(uploadFile);
                     }
                 }
-
-                await dataContext.SaveChangesAsync();
                 return new StatusMessage<List<UploadFileModel>>(0, "Insert success message", uploadedFiles);
             }
             catch (Exception ex)
