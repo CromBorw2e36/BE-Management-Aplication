@@ -101,6 +101,56 @@ namespace BUS_QUANLI.Services.MasterData
             }
         }
 
+        public async Task<StatusMessage<List<UploadFileModel>>> Insert12(HttpRequest httpRequest, List<UploadFileModel> models)
+        {
+            try
+            {
+              
+                List<UploadFileModel> uploadedFiles = new List<UploadFileModel>();
+
+                foreach (var item in models)
+                {
+                    DateTime date = DateTime.UtcNow.AddHours(7);
+                    string fileId = commonHelpers.GenerateRowID(this._tableName);
+                    string extention = Path.GetExtension(item.file.FileName);
+                    string fileName = $"{date:yyyyMMdd-HHmmss}-{fileId}{extention}";
+                    string filePath = Path.Combine("Upload/Files", fileName);
+
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await item.file.CopyToAsync(stream);
+                    }
+
+                    var uploadFile = new UploadFileModel
+                    {
+                        id = fileId,
+                        table_name = item.table_name,
+                        create_date = date.ToString("yyyy-MM-dd HH:mm:ss"),
+                        create_by = this.tokenHelper.GetUsername(httpRequest),
+                        file_name = item.file_name,
+                        file_type = item.file.ContentType,
+                        file_size = item.file.Length.ToString(),
+                        file_path = fileName,
+                        description = item.description,
+                        company_code = item.company_code,
+                        enabled = item.enabled ?? true
+                    };
+
+                    dataContext.UploadFileModels.Add(uploadFile);
+                    uploadedFiles.Add(uploadFile);
+                }
+
+                await dataContext.SaveChangesAsync();
+                return new StatusMessage<List<UploadFileModel>>(0, this.GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), uploadedFiles);
+            }
+            catch
+            {
+                return new StatusMessage<List<UploadFileModel>>(1, this.GetMessageDescription(EnumQuanLi.InsertError, httpRequest), models);
+            }
+        }
+
         public List<UploadFileModel> Search(HttpRequest httpRequest, UploadFileModel model)
         {
             throw new NotImplementedException();

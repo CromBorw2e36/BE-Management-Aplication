@@ -91,5 +91,12 @@ namespace quan_li_app.Controllers.Common
             return res;
         }
 
+
+        [HttpPost("UploadFileVersion12")]
+        public async Task<ActionResult<StatusMessage<List<UploadFileModel>>>> UploadFileVersion12(List<UploadFileModel> models)
+        {
+            var res = await this.uploadFileService.Insert(HttpContext.Request, models);
+            return res;
+        }
     }
 }

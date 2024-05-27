@@ -12,6 +12,7 @@ namespace DAL_QUANLI.Interface.MasterData
     public interface IUploadFileService
     {
         public Task<StatusMessage<List<UploadFileModel>>> Insert(HttpRequest httpRequest, UploadFileModel model);
+        public Task<StatusMessage<List<UploadFileModel>>> Insert12(HttpRequest httpRequest, List<UploadFileModel> models);
         public List<UploadFileModel> Search(HttpRequest httpRequest, UploadFileModel model);
     }
 }
