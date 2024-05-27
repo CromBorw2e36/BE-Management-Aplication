@@ -24,6 +24,7 @@ namespace DAL_QUANLI.Models.DataDB
         [NotMapped]
         public List<IFormFile>? files { get; set; }
         [NotMapped]
-        public IFormFile? file { get; set; }
+        public dynamic? file { get; set; }
+        public IFormFile? file2 { get; set; }
     }
 }

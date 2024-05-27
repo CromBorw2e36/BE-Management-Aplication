@@ -12,10 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using DAL_QUANLI.Interface.MasterData;
 using Microsoft.AspNetCore.Http;
 using quan_li_app.Models.Common;
+using System.Net.Http.Headers;
 
 namespace BUS_QUANLI.Services.MasterData
 {
-    public class UploadFileService :  IUploadFileService
+    public class UploadFileService : IUploadFileService
     {
         public readonly DataContext dataContext;
         public readonly SystemContext systemContext;
@@ -93,63 +94,76 @@ namespace BUS_QUANLI.Services.MasterData
                 }
 
                 await dataContext.SaveChangesAsync();
-                return new StatusMessage<List<UploadFileModel>>(0, this.GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest) , uploadedFiles);
-            }
-            catch
-            {
-                return new StatusMessage<List<UploadFileModel>>(1, this.GetMessageDescription(EnumQuanLi.InsertError, httpRequest) ,model);
-            }
-        }
-
-        public async Task<StatusMessage<List<UploadFileModel>>> Insert12(HttpRequest httpRequest, List<UploadFileModel> models)
-        {
-            try
-            {
-              
-                List<UploadFileModel> uploadedFiles = new List<UploadFileModel>();
-
-                foreach (var item in models)
-                {
-                    DateTime date = DateTime.UtcNow.AddHours(7);
-                    string fileId = commonHelpers.GenerateRowID(this._tableName);
-                    string extention = Path.GetExtension(item.file.FileName);
-                    string fileName = $"{date:yyyyMMdd-HHmmss}-{fileId}{extention}";
-                    string filePath = Path.Combine("Upload/Files", fileName);
-
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await item.file.CopyToAsync(stream);
-                    }
-
-                    var uploadFile = new UploadFileModel
-                    {
-                        id = fileId,
-                        table_name = item.table_name,
-                        create_date = date.ToString("yyyy-MM-dd HH:mm:ss"),
-                        create_by = this.tokenHelper.GetUsername(httpRequest),
-                        file_name = item.file_name,
-                        file_type = item.file.ContentType,
-                        file_size = item.file.Length.ToString(),
-                        file_path = fileName,
-                        description = item.description,
-                        company_code = item.company_code,
-                        enabled = item.enabled ?? true
-                    };
-
-                    dataContext.UploadFileModels.Add(uploadFile);
-                    uploadedFiles.Add(uploadFile);
-                }
-
-                await dataContext.SaveChangesAsync();
                 return new StatusMessage<List<UploadFileModel>>(0, this.GetMessageDescription(EnumQuanLi.InsertSuccess, httpRequest), uploadedFiles);
             }
             catch
             {
-                return new StatusMessage<List<UploadFileModel>>(1, this.GetMessageDescription(EnumQuanLi.InsertError, httpRequest), models);
+                return new StatusMessage<List<UploadFileModel>>(1, this.GetMessageDescription(EnumQuanLi.InsertError, httpRequest), model);
             }
         }
+
+        public async Task<StatusMessage<List<UploadFileModel>>> Insert12(HttpRequest httpRequest, List<IFormFile> files, string tableName, string col_name)
+        {
+            try
+            {
+                List<UploadFileModel> uploadedFiles = new List<UploadFileModel>();
+
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        DateTime date = DateTime.UtcNow.AddHours(7);
+                        string fileId = commonHelpers.GenerateRowID(tableName);
+                        string extension = Path.GetExtension(file.FileName);
+                        string fileName = $"{date:yyyyMMdd-HHmmss}-{fileId}{extension}";
+                        string filePath_f = Path.Combine("Upload", "Files", tableName, col_name);
+                        string filePath = Path.Combine(filePath_f, fileName);
+
+                        // Ensure the directory exists
+                        if (!Directory.Exists(filePath_f))
+                        {
+                            Directory.CreateDirectory(filePath_f);
+                        }
+
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        var uploadFile = new UploadFileModel
+                        {
+                            id = fileId,
+                            table_name = tableName,
+                            create_date = date.ToString("yyyy-MM-dd HH:mm:ss"),
+                            create_by = tokenHelper.GetUsername(httpRequest),
+                            file_name = file.FileName,
+                            file_type = file.ContentType,
+                            file_size = file.Length.ToString(),
+                            file_path = $"{filePath_f}/{fileName}",  // Store the full file path here
+                            description = "your_description",
+                            company_code = "your_company_code",
+                            enabled = true
+                        };
+
+                        dataContext.UploadFileModels.Add(uploadFile);
+                        uploadedFiles.Add(uploadFile);
+                    }
+                }
+
+                await dataContext.SaveChangesAsync();
+                return new StatusMessage<List<UploadFileModel>>(0, "Insert success message", uploadedFiles);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.Error.WriteLine(ex);
+                return new StatusMessage<List<UploadFileModel>>(1, "Insert error message", null);
+            }
+        }
+
+
+
 
         public List<UploadFileModel> Search(HttpRequest httpRequest, UploadFileModel model)
         {
