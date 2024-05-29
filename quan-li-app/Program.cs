@@ -45,7 +45,7 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("https://localhost:4200", "https://localhost:7777", "https://system-srouce.infinityfreeapp.com", "https://www.system-srouce.infinityfreeapp.com",
                               "https://58ca-2402-800-63e2-8816-44b5-67e2-1378-19b.ngrok-free.app",
-                              "https://quan-tri-doanh-nghiep.click", "https://brave-heavily-dinosaur.ngrok-free.app").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+                              "https://quan-tri-doanh-nghiep.click", "https://brave-heavily-dinosaur.ngrok-free.app", "https://picked-tapir-easily.ngrok-free.app").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
                       });
 });
 

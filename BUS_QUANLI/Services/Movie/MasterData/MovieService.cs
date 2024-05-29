@@ -190,6 +190,7 @@ namespace BUS_QUANLI.Services.Movie.MasterData
                    && (model.language_id == null || x.language_id == model.language_id)
                    && (model.national_id == null || x.national_id == model.national_id)
                    && (model.release_year == null || x.release_year == model.release_year)
+                   && (model.is_delete == null ? x.is_delete == false : x.is_delete == model.is_delete)
                    )
                    .OrderByDescending(x => x.release_year).ThenBy(x => x.name)
                    .ToList();

@@ -38,6 +38,18 @@ namespace BUS_QUANLI.Services.Movie.MasterData
                 }
                 else
                 {
+
+                    var getListMovieOfGenres = this.dataContext.MovieModel
+                        .Where(x => x.genres_id == result.id).ToList();
+
+                    var getGenResTop1 = this.dataContext.MovieGenresModel.Take(1).FirstOrDefault();
+
+                    foreach (var item in getListMovieOfGenres)
+                    {
+                        item.genres_id = getGenResTop1.id;
+                    }
+
+                    this.dataContext.MovieModel.UpdateRange(getListMovieOfGenres);
                     this.dataContext.MovieGenresModel.Remove(result);
                     this.dataContext.SaveChanges();
                     return new StatusMessage<MovieGenresModel>(0, this.GetMessageDescription(EnumQuanLi.DeleteSuccess, httpRequest), model);

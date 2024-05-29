@@ -13,6 +13,9 @@ using DAL_QUANLI.Interface.MasterData;
 using Microsoft.AspNetCore.Http;
 using quan_li_app.Models.Common;
 using System.Net.Http.Headers;
+using System.Web.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using DAL_QUANLI.Models.CustomModel;
 
 namespace BUS_QUANLI.Services.MasterData
 {
@@ -199,5 +202,35 @@ namespace BUS_QUANLI.Services.MasterData
         {
             throw new NotImplementedException();
         }
+
+        public FileStreamResult GetFile(string filePath)
+        {
+            var res = this.dataContext.UploadFileModels.Where(x => x.id == filePath).FirstOrDefault();
+            if (res == null)
+            {
+                return null;
+            }
+
+            var path = Path.Combine(res.file_path); // Adjust the path as needed
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            var mimeType = "application/octet-stream"; // Adjust the MIME type if necessary
+            return new FileStreamResult(stream, mimeType)
+            {
+                FileDownloadName = Path.GetFileName(filePath)
+            };
+        }
+
+        private string GetMimeType(string filePath)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filePath, out var contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
+
+        }
+
+
     }
 }

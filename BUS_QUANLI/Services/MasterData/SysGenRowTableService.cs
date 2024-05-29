@@ -3,8 +3,10 @@ using DAL_QUANLI.Models.DataDB;
 using DAL_QUANLI.Models.SystemDB;
 using DAL_QUANLI.Models.SystemDB.SysVoucherForm;
 using Microsoft.AspNetCore.Http;
+using quan_li_app.Helpers;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
+using quan_li_app.Models.DataDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,6 +106,30 @@ namespace BUS_QUANLI.Services.MasterData
                    x.id == sysGenRowTable.id || sysGenRowTable.id == null || sysGenRowTable.id.Length == 0)
                    && (x.table_name == sysGenRowTable.table_name || sysGenRowTable.table_name == null)
                    && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).OrderBy(x => x.orderNo).ToList();
+                    string language = "ORTHER";
+                    string account = TokenHelper.GetUsername_2(httpRequest);
+
+                    if (account != null && account.Length > 0)
+                    {
+                        Account obj = this.dataContext.Accounts.Where(x => x.account.Equals(account)).FirstOrDefault();
+                        if (obj != null)
+                        {
+                            language = obj.language;
+                        }
+                    }
+                    switch (language)
+                    {
+                        case "vi-VN":
+                            {
+                               for(int i = 0; i < result.Count; i++)
+                                {
+                                    result[i].caption = result[i].caption_VN;
+                                }
+
+                                  
+                                break;
+                            }
+                    }
 
                     return new StatusMessage<List<SysGenRowTable>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
                 }
@@ -113,6 +139,8 @@ namespace BUS_QUANLI.Services.MasterData
                                       x.id == sysGenRowTable.id || sysGenRowTable.id == null || sysGenRowTable.id.Length == 0)
                                       && (x.table_name == sysGenRowTable.table_name || sysGenRowTable.table_name == null)
                                       && (x.dataField == sysGenRowTable.dataField || sysGenRowTable.dataField == null)).OrderBy(x => x.table_name).ThenByDescending(x => x.orderNo).ThenBy(x => x.id).ToList();
+
+                     
 
                     return new StatusMessage<List<SysGenRowTable>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
                 }

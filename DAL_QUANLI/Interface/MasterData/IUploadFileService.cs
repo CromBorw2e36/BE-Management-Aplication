@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DAL_QUANLI.Interface.MasterData
 {
@@ -14,5 +15,7 @@ namespace DAL_QUANLI.Interface.MasterData
         public Task<StatusMessage<List<UploadFileModel>>> Insert(HttpRequest httpRequest, UploadFileModel model);
         public Task<StatusMessage<List<UploadFileModel>>> Insert12(HttpRequest httpRequest, List<IFormFile> files, string tableName, string col_name);
         public List<UploadFileModel> Search(HttpRequest httpRequest, UploadFileModel model);
+
+        FileStreamResult GetFile(string filePath);
     }
 }

@@ -2,6 +2,7 @@
 using DAL_QUANLI.Interface.MasterData;
 using DAL_QUANLI.Models.Common;
 using DAL_QUANLI.Models.DataDB;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Helpers;
@@ -9,6 +10,9 @@ using quan_li_app.Helpers.Dictionary;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
+using System.Reflection;
+using System;
+using DAL_QUANLI.Models.CustomModel;
 
 namespace quan_li_app.Controllers.Common
 {
@@ -106,5 +110,32 @@ namespace quan_li_app.Controllers.Common
             return res;
         }
 
+
+        [HttpGet("GetFile")]
+        public IActionResult GetFile([FromQuery] string  fileID)
+        {
+            if (this._tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                try
+                {
+
+                    var fileResult = this.uploadFileService.GetFile(fileID);
+                    var mimeType = "application/octet-stream"; // Adjust the MIME type if necessary
+                    return File(fileResult.FileStream, mimeType, fileResult.FileDownloadName);
+                }
+                catch (FileNotFoundException)
+                {
+                    return NotFound("File not found.");
+                }
+                catch (ArgumentException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }
