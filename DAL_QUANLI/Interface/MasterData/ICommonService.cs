@@ -13,6 +13,7 @@ namespace DAL_QUANLI.Interface.MasterData
     public interface ICommonService
     {
         public List<dynamic> ExcuteStringQuery(QueryCommonModel model);
+        public StatusMessage<string> FilterListDataAnyTable(HttpRequest httpRequest,  QueryCommonModel model);
         public void LogTime<T>(HttpRequest httpRequest, string table_name, string action, StatusMessage<T> message);
     }
 }

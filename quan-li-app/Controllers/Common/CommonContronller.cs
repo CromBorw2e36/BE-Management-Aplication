@@ -88,6 +88,17 @@ namespace quan_li_app.Controllers.Common
             return Unauthorized();
         }
 
+        [HttpPost, Route("ExcuteQueryStringV2")]
+        public async Task<ActionResult<StatusMessage<string>>> ExcuteQueryStringV2(QueryCommonModel model)
+        {
+            if (_tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var result = this.commonService.FilterListDataAnyTable(this.Request, model);
+                return result;
+            }
+            return Unauthorized();
+        }
+
 
         [HttpPost("UploadFileVersion11")]
         public async Task<ActionResult<StatusMessage<List<UploadFileModel>>>> UploadFileVersion11(UploadFileModel model)
@@ -137,5 +148,7 @@ namespace quan_li_app.Controllers.Common
                 return Unauthorized();
             }
         }
+   
+    
     }
 }
