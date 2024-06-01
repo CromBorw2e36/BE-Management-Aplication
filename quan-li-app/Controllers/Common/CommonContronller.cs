@@ -148,7 +148,42 @@ namespace quan_li_app.Controllers.Common
                 return Unauthorized();
             }
         }
-   
-    
+
+        [HttpPost("File/Search")]
+        public async Task<ActionResult<StatusMessage<List<UploadFileModel>>>> FileSearch(UploadFileModel model)
+        {
+            if (this._tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                var res = this.uploadFileService.Search(HttpContext.Request, model);
+                return new StatusMessage<List<UploadFileModel>> (0, "SUCCED", res);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        // Truyền danh sách ID của File sau đó tiến hành tìm kiếm và trả về danh sách file
+        [HttpPost("File/SearchV2")]
+        public async Task<ActionResult<StatusMessage<List<UploadFileModel>>>> FileSearch(List<string> list_id)
+        {
+            if (this._tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
+            {
+                List<UploadFileModel> data = new List<UploadFileModel>();
+                foreach (var item in list_id)
+                {
+                    var res = this.uploadFileService.Search(this.Request, new UploadFileModel() { id = item });
+                    if(res.Count == 1)
+                    {
+                        data.Add(res[0]);
+                    }
+                }
+                return new StatusMessage<List<UploadFileModel>> (0, "SUCCED", data);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

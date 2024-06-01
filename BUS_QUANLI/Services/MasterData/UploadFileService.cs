@@ -200,7 +200,16 @@ namespace BUS_QUANLI.Services.MasterData
 
         public List<UploadFileModel> Search(HttpRequest httpRequest, UploadFileModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = this.dataContext.UploadFileModels.Where(x => ( model.id == null || x.id == model.id) && (model.enabled == null || x.enabled == model.enabled)).ToList();
+                return res;
+
+            }
+            catch
+            {
+                return new List<UploadFileModel>();
+            }
         }
 
         public FileStreamResult GetFile(string filePath)
