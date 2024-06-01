@@ -122,8 +122,8 @@ namespace quan_li_app.Controllers.Common
         }
 
 
-        [HttpGet("GetFile")]
-        public IActionResult GetFile([FromQuery] string  fileID)
+        [HttpGet("ViewFile")]
+        public IActionResult ViewFile([FromQuery] string  fileID)
         {
             if (this._tokenHelper.CheckTheExpirationDateOfTheToken(HttpContext.Request))
             {
