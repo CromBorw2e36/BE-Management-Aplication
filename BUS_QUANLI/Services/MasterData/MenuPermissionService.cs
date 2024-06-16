@@ -104,7 +104,7 @@ namespace BUS_QUANLI.Services.MasterData
         {
             try
             {
-                if (model.account.account == null || model.account.companyCode == null)
+                if (model.account.account == null)
                 {
                     return new StatusMessage<MenuPermissionInsModel>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new MenuPermissionInsModel());
                 }
@@ -213,8 +213,9 @@ namespace BUS_QUANLI.Services.MasterData
         {
             try
             {
-                if (model.account.account == null || model.account.companyCode == null)
-                {
+                //if (model.account.account == null || model.account.companyCode == null)
+                if (model.account.account == null)
+                    {
                     return new StatusMessage<MenuPermissionInsModel>(1, GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new MenuPermissionInsModel());
                 }
                 else

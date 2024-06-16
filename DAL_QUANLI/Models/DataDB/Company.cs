@@ -9,10 +9,19 @@ namespace quan_li_app.Models.DataDB
         public string? code { get; set; }
         public string? address1 { get; set; }
         public string? address2 { get; set; }
-        public DateTime? date { get; set; }
+        public DateTime? create_at { get; set; }
         [JsonIgnore]
         public bool? active { get; set; }
         public string? adminCompany { get; set; }
         public string? notes { get; set; }
+        public int? left_company { get; set; }
+        public int? right_company { get; set; }
+        public bool? is_delete {  get; set; }
+        public DateTime? delete_at {  get; set; }
+        public DateTime? update_at { get; set; }
+        public string? create_by { get; set; }
+        public string? update_by { get; set; }
+        public string? delete_by { get; set; }
+
     }
 }

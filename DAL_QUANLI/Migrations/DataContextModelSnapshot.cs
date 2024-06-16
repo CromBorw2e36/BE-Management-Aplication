@@ -651,13 +651,37 @@ namespace quanliapp.Migrations
                     b.Property<string>("code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("date")
+                    b.Property<DateTime?>("create_at")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("create_by")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("delete_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("delete_by")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("is_delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("left_company")
+                        .HasColumnType("int");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("right_company")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("update_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("update_by")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");

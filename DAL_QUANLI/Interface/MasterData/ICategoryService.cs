@@ -5,13 +5,10 @@ namespace DAL_QUANLI.Interface.MasterData
 {
     public interface ICategoryService<T>
     {
-        Task<StatusMessage<T>> Insert(T pObject, HttpRequest httpRequest);
-        Task<StatusMessage<List<T>>> Insert2(List<T> pObject, HttpRequest httpRequest); //  Insert nhiều
-        Task<StatusMessage<T>> Update(T pObject, HttpRequest httpRequest);
-        Task<StatusMessage<List<T>>> Update2(List<T> pObject, HttpRequest httpRequest);
-        Task<StatusMessage<T>> Get(T pObject, HttpRequest httpRequest);
-        Task<StatusMessage<List<T>>> Filter(T pObject, HttpRequest httpRequest);
-        Task<StatusMessage<dynamic>> Delete(List<T> pObject, HttpRequest httpRequest);
-        Task<StatusMessage<dynamic>> Delete(List<T> pObject, HttpRequest httpRequest, dynamic pObject2); //  Trường hợp phát sinh khác
+        Task<StatusMessage<T>> Insert(HttpRequest httpRequest, T model);
+        Task<StatusMessage<T>> Update(HttpRequest httpRequest, T model);
+        Task<StatusMessage<T>> Get(HttpRequest httpRequest, T modelt);
+        Task<StatusMessage<List<T>>> Search(HttpRequest httpRequest, T model);
+        Task<StatusMessage<T>> Delete(HttpRequest httpRequest, T model);
     }
 }

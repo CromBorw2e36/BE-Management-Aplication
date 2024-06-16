@@ -85,6 +85,8 @@ namespace BUS_QUANLI.Services.MasterData.AccountAndPermission
                         await dataContext.SaveChangesAsync();
                         return new StatusMessage<dynamic>(0, statusMessageMapper.GetMessageDescription(EnumQuanLi.RegisterSuccess, userName_create), new AccountClientProfileModel
                         {
+                            account = account,
+                            userInfo = userInfo,
                             token = new TOKEN
                             {
                                 Token = stringToken,
