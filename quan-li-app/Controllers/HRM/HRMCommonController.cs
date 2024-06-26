@@ -10,7 +10,7 @@ namespace quan_li_app.Controllers.HRM
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HRM_CommonController : ControllerBase
+    public class HRMCommonController : ControllerBase
     {
         private readonly CommonService commonService;
         private readonly HRM_Department_Service hRM_Department_Service;
@@ -20,7 +20,7 @@ namespace quan_li_app.Controllers.HRM
         private readonly HRM_TypeWork_Service hRM_TypeWork_Service;
 
 
-        public HRM_CommonController()
+        public HRMCommonController()
         {
             this.commonService = new CommonService();
             this.hRM_Department_Service = new HRM_Department_Service();
