@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quanliapp.Migrations.Data
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240630202314_30062024_create_catalog")]
+    partial class _30062024_create_catalog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -526,8 +529,8 @@ namespace quanliapp.Migrations
                     b.Property<bool?>("is_delete")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("level")
-                        .HasColumnType("int");
+                    b.Property<string>("level")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
@@ -572,8 +575,8 @@ namespace quanliapp.Migrations
                     b.Property<bool?>("is_delete")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("level")
-                        .HasColumnType("int");
+                    b.Property<string>("level")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
@@ -618,8 +621,8 @@ namespace quanliapp.Migrations
                     b.Property<bool?>("is_delete")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("level")
-                        .HasColumnType("int");
+                    b.Property<string>("level")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
@@ -664,8 +667,8 @@ namespace quanliapp.Migrations
                     b.Property<bool?>("is_delete")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("level")
-                        .HasColumnType("int");
+                    b.Property<string>("level")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");

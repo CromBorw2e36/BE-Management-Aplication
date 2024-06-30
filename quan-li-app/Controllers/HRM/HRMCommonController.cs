@@ -119,7 +119,7 @@ namespace quan_li_app.Controllers.HRM
         // HRM_StatusEmployee_Service
 
         [HttpPost("StatusEmployeeInsert")]
-        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> PositionInsert(StatusEmployeeModel model)
+        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> StatusEmployeeInsert(StatusEmployeeModel model)
         {
             var res = this.hRM_StatusEmployee_Service.Insert(this.Request, model);
             this.commonService.LogTime<StatusEmployeeModel>(this.Request, this.hRM_Position_Service._tableName, "Insert", res);
@@ -128,7 +128,7 @@ namespace quan_li_app.Controllers.HRM
 
 
         [HttpPost("StatusEmployeenGet")]
-        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> PositionGet(StatusEmployeeModel model)
+        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> StatusEmployeenGet(StatusEmployeeModel model)
         {
             var res = this.hRM_StatusEmployee_Service.Get(this.Request, model);
             this.commonService.LogTime<StatusEmployeeModel>(this.Request, this.hRM_StatusEmployee_Service._tableName, "Get", res);
@@ -136,7 +136,7 @@ namespace quan_li_app.Controllers.HRM
         }
 
         [HttpPost("StatusEmployeeDelete")]
-        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> PositionDelete(StatusEmployeeModel model)
+        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> StatusEmployeeDelete(StatusEmployeeModel model)
         {
             var res = this.hRM_StatusEmployee_Service.Delete(this.Request, model);
             this.commonService.LogTime<StatusEmployeeModel>(this.Request, this.hRM_StatusEmployee_Service._tableName, "Delete", res);
@@ -144,7 +144,7 @@ namespace quan_li_app.Controllers.HRM
         }
 
         [HttpPost("StatusEmployeeSearch")]
-        public async Task<ActionResult<StatusMessage<List<StatusEmployeeModel>>>> PositionSearch(StatusEmployeeModel model)
+        public async Task<ActionResult<StatusMessage<List<StatusEmployeeModel>>>> StatusEmployeeSearch(StatusEmployeeModel model)
         {
             var res = this.hRM_StatusEmployee_Service.Search(this.Request, model);
             this.commonService.LogTime<List<StatusEmployeeModel>>(this.Request, this.hRM_StatusEmployee_Service._tableName, "Search", res);
@@ -152,7 +152,7 @@ namespace quan_li_app.Controllers.HRM
         }
 
         [HttpPost("StatusEmployeeUpdate")]
-        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> PositionUpdate(StatusEmployeeModel model)
+        public async Task<ActionResult<StatusMessage<StatusEmployeeModel>>> StatusEmployeeUpdate(StatusEmployeeModel model)
         {
             var res = this.hRM_StatusEmployee_Service.Update(this.Request, model);
             this.commonService.LogTime<StatusEmployeeModel>(this.Request, this.hRM_StatusEmployee_Service._tableName, "Update", res);

@@ -12,7 +12,7 @@ namespace DAL_QUANLI.Models.DataDB.QuanLiNhanSu.DanhMuc
         public string? id { get; set; }
         public string? name { get; set; }
         public string? description { get; set; }
-        public string? level { get; set; }
+        public int? level { get; set; }
         public bool? is_delete { get; set; }
         public bool? is_active { get; set; }
         public DateTime? created_at { get; set; }
