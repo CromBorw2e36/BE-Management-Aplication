@@ -113,7 +113,10 @@ namespace BUS_QUANLI.Services.HRM
             {
                 List<TypeWorkModel> result = this.dataContext.TypeWorkModels.Where(x =>
                  (model.id == null || model.id == x.id) &&
-                 (model.company_code == null || model.company_code == x.company_code)).ToList();
+                 (model.company_code == null || model.company_code == x.company_code) &&
+                 (model.is_delete == null || model.is_delete == x.is_delete) &&
+                 (model.is_active == null || model.is_active == x.is_active)
+                 ).ToList();
 
                 return new StatusMessage<List<TypeWorkModel>>(0, GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
