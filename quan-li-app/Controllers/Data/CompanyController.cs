@@ -95,5 +95,19 @@ namespace quan_li_app.Controllers.Data
                 return Unauthorized();
             }
         }
+        [HttpPost("Get")]
+        public async Task<ActionResult<StatusMessage<Company>>> Get(Company model)
+        {
+            if (this.tokenHelper.CheckTheExpirationDateOfTheToken(this.Request))
+            {
+                var result = this.companySerivce.Get(this.Request, model);
+                this.commonService.LogTime<Company>(this.Request, this.companySerivce._tableName, this.actions[4], result);
+                return result;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

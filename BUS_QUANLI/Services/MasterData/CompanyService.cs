@@ -47,6 +47,24 @@ namespace BUS_QUANLI.Services.MasterData
             }
         }
 
+        public StatusMessage<Company> Get(HttpRequest httpRequest, Company model)
+        {
+            try
+            {
+
+                var result = this.dataContext.Companies.Where(x => (model.is_delete == null || x.is_delete == model.is_delete)
+                && (model.id == null || x.id == model.id)
+                && (model.active == null || x.active == model.active)
+                && (model.code == null || x.code == model.code)
+                ).FirstOrDefault();
+                return new StatusMessage<Company>(0, this.GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
+            }
+            catch
+            {
+                return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<Company>());
+            }
+        }
+
         public StatusMessage<Company> Insert(HttpRequest httpRequest, Company model)
         {
             try
@@ -90,6 +108,7 @@ namespace BUS_QUANLI.Services.MasterData
         {
             try
             {
+
                 var result =  this.dataContext.Companies.Where(x => (model.is_delete == null || x.is_delete == model.is_delete)
                 && (model.id == null || x.id == model.id)
                 && (model.active == null || x.active == model.active)

@@ -15,6 +15,7 @@ namespace DAL_QUANLI.Interface.MasterData
         public StatusMessage<Company> Update(HttpRequest httpRequest, Company model);
         public StatusMessage<Company> Delete(HttpRequest httpRequest, Company model);   
         public StatusMessage<List<Company>> Search(HttpRequest httpRequest, Company model);
+        public StatusMessage<Company> Get(HttpRequest httpRequest, Company model);
         public StatusMessage<Company> InsertCompanyChild(HttpRequest httpRequest, Company model);
     }
 }
