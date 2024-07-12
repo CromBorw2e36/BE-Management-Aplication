@@ -3,7 +3,6 @@ using DAL_QUANLI.Models.DataDB.Movie;
 using DAL_QUANLI.Models.DataDB.Movie.MasterData;
 using DAL_QUANLI.Models.DataDB.Movie.Transaction;
 using DAL_QUANLI.Models.DataDB.QuanLiNhanSu.DanhMuc;
-using DAL_QUANLI.Models.DataDB.User;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
@@ -62,7 +61,6 @@ namespace quan_li_app.Models
         public virtual DbSet<MovieReivewModel> MovieReivewModel { get; set; }
         public virtual DbSet<MovieWatchHistoryModel> MovieWatchHistoryModel { get; set; }
         public virtual DbSet<LanguageModel> LanguageModel { get; set; }
-        public virtual DbSet<EmployeeModel> EmployeeModels { get; set; }
         public virtual DbSet<DepartmentModel> DepartmentModels { get; set; }
         public virtual DbSet<PositionModel> PositionModels { get; set; }
         public virtual DbSet<StatusEmployeeModel> StatusEmployeeModels { get; set; }
@@ -240,10 +238,6 @@ namespace quan_li_app.Models
             });
 
             // HRM module
-            modelBuilder.Entity<EmployeeModel>(e => {
-                e.ToTable("Employee");
-                e.HasKey(e => e.id);
-            });
 
             modelBuilder.Entity<DepartmentModel>(e => {
                 e.ToTable("Department");

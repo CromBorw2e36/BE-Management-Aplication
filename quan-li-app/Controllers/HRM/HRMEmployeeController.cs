@@ -1,9 +1,6 @@
 ﻿using BUS_QUANLI.Services.HRM;
 using BUS_QUANLI.Services.MasterData;
 using DAL_QUANLI.Models.CustomModel.HRM;
-using DAL_QUANLI.Models.DataDB.Movie.Transaction;
-using DAL_QUANLI.Models.DataDB.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using quan_li_app.Models.Common;
 

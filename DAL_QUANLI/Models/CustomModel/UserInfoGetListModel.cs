@@ -13,7 +13,7 @@ namespace DAL_QUANLI.Models.CustomModel
         public string? status { get; set; }
         public DateTime? lock_date { get; set; }
         public DateTime? last_enter { get; set; }
-        public string? email { get; set; }
+        //public string? email { get; set; }
         public string? type_account { get; set; }
         [NotMapped]
         public string? namePermision { get; set; }

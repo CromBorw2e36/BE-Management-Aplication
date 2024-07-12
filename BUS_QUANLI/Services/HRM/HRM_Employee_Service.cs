@@ -24,7 +24,7 @@ namespace BUS_QUANLI.Services.HRM
                     return new StatusMessage<HRM_Employee_Model>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
                 }
 
-                var result = this.dataContext.EmployeeModels.FirstOrDefault(x => x.id == model.id);
+                var result = this.dataContext.UserInfomation.FirstOrDefault(x => x.id == model.id);
                 if(result == null)
                 {
                     return new StatusMessage<HRM_Employee_Model>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), null);
@@ -33,7 +33,7 @@ namespace BUS_QUANLI.Services.HRM
                 result.delete_at = DateTime.Now;
                 result.delete_by = this.tokenHelper.GetUsername(httpRequest);
 
-                this.dataContext.Update(result);
+                this.dataContext.UserInfomation.Update(result);
                 this.dataContext.SaveChanges();
                 
                 return new StatusMessage<HRM_Employee_Model>(0, this.GetMessageDescription(EnumQuanLi.DeleteSuccess, httpRequest), result);
@@ -53,7 +53,7 @@ namespace BUS_QUANLI.Services.HRM
                     return new StatusMessage<HRM_Employee_Model>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
                 }
 
-                var result = this.dataContext.EmployeeModels.FirstOrDefault(x => x.id == model.id);
+                var result = this.dataContext.UserInfomation.FirstOrDefault(x => x.id == model.id);
                 if (result == null)
                 {
                     return new StatusMessage<HRM_Employee_Model>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), null);
@@ -78,7 +78,7 @@ namespace BUS_QUANLI.Services.HRM
                 model.update_at = DateTime.Now;
                 model.update_by = this.tokenHelper.GetUsername(httpRequest);
 
-                this.dataContext.EmployeeModels.Add(model);
+                this.dataContext.UserInfomation.Add(model);
                 this.dataContext.SaveChanges();
 
                 return new StatusMessage<HRM_Employee_Model>(0, this.GetMessageDescription(EnumQuanLi.DeleteSuccess, httpRequest), model);
@@ -98,7 +98,7 @@ namespace BUS_QUANLI.Services.HRM
                     return new StatusMessage<List<HRM_Employee_Model>>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
                 }
 
-                var result = this.dataContext.EmployeeModels.Where(x =>
+                var result = this.dataContext.UserInfomation.Where(x =>
                     (model.BHXH == null || x.BHXH.IndexOf(model.BHXH) >= 0) &&
                     (model.CCCD == null || x.CCCD.IndexOf(model.CCCD) >= 0) &&
                     (model.is_delete == null || x.is_delete == model.is_delete)
@@ -121,7 +121,7 @@ namespace BUS_QUANLI.Services.HRM
                     return new StatusMessage<HRM_Employee_Model>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
                 }
 
-                var result = this.dataContext.EmployeeModels.FirstOrDefault(x => x.id == model.id);
+                var result = this.dataContext.UserInfomation.FirstOrDefault(x => x.id == model.id);
                 if (result == null)
                 {
                     return new StatusMessage<HRM_Employee_Model>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), null);
@@ -130,8 +130,8 @@ namespace BUS_QUANLI.Services.HRM
                 model.update_at = DateTime.Now;
                 model.update_by = this.tokenHelper.GetUsername(httpRequest);
 
-                this.dataContext.Remove(result);
-                this.dataContext.Add(result);
+                this.dataContext.UserInfomation.Remove(result);
+                this.dataContext.UserInfomation.Add(result);
                 this.dataContext.SaveChanges();
 
                 return new StatusMessage<HRM_Employee_Model>(0, this.GetMessageDescription(EnumQuanLi.UpdateSuccess, httpRequest), result);

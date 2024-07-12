@@ -1,4 +1,4 @@
-﻿using DAL_QUANLI.Models.DataDB.User;
+﻿using quan_li_app.Models.DataDB.UserData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL_QUANLI.Models.CustomModel.HRM
 {
-    public class HRM_Employee_Model: EmployeeModel
+    public class HRM_Employee_Model: UserInfo
     {
         public string? position_name { get; set; }
         public string? department_name { get; set; }
