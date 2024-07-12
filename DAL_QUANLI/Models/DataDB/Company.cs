@@ -22,6 +22,7 @@ namespace quan_li_app.Models.DataDB
         public string? create_by { get; set; }
         public string? update_by { get; set; }
         public string? delete_by { get; set; }
+        public string? account_code { get; set; }
 
     }
 }

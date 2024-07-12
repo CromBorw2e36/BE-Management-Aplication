@@ -1,5 +1,6 @@
 ﻿using DAL_QUANLI.Interface.MasterData;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
 using quan_li_app.Models.DataDB;
@@ -18,7 +19,7 @@ namespace BUS_QUANLI.Services.MasterData
         {
             try
             {
-                 if(model.id == null)
+                if (model.id == null)
                 {
                     return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
 
@@ -35,8 +36,9 @@ namespace BUS_QUANLI.Services.MasterData
                         this.dataContext.SaveChanges();
                         return new StatusMessage<Company>(0, this.GetMessageDescription(EnumQuanLi.DeleteSuccess, httpRequest), result);
                     }
-                    else {
-                    return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), null);
+                    else
+                    {
+                        return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), null);
 
                     }
                 }
@@ -69,10 +71,11 @@ namespace BUS_QUANLI.Services.MasterData
         {
             try
             {
-                if(model == null)
+                if (model == null)
                 {
                     return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.NoneData, httpRequest), null);
-                }else if(model.code == null)
+                }
+                else if (model.code == null)
                 {
                     return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
                 }
@@ -109,11 +112,22 @@ namespace BUS_QUANLI.Services.MasterData
             try
             {
 
-                var result =  this.dataContext.Companies.Where(x => (model.is_delete == null || x.is_delete == model.is_delete)
-                && (model.id == null || x.id == model.id)
-                && (model.active == null || x.active == model.active)
-                && (model.code == null || x.code == model.code)
-                ).ToList();
+                var result = this.dataContext.Companies
+                    .Where(x => (model.is_delete == null || x.is_delete == model.is_delete)
+                    && (model.id == null || x.id == model.id)
+                    && (model.active == null || x.active == model.active)
+                    && (model.code == null || x.code == model.code)
+                    ).ToList();
+
+
+                if(model.account_code != null && model.account_code != "")
+                {
+                    var companyOfCurrentAccountCode = this.tokenHelper.GetCompanyCode(httpRequest);
+                    // case  create company or boss for current company
+                    result = result.Where(x => x.adminCompany == model.account_code || x.create_by == model.account_code || x.id == companyOfCurrentAccountCode).ToList();
+                }
+                 
+
                 return new StatusMessage<List<Company>>(0, this.GetMessageDescription(EnumQuanLi.Suceeded, httpRequest), result);
             }
             catch
@@ -126,14 +140,14 @@ namespace BUS_QUANLI.Services.MasterData
         {
             try
             {
-                if(model.id == null)
+                if (model.id == null)
                 {
                     return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.UpdateError, httpRequest), null);
                 }
                 else
                 {
-                    var result  = this.dataContext.Companies.FirstOrDefault(x => x.id == model.id);
-                    if(result == null)
+                    var result = this.dataContext.Companies.FirstOrDefault(x => x.id == model.id);
+                    if (result == null)
                     {
                         return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), null);
                     }
