@@ -71,5 +71,6 @@
         ApprovalExits,
         LockExits,
         AccountStatusUnknow,
+        ActionError,
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace quan_li_app.Models.DataDB
 {
@@ -10,7 +11,6 @@ namespace quan_li_app.Models.DataDB
         public string? address1 { get; set; }
         public string? address2 { get; set; }
         public DateTime? create_at { get; set; }
-        [JsonIgnore]
         public bool? active { get; set; }
         public string? adminCompany { get; set; }
         public string? notes { get; set; }
@@ -22,7 +22,13 @@ namespace quan_li_app.Models.DataDB
         public string? create_by { get; set; }
         public string? update_by { get; set; }
         public string? delete_by { get; set; }
+        [NotMapped]
         public string? account_code { get; set; }
+        public DateTime expiry { get; set; }
+        public string? create_by_fullName {  get; set; }
+        public string? update_by_fullName { get; set; }
+        public string? delete_by_fullName { get; set; }
+        public string? admin_company_fullName { get; set; }
 
     }
 }

@@ -66,6 +66,7 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.ApprovalExits, "Không thể duyệt tài khoản đã được duyệt" },
                 {EnumQuanLi.LockExits, "Tài khoản này đẫ được khóa trước đó" },
                 {EnumQuanLi.AccountStatusUnknow, "Vui lòng nhập trạng thái của tài khoản" },
+                {EnumQuanLi.ActionError, "Không thành công" },
 
             };
 
@@ -120,8 +121,7 @@ namespace quan_li_app.Helpers.Dictionary
                 {EnumQuanLi.ApprovalExits, "Account was approvaled" },
                 {EnumQuanLi.LockExits, "Account was Lock" },
                 {EnumQuanLi.AccountStatusUnknow, "Status of account is unknow" },
-
-
+                {EnumQuanLi.ActionError, "Action faill" },
             };
         }
 

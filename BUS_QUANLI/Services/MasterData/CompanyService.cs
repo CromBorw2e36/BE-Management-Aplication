@@ -32,6 +32,7 @@ namespace BUS_QUANLI.Services.MasterData
                         result.is_delete = true;
                         result.delete_at = DateTime.Now;
                         result.delete_by = this.tokenHelper.GetUsername(httpRequest);
+                        result.delete_by_fullName = this.tokenHelper.GetFullname(httpRequest);
                         this.dataContext.Update(result);
                         this.dataContext.SaveChanges();
                         return new StatusMessage<Company>(0, this.GetMessageDescription(EnumQuanLi.DeleteSuccess, httpRequest), result);
@@ -82,8 +83,10 @@ namespace BUS_QUANLI.Services.MasterData
 
                 model.create_at = DateTime.Now;
                 model.create_by = this.tokenHelper.GetUsername(httpRequest);
+                model.create_by_fullName = this.tokenHelper.GetFullname(httpRequest);
                 model.update_at = DateTime.Now;
                 model.update_by = this.tokenHelper.GetUsername(httpRequest);
+                if(model.adminCompany != null && model.adminCompany != "") model.admin_company_fullName = this.tokenHelper.GetFullname(model.adminCompany);
                 model.is_delete = false;
 
 
@@ -132,7 +135,7 @@ namespace BUS_QUANLI.Services.MasterData
             }
             catch
             {
-                return new StatusMessage<List<Company>>(1, this.GetMessageDescription(EnumQuanLi.NotFoundItem, httpRequest), new List<Company>());
+                return new StatusMessage<List<Company>>(1, this.GetMessageDescription(EnumQuanLi.ActionError, httpRequest), new List<Company>());
             }
         }
 
@@ -155,6 +158,8 @@ namespace BUS_QUANLI.Services.MasterData
                     {
                         model.update_at = DateTime.Now;
                         model.update_by = this.tokenHelper.GetUsername(httpRequest);
+                        model.update_by_fullName = this.tokenHelper.GetFullname(httpRequest);
+                        if (model.adminCompany != null && model.adminCompany != "") model.admin_company_fullName = this.tokenHelper.GetFullname(model.adminCompany);
                         this.dataContext.Companies.Remove(result);
                         this.dataContext.Companies.Add(model);
                         this.dataContext.SaveChanges();

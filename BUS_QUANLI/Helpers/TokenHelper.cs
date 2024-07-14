@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models;
 using quan_li_app.Models.DataDB;
+using quan_li_app.Models.DataDB.UserData;
 using System.Security.Claims;
 
 namespace quan_li_app.Helpers
@@ -194,6 +195,7 @@ namespace quan_li_app.Helpers
             }
         }
 
+
         public static string GetUsername_2(HttpRequest request)
         {
 
@@ -248,6 +250,68 @@ namespace quan_li_app.Helpers
                 else
                 {
                     return userAccount.companyCode ?? "";
+                }
+            }
+        }
+
+        public string GetFullname(HttpRequest request)
+        {
+            string account = this.GetUsername(request);
+            if (account == null)
+            {
+                return "";
+            }else
+            {
+                UserInfo userAccount = _contextData.UserInfomation.Where(x => x.id == account).FirstOrDefault()!;
+                if (userAccount == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return userAccount.name ?? "";
+                }
+            }
+        }
+
+        public string GetFullname(string currentAccount)
+        {
+            string account  = currentAccount;
+            if (account == null)
+            {
+                return "";
+            }
+            else
+            {
+                UserInfo userAccount = _contextData.UserInfomation.Where(x => x.id == account).FirstOrDefault()!;
+                if (userAccount == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return userAccount.name ?? "";
+                }
+            }
+        }
+
+        public string GetPermissionAccount(HttpRequest request)
+        {
+            string account = this.GetUsername(request);
+            if (account == null)
+            {
+                return "";
+            }
+            else
+            {
+                Account userAccount = _contextData.Accounts.Where(x => x.account == account).FirstOrDefault()!;
+                if (userAccount == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return userAccount.codePermision ?? "";
                 }
             }
         }
