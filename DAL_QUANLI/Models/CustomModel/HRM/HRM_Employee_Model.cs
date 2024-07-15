@@ -9,9 +9,9 @@ namespace DAL_QUANLI.Models.CustomModel.HRM
 {
     public class HRM_Employee_Model: UserInfo
     {
-        public string? position_name { get; set; }
-        public string? department_name { get; set; }
-        public string? type_employee_name { get; set; } 
-        public string? type_work_name { get; set; }
+        //public string? position_name { get; set; }
+        //public string? department_name { get; set; }
+        //public string? type_employee_name { get; set; } 
+        //public string? type_work_name { get; set; }
     }
 }
