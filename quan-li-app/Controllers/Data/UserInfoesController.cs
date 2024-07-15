@@ -14,10 +14,12 @@ namespace quan_li_app.Controllers.Data
     public class UserInfoesController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly TokenHelper _tokenHelper;
 
         public UserInfoesController()
         {
             _context = new DataContext();
+            _tokenHelper = new TokenHelper();
         }
 
         [HttpPost, ActionName("UserIns")]
@@ -42,6 +44,10 @@ namespace quan_li_app.Controllers.Data
                         modifyDate = DateTime.Now, //  tình trạng hôn nhân
                         BHXH = userInfo.BHXH, // sở thích
                         CCCD = userInfo.CCCD, // sở thích
+                        create_at = DateTime.Now, //  t?nh tr?ng h?n nh?n
+                        create_by = this._tokenHelper.GetUsername(this.Request),
+                        create_by_fullname = this._tokenHelper.GetFullname(this.Request)
+
                     };
 
                     _context.UserInfomation.Add(user);
@@ -78,6 +84,9 @@ namespace quan_li_app.Controllers.Data
                     user.modifyDate = DateTime.Now; //  tình trạng hôn nhân
                     user.BHXH = userInfo.BHXH; // sở thích
                     user.CCCD = userInfo.CCCD; // sở thích
+                    user.update_at = DateTime.Now;
+                    user.update_by = this._tokenHelper.GetUsername(this.Request);
+                    user.update_by_fullname = this._tokenHelper.GetFullname(this.Request);
 
                     _context.UserInfomation.Add(user);
                     await _context.SaveChangesAsync();

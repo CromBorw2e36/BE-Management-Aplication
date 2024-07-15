@@ -4,6 +4,7 @@ using DAL_QUANLI.Models.CustomModel.HRM;
 using Microsoft.AspNetCore.Http;
 using quan_li_app.Models;
 using quan_li_app.Models.Common;
+using quan_li_app.Models.DataDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace BUS_QUANLI.Services.HRM
 
                 result.delete_at = DateTime.Now;
                 result.delete_by = this.tokenHelper.GetUsername(httpRequest);
+                result.delete_by_fullname = this.tokenHelper.GetFullname(httpRequest);
 
                 this.dataContext.UserInfomation.Update(result);
                 this.dataContext.SaveChanges();
@@ -77,6 +79,17 @@ namespace BUS_QUANLI.Services.HRM
                 model.create_by = this.tokenHelper.GetUsername(httpRequest);
                 model.update_at = DateTime.Now;
                 model.update_by = this.tokenHelper.GetUsername(httpRequest);
+                model.create_by_fullname = this.tokenHelper.GetFullname(httpRequest);
+                model.update_by_fullname = model.create_by_fullname;
+
+                if (model.codeCompany != null && model.codeCompany != "")
+                {
+                    Company company = dataContext.Companies.Where(x => x.id == model.codeCompany).FirstOrDefault();
+                    if(company != null)
+                    {
+                        model.companyName = company.name;
+                    }
+                }
 
                 this.dataContext.UserInfomation.Add(model);
                 this.dataContext.SaveChanges();
@@ -129,6 +142,17 @@ namespace BUS_QUANLI.Services.HRM
 
                 model.update_at = DateTime.Now;
                 model.update_by = this.tokenHelper.GetUsername(httpRequest);
+
+                if (model.codeCompany != null && model.codeCompany != "")
+                {
+                    Company company = dataContext.Companies.Where(x => x.id == model.codeCompany).FirstOrDefault();
+                    if (company != null)
+                    {
+                        model.companyName = company.name;
+                    }
+                }
+
+                model.update_by_fullname = this.tokenHelper.GetFullname(httpRequest);
 
                 this.dataContext.UserInfomation.Remove(result);
                 this.dataContext.UserInfomation.Add(result);
