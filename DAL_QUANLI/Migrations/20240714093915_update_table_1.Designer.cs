@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using quan_li_app.Models;
 
 #nullable disable
 
-namespace quanliapp.Migrations
+namespace quanliapp.Migrations.Data
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240714093915_update_table_1")]
+    partial class update_table_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1223,16 +1226,10 @@ namespace quanliapp.Migrations
                     b.Property<string>("codeCompany")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("companyName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("create_at")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("create_by")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("create_by_fullname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("dateOfBirth")
@@ -1244,16 +1241,10 @@ namespace quanliapp.Migrations
                     b.Property<string>("delete_by")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("delete_by_fullname")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("department_id")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("employee_code")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ethnicity")
@@ -1296,9 +1287,6 @@ namespace quanliapp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("update_by")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("update_by_fullname")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
