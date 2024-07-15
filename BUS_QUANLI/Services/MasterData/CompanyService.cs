@@ -76,11 +76,10 @@ namespace BUS_QUANLI.Services.MasterData
                 {
                     return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.NoneData, httpRequest), null);
                 }
-                else if (model.code == null)
-                {
-                    return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
-                }
-
+                //else if (model.code == null)
+                //{
+                //    return new StatusMessage<Company>(1, this.GetMessageDescription(EnumQuanLi.DataNoCode, httpRequest), null);
+                //}
                 model.create_at = DateTime.Now;
                 model.create_by = this.tokenHelper.GetUsername(httpRequest);
                 model.create_by_fullName = this.tokenHelper.GetFullname(httpRequest);
@@ -91,6 +90,7 @@ namespace BUS_QUANLI.Services.MasterData
 
 
                 model.id = this.commonHelpers.GenerateRowID(this._tableName);
+                model.code = model.id;
                 if (model.active == null) model.active = false;
 
                 this.dataContext.Companies.Add(model);
@@ -127,7 +127,7 @@ namespace BUS_QUANLI.Services.MasterData
                 {
                     var companyOfCurrentAccountCode = this.tokenHelper.GetCompanyCode(httpRequest);
                     // case  create company or boss for current company
-                    result = result.Where(x => x.adminCompany == model.account_code || x.create_by == model.account_code || x.id == companyOfCurrentAccountCode).ToList();
+                    result = result.Where(x => x.adminCompany == model.account_code || x.create_by == model.account_code || x.update_by == model.account_code || x.id == companyOfCurrentAccountCode).ToList();
                 }
                  
 
@@ -160,6 +160,7 @@ namespace BUS_QUANLI.Services.MasterData
                         model.update_by = this.tokenHelper.GetUsername(httpRequest);
                         model.update_by_fullName = this.tokenHelper.GetFullname(httpRequest);
                         if (model.adminCompany != null && model.adminCompany != "") model.admin_company_fullName = this.tokenHelper.GetFullname(model.adminCompany);
+                        else model.admin_company_fullName = "";
                         this.dataContext.Companies.Remove(result);
                         this.dataContext.Companies.Add(model);
                         this.dataContext.SaveChanges();
