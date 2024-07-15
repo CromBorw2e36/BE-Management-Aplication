@@ -24,6 +24,7 @@ namespace quan_li_app.Models.DataDB.UserData
         public string? avatar32 { get; set; }  // ảnh đại diện 32 x 32
         public string? avatar64 { get; set; } // ảnh đại diện 64 x64
         // HRM module
+        public string? employee_code { get; set; }
         public string? email { get; set; }
         public string? department_id { get; set; }
         public string? type_employee_id { get; set; }
