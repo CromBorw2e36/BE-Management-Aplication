@@ -31,6 +31,12 @@ namespace quan_li_app.Models.DataDB.UserData
         public string? type_employee_id { get; set; }
         public string? position_id { get; set; }
         public string? type_work_id { get; set; }
+        public string? status_employee_id { get; set; }
+        public string? department_name { get; set; }
+        public string? type_employee_name { get; set; }
+        public string? position_name { get; set; }
+        public string? type_work_name { get; set; }
+        public string? status_employee_name { get; set; }
         public bool? is_delete { get; set; }
         public DateTime? create_at { get; set; }
         public DateTime? update_at { get; set; }
@@ -41,5 +47,6 @@ namespace quan_li_app.Models.DataDB.UserData
         public string? create_by_fullname { get; set; }
         public string? update_by_fullname { get; set; }
         public string? delete_by_fullname { get; set; }
+
     }
 }

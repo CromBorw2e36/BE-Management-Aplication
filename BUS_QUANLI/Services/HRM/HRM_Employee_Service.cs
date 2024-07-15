@@ -75,6 +75,7 @@ namespace BUS_QUANLI.Services.HRM
             try
             {
                 model.id = this.commonHelpers.GenerateRowID(this._TableName);
+                model.employee_code = this.commonHelpers.GenerateRowID(this._TableName);
                 model.create_at = DateTime.Now;
                 model.create_by = this.tokenHelper.GetUsername(httpRequest);
                 model.update_at = DateTime.Now;
