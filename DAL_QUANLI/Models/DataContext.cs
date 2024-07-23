@@ -2,6 +2,7 @@
 using DAL_QUANLI.Models.DataDB.Movie;
 using DAL_QUANLI.Models.DataDB.Movie.MasterData;
 using DAL_QUANLI.Models.DataDB.Movie.Transaction;
+using DAL_QUANLI.Models.DataDB.QuanLiNhanSu;
 using DAL_QUANLI.Models.DataDB.QuanLiNhanSu.DanhMuc;
 using Microsoft.EntityFrameworkCore;
 using quan_li_app.Models.Common;
@@ -66,6 +67,10 @@ namespace quan_li_app.Models
         public virtual DbSet<StatusEmployeeModel> StatusEmployeeModels { get; set; }
         public virtual DbSet<TypeEmployeeModel> TypeEmployeeModels { get; set; }
         public virtual DbSet<TypeWorkModel> TypeWorkModels { get; set; }
+        public virtual DbSet<LaborContactModel> LaborContactModels { get; set; }
+        public virtual DbSet<BonusNhanVienModel> BonusNhanVienModels { get; set; }
+        public virtual DbSet<DeductionNhanVienModel> DeductionNhanVienModels { get; set; }
+        public virtual DbSet<PhuCapNhanvienModel> PhuCapNhanvienModels { get; set; }
 
 
 
@@ -262,6 +267,30 @@ namespace quan_li_app.Models
             modelBuilder.Entity<TypeWorkModel>(e =>
             {
                 e.ToTable("TypeWork");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<LaborContactModel>(e =>
+            {
+                e.ToTable("LaborContact");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<DeductionNhanVienModel>(e =>
+            {
+                e.ToTable("DeductionNhanVien");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<BonusNhanVienModel>(e =>
+            {
+                e.ToTable("BonusNhanVien");
+                e.HasKey(e => e.id);
+            });
+
+            modelBuilder.Entity<PhuCapNhanvienModel>(e =>
+            {
+                e.ToTable("PhuCapNhanvien");
                 e.HasKey(e => e.id);
             });
 
