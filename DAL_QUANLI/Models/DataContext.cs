@@ -28,7 +28,7 @@ namespace quan_li_app.Models
             string DbContextString2 = "Data Source=KHANHNGUYENLAPT;Initial Catalog=PMQuanLyData;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0";
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(DbContextString1);
+                optionsBuilder.UseSqlServer(DbContextString2);
             }
         }
 
